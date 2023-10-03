@@ -1,0 +1,12 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    ".vscode": true,
+    "@types": true,
+    ".vercel": true,
+    ".next": true,
+    "node_modules": true
+  },
+  "workspace.isHidden": true,
+  "dotenv.enableAutocloaking": false
+}
