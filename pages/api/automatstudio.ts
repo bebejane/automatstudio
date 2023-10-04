@@ -96,7 +96,6 @@ const upsertProduct = async (data: FileData) => {
   return product
 }
 
-
 function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn): Promise<any> {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
