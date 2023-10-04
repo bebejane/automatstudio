@@ -11,7 +11,7 @@ export type Props = {
 export default function Clients({ clients }: Props) {
 
 	return (
-		<div className={styles.container}>
+		<div className={s.container}>
 			{clients.map((client) => (
 				<Link href={`/client/${client.id}`} key={client.id}>
 					{client.name}

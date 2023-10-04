@@ -1,4 +1,4 @@
-import styles from './index.module.scss'
+import s from './index.module.scss'
 import withGlobalProps from '/lib/withGlobalProps';
 import type { GetStaticProps } from 'next'
 import Link from 'next/link';

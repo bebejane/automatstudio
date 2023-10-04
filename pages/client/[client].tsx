@@ -1,20 +1,19 @@
-import s from './[client].module.css';
+import s from './[client].module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 
 import { apiQuery } from "dato-nextjs-utils/api"
-import { AllClientsDocument } from "/graphql"
+import { AllClientsDocument, ClientDocument } from "/graphql"
 import { GetStaticProps } from "next"
 
 export type Props = {
   client: ClientRecord
 }
 
-
 export default function Client({ client }: Props) {
 
   return (
     <div className={s.container}>
-      {client.name}
+      {client?.name}
     </div>
   )
 }
@@ -29,10 +28,15 @@ export async function getStaticPaths(context) {
 }
 
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate }: any) => {
+export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
+  const id = context.params.client
+  const { client } = await apiQuery(ClientDocument, { variables: { id } })
   return {
-    props,
+    props: {
+      ...props,
+      client
+    },
     revalidate
   };
 });
