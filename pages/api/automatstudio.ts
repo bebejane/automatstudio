@@ -9,12 +9,13 @@ const upload = multer({ dest: uploadDestination })
 
 async function handler(req, res) {
   try {
+
     await runMiddleware(req, res, upload.single("file"))
     const data = parseFileName(req.file)
-    const product = await upsertProduct(data)
-
-    console.log('done', product.id)
-
+    console.time(`done ${data.productId}`)
+    await upsertProduct(data)
+    console.timeEnd(`done ${data.productId}`)
+    fs.unlinkSync(`${uploadDestination}/${req.file.filename}`)
     return res.send("ok")
   } catch (e) {
     console.log(e)
@@ -57,6 +58,7 @@ const parseFileName = (data: any): FileData => {
 
 const upsertProduct = async (data: FileData) => {
 
+  console.log('upserting product', data.productId, data.fileName,)
   const client = (await datoClient.items.list({ filter: { type: "client", fields: { clientId: { eq: data.clientId } } } }))[0]
 
   if (!client)
@@ -66,7 +68,7 @@ const upsertProduct = async (data: FileData) => {
   let product = (await datoClient.items.list({ filter: { type: "product", fields: { product_id: { eq: data.productId } } } }))[0]
 
 
-  console.log('uploading file...')
+  console.log('uploading file', data.productId, data.fileName)
 
   const upload = await datoClient.uploads.createFromLocalFile({
     localPath: data.filePath,
@@ -74,21 +76,22 @@ const upsertProduct = async (data: FileData) => {
     skipCreationIfAlreadyExists: false
   })
 
-  console.log('updating product...')
-
   const productData = {
     client: client.id,
     product_id: data.productId,
     png: { upload_id: upload.id }
   }
 
-  if (product)
+  if (product) {
+    console.log('updating product', data.productId)
     product = await datoClient.items.update(product.id, productData)
-  else
+  } else {
+    console.log('creating product', data.productId)
     product = await datoClient.items.create({
       item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "product").id },
       ...productData
     })
+  }
 
   return product
 }
