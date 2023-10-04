@@ -73,8 +73,9 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const id = context.params.product[1]
-  const { product } = await apiQuery(ProductDocument, { variables: { id } })
+  const productId = context.params.product[2]
+
+  const { product } = await apiQuery(ProductDocument, { variables: { productId } })
   return {
     props: {
       ...props,
