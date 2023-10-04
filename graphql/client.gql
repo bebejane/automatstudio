@@ -2,6 +2,9 @@ query AllClients {
 	clients: allClients {
 		...ClientLightFragment
 	}
+	pagination: _allClientsMeta {
+		count
+	}
 }
 
 query Client($clientId: String) {

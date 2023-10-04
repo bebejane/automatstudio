@@ -94,6 +94,7 @@ declare module '*/product.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const AllProducts: DocumentNode;
+export const AllProductsByClient: DocumentNode;
 export const Product: DocumentNode;
 
   export default defaultDocument;

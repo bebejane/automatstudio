@@ -1,7 +1,7 @@
 import s from './[client].module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
-import { apiQuery } from "dato-nextjs-utils/api"
-import { AllClientsDocument, ClientDocument } from "/graphql"
+import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
+import { AllClientsDocument, ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { GetStaticProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
@@ -9,13 +9,14 @@ import Link from 'next/link';
 
 export type Props = {
   client: ClientRecord
+  products: ProductRecord[]
 }
 
-export default function Client({ client }: Props) {
+export default function Client({ client, products }: Props) {
 
-  const batches = client._allReferencingProducts.length ? [{
-    _createdAt: client._allReferencingProducts[0]._createdAt,
-    _allReferencingProducts: client._allReferencingProducts
+  const batches = products.length ? [{
+    createdAt: products[0]._createdAt,
+    products
   }] : []
 
   return (
@@ -24,11 +25,11 @@ export default function Client({ client }: Props) {
         <ul>
           {batches?.map((batch, idx) => (
             <li key={idx}>
-              {format(new Date(batch._createdAt), 'yyyy MM dd')}<br />
+              {format(new Date(batch.createdAt), 'yyyy MM dd')}<br />
               <button>Download archive</button><br />
               <ul className={s.images}>
-                {batch._allReferencingProducts?.map((product) => (
-                  <Link href={`/client/products/${product.productId}`} key={product.id}>
+                {batch.products?.map((product) => (
+                  <Link href={`/client/${product.client.clientId}/products/${product.productId}`} key={product.id}>
                     <li >
                       <Image
                         data={product.png.responsiveImage}
@@ -48,7 +49,7 @@ export default function Client({ client }: Props) {
 }
 
 export async function getStaticPaths(context) {
-  const { clients } = await apiQuery(AllClientsDocument, {})
+  const { clients } = await apiQueryAll(AllClientsDocument)
   const paths = clients.map(({ clientId }) => ({ params: { client: clientId } }))
   return {
     paths,
@@ -61,10 +62,12 @@ export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, a
 
   const clientId = context.params.client
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
+  const { products } = await apiQueryAll(AllProductsByClientDocument, { variables: { id: client.id } })
   return {
     props: {
       ...props,
-      client
+      client,
+      products
     },
     revalidate
   };

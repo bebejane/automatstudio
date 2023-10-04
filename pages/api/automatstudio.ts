@@ -71,7 +71,7 @@ const upsertProduct = async (data: FileData) => {
   const upload = await datoClient.uploads.createFromLocalFile({
     localPath: data.filePath,
     filename: data.fileName,
-    skipCreationIfAlreadyExists: true
+    skipCreationIfAlreadyExists: false
   })
 
   console.log('updating product...')
