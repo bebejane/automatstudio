@@ -17,7 +17,7 @@ export default function Product({ product }: Props) {
       <div className={s.intro}>
         <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
         <div className={s.details}>
-          {format(new Date(product._createdAt), 'yyyy mm dd')}<br />
+          {format(new Date(product._createdAt), 'yyyy MM dd')}<br />
           <br />
 
           <form>
@@ -62,7 +62,7 @@ export default function Product({ product }: Props) {
 
 export async function getStaticPaths() {
   const { products } = await apiQueryAll(AllProductsDocument, {})
-  const paths = products.map(({ batch, productId }) => ({ params: { product: [batch.id, 'product', productId] } }))
+  const paths = products.map(({ batch, productId }) => ({ params: { product: productId } }))
 
   return {
     paths,
@@ -73,7 +73,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const productId = context.params.product[2]
+  const productId = context.params.product
 
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
   return {

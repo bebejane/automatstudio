@@ -1,8 +1,0 @@
-query AllBatches {
-	batches: allBatches {
-		...BatchLightFragment
-	}
-	pagination: _allBatchesMeta {
-		count
-	}
-}
