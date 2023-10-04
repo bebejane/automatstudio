@@ -1,40 +1,58 @@
 .container {
-
   .intro {
     display: flex;
     flex-direction: row;
     flex: 0 0;
 
     .image {
-      height: 50vh;
+      height: 70vh;
       width: 30vw;
+      background-color: var(--gray);
+      padding-top: var(--big-margin);
+      padding-bottom: var(--big-margin);
     }
 
     .picture {
-      max-height: 50vh;
+      margin-top: var(--big-margin);
+      max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
     }
 
     form {
       input {
         display: inline-block;
+        background-color: white;
+        margin-left: 0.5rem;
+        border: none;
       }
     }
 
     .details {
       flex: 1 1 100%;
+      padding-top: var(--big-margin);
+      padding-left: var(--big-margin);
+      background-color: var(--gray);
     }
   }
 
   .gallery {
     display: flex;
     flex-direction: column;
+    margin-top: var(--big-margin);
 
     .images {
       display: flex;
       flex-direction: row;
+      justify-content: center;
+
       flex: 0 0;
       list-style: none;
+
+      li {
+        padding: var(--outer-margin);
+        background: var(--gray);
+        margin-right: var(--outer-margin);
+      }
 
       .image {
         flex: 1 1;
@@ -46,5 +64,4 @@
       }
     }
   }
-
 }

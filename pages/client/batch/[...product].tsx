@@ -18,23 +18,25 @@ export default function Product({ product }: Props) {
         <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
         <div className={s.details}>
           {format(new Date(product._createdAt), 'yyyy mm dd')}<br />
-          <p>
-            Download single image (includes high res TIFF and clipping path)
-          </p>
+          <br />
 
           <form>
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">Tags:</label>
             <input type="text" id="name" name="name" /><br />
-            <label htmlFor="producer">Producer:</label>
-            <input type="text" id="producer" name="producer" /><br />
-            <label htmlFor="year">Year:</label>
-            <input type="text" id="year" name="year" /><br />
-            <button>Save</button>
           </form>
+
+          <p>
+            <br />
+            <button className="full">Download images</button><br />
+            <span>(inc png, high-res tif and clipping path)</span>
+          </p>
+
 
         </div>
       </div>
       <div className={s.gallery}>
+        <h2>Download Instagram Story (1080x1920)</h2>
+
         <ul className={s.images}>
           {new Array(3).fill(0).map((_, i) => (
             <li key={i}>
@@ -42,9 +44,10 @@ export default function Product({ product }: Props) {
             </li>
           ))}
         </ul>
-        <div>Download PNG (1080x1920) (instagram story)</div>
       </div>
       <div className={s.gallery}>
+        <h2>Download Instagram Square (700x700) </h2>
+
         <ul className={s.images}>
           {new Array(3).fill(0).map((_, i) => (
             <li key={i}>
@@ -52,7 +55,6 @@ export default function Product({ product }: Props) {
             </li>
           ))}
         </ul>
-        <div>Download PNG (700x700) (square instagram story)</div>
       </div>
     </div>
   )

@@ -1,5 +1,7 @@
 html,
-body {
+body,
+h1,
+h2 {
   font-size: 15px;
   font-weight: normal;
   font-family: Helvetica, Arial, sans-serif;
@@ -14,6 +16,16 @@ body {
   @include mq($from: wide) {
     font-size: 24px;
   }
+}
+
+p span {
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+h2 {
+  text-align: center;
+  padding-bottom: 1rem;
 }
 
 h1,
