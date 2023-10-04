@@ -1,0 +1,5 @@
+fragment ClientLightFragment on ClientRecord {
+	id
+	name
+	email
+}

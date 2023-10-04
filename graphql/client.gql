@@ -1,6 +1,6 @@
 query AllClients {
 	clients: allClients {
-		...ClientFragment
+		...ClientLightFragment
 	}
 }
 

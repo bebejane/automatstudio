@@ -1,8 +1,5 @@
 fragment ProductFragment on ProductRecord {
 	id
-	client {
-		...ClientFragment
-	}
 	png {
 		...ImageFragment
 	}
@@ -11,5 +8,4 @@ fragment ProductFragment on ProductRecord {
 	}
 	productId
 	tags
-	batch
 }

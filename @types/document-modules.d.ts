@@ -9,10 +9,28 @@ export const Client: DocumentNode;
 }
     
 
+declare module '*/BatchFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const BatchFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ClientFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ClientFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ClientLightFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ClientLightFragment: DocumentNode;
 
   export default defaultDocument;
 }

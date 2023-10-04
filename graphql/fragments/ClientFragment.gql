@@ -2,4 +2,12 @@ fragment ClientFragment on ClientRecord {
 	id
 	name
 	email
+	_allReferencingBatches {
+		_createdAt
+		id
+		batchId
+		_allReferencingProducts {
+			...ProductFragment
+		}
+	}
 }
