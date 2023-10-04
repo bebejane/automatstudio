@@ -12,7 +12,12 @@ export type Props = {
 }
 
 export default function Client({ client }: Props) {
-  const batches = client._allReferencingBatches;
+
+  const batches = [{
+    id: '1',
+    _createdAt: client._allReferencingProducts[0]._createdAt,
+    _allReferencingProducts: client._allReferencingProducts
+  }]
 
   return (
     <div className={s.container}>
@@ -20,11 +25,11 @@ export default function Client({ client }: Props) {
         {batches?.map((batch) => (
           <li key={batch.id}>
             Batch {batch.id}<br />
-            {format(new Date(batch._createdAt), 'yyyy mm dd')}<br />
+            {format(new Date(batch._createdAt), 'yyyy MM dd')}<br />
             <button>Download archive</button><br />
             <ul className={s.images}>
               {batch._allReferencingProducts?.map((product) => (
-                <Link href={`/client/batch/${batch.batchId}/product/${product.productId}`} key={product.id}>
+                <Link href={`/client/products/${product.productId}`} key={product.id}>
                   <li >
                     <Image
                       data={product.png.responsiveImage}

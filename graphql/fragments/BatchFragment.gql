@@ -1,6 +1,0 @@
-fragment BatchFragment on BatchRecord {
-	id
-	client {
-		...ClientFragment
-	}
-}

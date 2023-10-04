@@ -3,7 +3,7 @@ import fs from 'fs';
 import { buildClient } from '@datocms/cma-client-node';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const datoClient = buildClient({ apiToken: process.env.DATOCMS_CMA_API_TOKEN });
+const datoClient = buildClient({ apiToken: process.env.DATOCMS_CMA_API_TOKEN, environment: 'dev' });
 const uploadDestination = `${__dirname}/tmp`
 const upload = multer({ dest: uploadDestination })
 
@@ -28,13 +28,8 @@ async function handler(req, res) {
     await runMiddleware(req, res, upload.single("file"))
     const data = parseFileName(req.file)
     const product = await upsertProduct(data)
-    console.log(data)
-    console.log(req.file)
-    console.log(`${uploadDestination}/${req.file.filename}`)
-
+    console.log('done', product.id)
     return res.send("ok")
-
-    /* handle success */
   } catch (e) {
     console.log(e)
     if (req.file?.filename)
@@ -45,9 +40,9 @@ async function handler(req, res) {
 }
 
 type FileData = {
-  clientId: number
-  batchId: number
-  productId: number
+  clientId: string
+  batchId: string
+  productId: string
   fileName: string
   filePath: string
 }
@@ -63,15 +58,15 @@ const parseFileName = (data: any): FileData => {
   const [clientId, batchId, productId] = file.split("_")
   const fileName = file.split("_").slice(3).join("_")
 
-  if (isNaN(Number(clientId))) throw new Error("Client id is not valid")
-  if (isNaN(Number(batchId))) throw new Error("Batch id is not valid")
-  if (isNaN(Number(productId))) throw new Error("Product id is not valid")
-  if (!fileName) throw new Error("Filename is empty")
+  if (!clientId) throw new Error("Client id is empty")
+  if (!batchId) throw new Error("Batch id is empty")
+  if (!productId) throw new Error("Product id is empty")
+  if (!fileName) throw new Error("Filename is is empty")
 
   return {
-    clientId: parseInt(clientId),
-    batchId: parseInt(batchId),
-    productId: parseInt(productId),
+    clientId,
+    batchId,
+    productId,
     fileName,
     filePath
   }
@@ -79,38 +74,43 @@ const parseFileName = (data: any): FileData => {
 
 const upsertProduct = async (data: FileData) => {
 
+
+
   const client = (await datoClient.items.list({ filter: { type: "client", fields: { clientId: { eq: data.clientId } } } }))[0]
 
   if (!client)
     throw new Error(`Client with id ${data.clientId} not found`)
 
   const itemTypes = await datoClient.itemTypes.list()
-  let batch = (await datoClient.items.list({ filter: { type: "batch", fields: { id: { eq: data.batchId } } } }))[0]
-  let product = (await datoClient.items.list({ filter: { type: "product", fields: { id: { eq: data.productId } } } }))[0]
+  let batch = (await datoClient.items.list({ filter: { type: "batch", fields: { batch_id: { eq: data.batchId } } } }))[0]
+  let product = (await datoClient.items.list({ filter: { type: "product", fields: { product_id: { eq: data.productId } } } }))[0]
 
   if (!batch) {
+    console.log('creating batch', data.batchId, itemTypes.find(i => i.api_key === "batch").id)
     batch = await datoClient.items.create({
       item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "batch").id },
       client: client.id,
-      batchId: data.batchId
+      batch_id: data.batchId
     })
+
   }
 
   if (product)
     await datoClient.items.destroy(product.id)
 
-  console.log('uploading file', data.fileName)
+
+  console.log('uploading file...')
   const upload = await datoClient.uploads.createFromLocalFile({
     localPath: data.filePath,
     filename: data.fileName,
     skipCreationIfAlreadyExists: true
   })
 
+  console.log('updating product...')
   product = await datoClient.items.create({
     item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "product").id },
-    client: client.id,
     batch: batch.id,
-    productId: data.productId,
+    product_id: data.productId,
     png: { upload_id: upload.id }
   })
 
