@@ -20,7 +20,7 @@ export default function Client({ client }: Props) {
           <li key={batch.id}>
             Batch {batch.id}<br />
             {format(new Date(batch._createdAt), 'yyyy mm dd')}<br />
-            Download archive<br />
+            <button>Download archive</button><br />
             <ul className={s.images}>
               {batch._allReferencingProducts?.map((product) => (
                 <li key={product.id}>

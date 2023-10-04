@@ -7,15 +7,27 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-top: var(--outer-margin);
+
+    li {
+      padding: var(--outer-margin);
+      padding-left: var(--big-margin);
+      padding-right: var(--big-margin);
+      background-color: var(--gray);
+      margin-right: var(--outer-margin);
+      transition: background-color 0.5s;
+
+      &:hover {
+        background-color: var(--black);
+      }
+    }
 
     .image {
-      flex: 1 1 10%;
+      flex: 1 1;
     }
 
     .picture {
-      height: 100px;
-
+      height: 10vw;
     }
   }
-
 }

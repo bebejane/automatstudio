@@ -2,7 +2,10 @@
 	--black: #161616;
 	--white: #fcfcfc;
 	--red: #bf0000;
+	--gray: #e6e6e6;
 	--outer-margin: 1rem;
+	--big-margin: 2rem;
+	--small-margin: 0.5em;
 
 	--background: var(--white);
 	--foreground: var(--black);
@@ -85,6 +88,12 @@ article p a {
 button {
 	color: var(--foreground);
 	border: 0;
+	margin: 0;
+	padding: 0;
+	background-color: var(--white);
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.5s;
 
 	@include mq($from: tablet) {
 	}
@@ -95,6 +104,10 @@ button {
 	}
 
 	&:hover {
+		background-color: var(--black);
+		color: var(--white);
+		padding: var(--small-margin);
+		margin-top: var(--small-margin);
 	}
 }
 
