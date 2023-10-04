@@ -11,9 +11,9 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
 
   let path = null;
 
-  const { product_id, client_id, } = item.attributes
+  const { product_id, client_id } = item.attributes
 
-  //console.log(item)
+  console.log(item)
 
   switch (itemType.attributes.api_key) {
     case 'product':
