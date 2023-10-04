@@ -4,6 +4,7 @@ import { apiQuery } from "dato-nextjs-utils/api"
 import { AllClientsDocument, ClientDocument } from "/graphql"
 import { GetStaticProps } from "next"
 import { Image } from 'react-datocms'
+import { format } from 'date-fns'
 
 export type Props = {
   client: ClientRecord
@@ -18,9 +19,9 @@ export default function Client({ client }: Props) {
         {batches?.map((batch) => (
           <li key={batch.id}>
             Batch {batch.id}<br />
-            {batch._createdAt}<br />
+            {format(new Date(batch._createdAt), 'yyyy mm dd')}<br />
             Download archive<br />
-            <ul>
+            <ul className={s.images}>
               {batch._allReferencingProducts?.map((product) => (
                 <li key={product.id}>
                   <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />

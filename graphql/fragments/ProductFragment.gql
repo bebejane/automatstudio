@@ -1,7 +1,7 @@
 fragment ProductFragment on ProductRecord {
 	id
 	png {
-		...ImageFragment
+		...ImageThumbnailFragment
 	}
 	tif {
 		...ImageFragment
