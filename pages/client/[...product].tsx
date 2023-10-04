@@ -1,4 +1,4 @@
-import s from './[product].module.scss';
+import s from './[...product].module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { AllProductsDocument, ProductDocument } from "/graphql"
