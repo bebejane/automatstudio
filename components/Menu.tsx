@@ -13,7 +13,18 @@ export default function Menu({ }: MenuProps) {
 
   return (
     <nav>
-      Menu
+      <Link href="/">
+        Home
+      </Link>,
+      <Link href="/gallery">
+        Gallery
+      </Link>,
+      <Link href="/contact">
+        Contact
+      </Link>,
+      <Link href="/client">
+        Login
+      </Link>
     </nav>
 
   )
