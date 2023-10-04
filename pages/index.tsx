@@ -8,7 +8,7 @@ export type HomeProps = { site: Site }
 export default function Home({ site }: HomeProps) {
 
 	return (
-		<div className={styles.container}>
+		<div className={s.container}>
 			Automatstudio
 		</div>
 	)
