@@ -1,4 +1,5 @@
 fragment ProductFragment on ProductRecord {
+	_createdAt
 	id
 	png {
 		...ImageThumbnailFragment

@@ -14,7 +14,29 @@ export default function Product({ product }: Props) {
 
   return (
     <div className={s.container}>
-      {product.id}
+      <div className={s.intro}>
+        <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+        <div className={s.details}>
+          {format(new Date(product._createdAt), 'yyyy mm dd')}<br />
+          <p>
+            Download single image (includes high res TIFF and clipping path)
+          </p>
+          <p>
+            Name:<br />
+            Producer:<br />
+            Year:<br />
+            Save
+          </p>
+        </div>
+      </div>
+      <div className={s.gallery}>
+        <ul className={s.images}>
+          {new Array(3).fill(0).map((_, i) => (
+            <Image key={i} data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+          ))}
+        </ul>
+        <div>Download PNG (1080x1920) (instagram story)</div>
+      </div>
     </div>
   )
 }
