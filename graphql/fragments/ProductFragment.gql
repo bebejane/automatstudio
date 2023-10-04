@@ -9,4 +9,7 @@ fragment ProductFragment on ProductRecord {
 	}
 	productId
 	tags
+	batch {
+		id
+	}
 }

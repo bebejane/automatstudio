@@ -13,7 +13,7 @@ fragment ImageThumbnailFragment on FileField {
 		alt
 		aspectRatio
 		base64
-		bgColor
+		#bgColor
 		height
 		sizes
 		src

@@ -1,4 +1,13 @@
 
+declare module '*/batch.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AllBatches: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/client.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -13,6 +22,15 @@ declare module '*/BatchFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const BatchFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/BatchLightFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const BatchLightFragment: DocumentNode;
 
   export default defaultDocument;
 }

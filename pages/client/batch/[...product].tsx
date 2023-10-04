@@ -21,29 +21,47 @@ export default function Product({ product }: Props) {
           <p>
             Download single image (includes high res TIFF and clipping path)
           </p>
-          <p>
-            Name:<br />
-            Producer:<br />
-            Year:<br />
-            Save
-          </p>
+
+          <form>
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name" name="name" /><br />
+            <label htmlFor="producer">Producer:</label>
+            <input type="text" id="producer" name="producer" /><br />
+            <label htmlFor="year">Year:</label>
+            <input type="text" id="year" name="year" /><br />
+            <button>Save</button>
+          </form>
+
         </div>
       </div>
       <div className={s.gallery}>
         <ul className={s.images}>
           {new Array(3).fill(0).map((_, i) => (
-            <Image key={i} data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+            <li key={i}>
+              <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+            </li>
           ))}
         </ul>
         <div>Download PNG (1080x1920) (instagram story)</div>
+      </div>
+      <div className={s.gallery}>
+        <ul className={s.images}>
+          {new Array(3).fill(0).map((_, i) => (
+            <li key={i}>
+              <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+            </li>
+          ))}
+        </ul>
+        <div>Download PNG (700x700) (square instagram story)</div>
       </div>
     </div>
   )
 }
 
-export async function getStaticPaths(context) {
+export async function getStaticPaths() {
   const { products } = await apiQueryAll(AllProductsDocument, {})
-  const paths = products.map(({ id }) => ({ params: { product: id } }))
+  const paths = products.map(({ batch, productId }) => ({ params: { product: [batch.id, 'product', productId] } }))
+  console.log(paths)
   return {
     paths,
     fallback: 'blocking'
@@ -53,7 +71,7 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const id = context.params.product
+  const id = context.params.product[1]
   const { product } = await apiQuery(ProductDocument, { variables: { id } })
   return {
     props: {

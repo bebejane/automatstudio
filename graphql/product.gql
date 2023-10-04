@@ -7,8 +7,8 @@ query AllProducts {
 	}
 }
 
-query Product($id: ItemId!) {
-	product(filter: { id: { eq: $id } }) {
+query Product($productId: String) {
+	product(filter: { productId: { eq: $productId } }) {
 		...ProductFragment
 	}
 }

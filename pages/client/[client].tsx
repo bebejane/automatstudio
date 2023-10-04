@@ -24,7 +24,7 @@ export default function Client({ client }: Props) {
             <button>Download archive</button><br />
             <ul className={s.images}>
               {batch._allReferencingProducts?.map((product) => (
-                <Link href={`/client/products/${product.id}`} key={product.id}>
+                <Link href={`/client/batch/${batch.batchId}/product/${product.productId}`} key={product.id}>
                   <li >
                     <Image
                       data={product.png.responsiveImage}

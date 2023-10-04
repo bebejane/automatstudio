@@ -1,0 +1,5 @@
+fragment BatchLightFragment on BatchRecord {
+	_createdAt
+	id
+	batchId
+}

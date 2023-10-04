@@ -13,9 +13,7 @@ export default function Menu({ }: MenuProps) {
 
   return (
     <nav className={s.menu}>
-      <Link href="/">
-        Home
-      </Link>
+      <Link href="/"><h1>Automatastudio</h1></Link>
       <Link href="/gallery">
         Gallery
       </Link>
