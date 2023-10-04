@@ -13,11 +13,11 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
 
   const { product_id, client_id } = item.attributes
 
-  console.log(item)
+  //console.log(item)
 
   switch (itemType.attributes.api_key) {
     case 'product':
-      const c = (await client.items.find(item.attributes.client.id, { version: 'latest', nested: true })) as any
+      const c = (await client.items.find(item.attributes.client, { version: 'latest', nested: true })) as any
       path = `/client/${c.client_id}/products/${product_id}`
       break;
     case 'client':
