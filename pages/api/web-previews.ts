@@ -1,5 +1,5 @@
-import { buildClient } from '@datocms/cma-client-node';
 import { withWebPreviewsEdge } from 'dato-nextjs-utils/hoc';
+import { buildClient } from '@datocms/cma-client-node';
 
 const client = buildClient({ apiToken: process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN });
 

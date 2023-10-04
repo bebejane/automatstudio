@@ -1,14 +1,21 @@
 import { withRevalidate } from 'dato-nextjs-utils/hoc'
+import { buildClient } from '@datocms/cma-client-node';
+
+const client = buildClient({ apiToken: process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN });
 
 export default withRevalidate(async (record, revalidate) => {
 
   const { api_key: apiKey } = record.model;
-  const { slug } = record
+  const { product_id, client_id } = record
   const paths = []
 
   switch (apiKey) {
-    case 'start':
-      paths.push(`/`)
+    case 'product':
+      const product = (await client.items.find(record.id, { version: 'latest', nested: true })) as any
+      paths.push(`/client/${product.client.client_id}/products/${product_id}`)
+      break;
+    case 'client':
+      paths.push(`/client/${client_id}`)
       break;
     default:
       break;
