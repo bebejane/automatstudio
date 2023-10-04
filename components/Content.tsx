@@ -9,10 +9,9 @@ export type ContentProps = {
 
 export default function Content({ children }: ContentProps) {
 
-	const [showMenu] = useStore((state) => [state.showMenu])
 
 	return (
-		<main id="content" className={cn(s.content, !showMenu && s.full)}>
+		<main id="content" className={cn(s.content)}>
 			{children}
 		</main>
 	)
