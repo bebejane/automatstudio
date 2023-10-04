@@ -13,36 +13,37 @@ export type Props = {
 
 export default function Client({ client }: Props) {
 
-  const batches = [{
+  const batches = client._allReferencingProducts.length ? [{
     id: '1',
     _createdAt: client._allReferencingProducts[0]._createdAt,
     _allReferencingProducts: client._allReferencingProducts
-  }]
+  }] : []
 
   return (
     <div className={s.container}>
-      {batches.length > 0 ? <ul>
-        {batches?.map((batch) => (
-          <li key={batch.id}>
-            Batch {batch.id}<br />
-            {format(new Date(batch._createdAt), 'yyyy MM dd')}<br />
-            <button>Download archive</button><br />
-            <ul className={s.images}>
-              {batch._allReferencingProducts?.map((product) => (
-                <Link href={`/client/products/${product.productId}`} key={product.id}>
-                  <li >
-                    <Image
-                      data={product.png.responsiveImage}
-                      className={s.image}
-                      pictureClassName={s.picture}
-                    />
-                  </li>
-                </Link>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      {batches.length > 0 ?
+        <ul>
+          {batches?.map((batch) => (
+            <li key={batch.id}>
+              Batch {batch.id}<br />
+              {format(new Date(batch._createdAt), 'yyyy MM dd')}<br />
+              <button>Download archive</button><br />
+              <ul className={s.images}>
+                {batch._allReferencingProducts?.map((product) => (
+                  <Link href={`/client/products/${product.productId}`} key={product.id}>
+                    <li >
+                      <Image
+                        data={product.png.responsiveImage}
+                        className={s.image}
+                        pictureClassName={s.picture}
+                      />
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
         : <div>No batches found</div>}
     </div>
   )

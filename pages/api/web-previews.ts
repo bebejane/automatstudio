@@ -7,7 +7,7 @@ export const config = {
   runtime: 'edge'
 }
 
-export default withWebPreviewsEdge(async ({ item, itemType, locale }) => {
+export default withWebPreviewsEdge(async ({ item, itemType }) => {
 
   let path = null;
 
