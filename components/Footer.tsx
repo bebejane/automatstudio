@@ -11,7 +11,7 @@ export default function Footer({ }: Props) {
 
   return (
     <footer className={cn(s.footer)}>
-      <h1>AutomatStudio><br /></h1>
+      <h1>AutomatStudio<br /></h1>
       <p>
 
         <span>A part of</span><br />
