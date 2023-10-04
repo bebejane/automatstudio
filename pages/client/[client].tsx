@@ -14,8 +14,7 @@ export default function Client({ client }: Props) {
 
   return (
     <div className={s.container}>
-      {client?.name}
-      <ul>
+      {batches.length > 0 ? <ul>
         {batches?.map((batch) => (
           <li key={batch.id}>
             Batch {batch.id}<br />
@@ -28,10 +27,10 @@ export default function Client({ client }: Props) {
                 </li>
               ))}
             </ul>
-
           </li>
         ))}
       </ul>
+        : <div>No batches found</div>}
     </div>
   )
 }
