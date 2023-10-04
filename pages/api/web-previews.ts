@@ -1,4 +1,7 @@
+import { buildClient } from '@datocms/cma-client-node';
 import { withWebPreviewsEdge } from 'dato-nextjs-utils/hoc';
+
+const client = buildClient({ apiToken: process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN });
 
 export const config = {
   runtime: 'edge'
@@ -8,11 +11,17 @@ export default withWebPreviewsEdge(async ({ item, itemType, locale }) => {
 
   let path = null;
 
-  const { slug } = item.attributes
+  const { product_id, client_id } = item.attributes
+
+  console.log(item)
 
   switch (itemType.attributes.api_key) {
-    case 'startt':
-      path = `/`
+    case 'product':
+      const product = (await client.items.find(item.id, { version: 'latest', nested: true })) as any
+      path = `/client/${product.client.client_id}/products/${product_id}`
+      break;
+    case 'client':
+      path = `/client/${client_id}`
       break;
     default:
       break;
