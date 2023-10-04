@@ -1,0 +1,21 @@
+.container {
+  ul {
+    list-style: none;
+  }
+
+  .images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .image {
+      flex: 1 1 10%;
+    }
+
+    .picture {
+      height: 100px;
+
+    }
+  }
+
+}

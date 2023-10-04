@@ -2,6 +2,9 @@ query AllProducts {
 	products: allProducts {
 		...ProductFragment
 	}
+	pagination: _allProductsMeta {
+		count
+	}
 }
 
 query Product($id: ItemId!) {

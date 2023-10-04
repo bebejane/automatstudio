@@ -5,6 +5,7 @@ import { AllClientsDocument, ClientDocument } from "/graphql"
 import { GetStaticProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
+import Link from 'next/link';
 
 export type Props = {
   client: ClientRecord
@@ -24,7 +25,13 @@ export default function Client({ client }: Props) {
             <ul className={s.images}>
               {batch._allReferencingProducts?.map((product) => (
                 <li key={product.id}>
-                  <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+                  <Link href={`/client/products/${product.id}`}>
+                    <Image
+                      data={product.png.responsiveImage}
+                      className={s.image}
+                      pictureClassName={s.picture}
+                    />
+                  </Link>
                 </li>
               ))}
             </ul>
