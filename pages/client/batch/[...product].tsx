@@ -21,7 +21,7 @@ export default function Product({ product }: Props) {
           <br />
 
           <form>
-            <label htmlFor="name">Tags:</label>
+            <label htmlFor="name">Tag:</label>
             <input type="text" id="name" name="name" /><br />
           </form>
 

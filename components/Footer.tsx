@@ -11,8 +11,9 @@ export default function Footer({ }: Props) {
 
   return (
     <footer className={cn(s.footer)}>
+      <h1>AutomatStudio<sup>®</sup><br /></h1>
       <p>
-        <h1>AutomatStudio<sup>®</sup><br /></h1>
+
         <span>A part of</span><br />
         Skanstull Automatfoto AB < br />
         Rutger Fuchsgatan 9 < br />
