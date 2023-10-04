@@ -10,17 +10,13 @@ h2 {
   line-height: 1.35em;
 
   @include mq($from: tablet) {
-    font-size: 20px;
-  }
-
-  @include mq($from: wide) {
-    font-size: 24px;
+    font-size: 26px;
   }
 }
 
 p span {
-  font-size: 0.75em;
-  text-transform: uppercase;
+  //font-size: 0.75em;
+  //text-transform: uppercase;
 }
 
 h2 {
