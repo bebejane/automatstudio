@@ -5,6 +5,7 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: 600;
   letter-spacing: 0.05em;
+  line-height: 1.35em;
 
   @include mq($from: tablet) {
     font-size: 20px;

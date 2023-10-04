@@ -12,16 +12,16 @@ export default function Menu({ }: MenuProps) {
 
 
   return (
-    <nav>
+    <nav className={s.menu}>
       <Link href="/">
         Home
-      </Link>,
+      </Link>
       <Link href="/gallery">
         Gallery
-      </Link>,
+      </Link>
       <Link href="/contact">
         Contact
-      </Link>,
+      </Link>
       <Link href="/client">
         Login
       </Link>

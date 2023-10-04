@@ -2,7 +2,7 @@
 	--black: #161616;
 	--white: #fcfcfc;
 	--red: #bf0000;
-	--outer-margin: 2rem;
+	--outer-margin: 1rem;
 
 	--background: var(--white);
 	--foreground: var(--black);
@@ -17,7 +17,6 @@
 body {
 	width: 100%;
 	font-size: 100%;
-	line-height: 1em;
 	color: var(--foreground);
 	background-color: var(--background);
 	-webkit-font-smoothing: antialiased;
