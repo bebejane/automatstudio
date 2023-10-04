@@ -1,5 +1,6 @@
 fragment ClientFragment on ClientRecord {
 	id
+	clientId
 	name
 	email
 	_allReferencingBatches {

@@ -63,7 +63,7 @@ export default function Product({ product }: Props) {
 export async function getStaticPaths() {
   const { products } = await apiQueryAll(AllProductsDocument, {})
   const paths = products.map(({ batch, productId }) => ({ params: { product: [batch.id, 'product', productId] } }))
-  console.log(paths)
+
   return {
     paths,
     fallback: 'blocking'

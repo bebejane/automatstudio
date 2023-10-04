@@ -4,7 +4,7 @@ fragment ProductFragment on ProductRecord {
 	png {
 		...ImageThumbnailFragment
 	}
-	tif {
+	tiff {
 		...ImageFragment
 	}
 	productId

@@ -16,8 +16,6 @@
 	},
 	"dependencies": {
 		"@apollo/client": "^3.7.15",
-		"@datocms/cma-client": "1.3.1",
-		"@datocms/cma-client-browser": "^1.3.5",
 		"@datocms/cma-client-node": "^1.3.5",
 		"@graphql-codegen/typescript-react-apollo": "^3.3.7",
 		"@next/bundle-analyzer": "^12.3.4",
@@ -27,6 +25,7 @@
 		"classnames": "^2.3.2",
 		"date-fns": "2.29.3",
 		"dato-nextjs-utils": "github:bebejane/dato-nextjs-utils",
+		"datocms-client": "3.5.21",
 		"datocms-structured-text-utils": "^2.0.4",
 		"formidable-serverless": "^1.1.1",
 		"framer-motion": "^7.10.3",

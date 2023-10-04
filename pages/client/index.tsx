@@ -13,7 +13,7 @@ export default function Clients({ clients }: Props) {
 	return (
 		<div className={s.container}>
 			{clients.map((client) => (
-				<Link href={`/client/${client.id}`} key={client.id}>
+				<Link href={`/client/${client.clientId}`} key={client.id}>
 					{client.name}
 				</Link>
 			))}

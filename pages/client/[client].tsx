@@ -45,7 +45,7 @@ export default function Client({ client }: Props) {
 
 export async function getStaticPaths(context) {
   const { clients } = await apiQuery(AllClientsDocument, {})
-  const paths = clients.map(({ id }) => ({ params: { client: id } }))
+  const paths = clients.map(({ clientId }) => ({ params: { client: clientId } }))
   return {
     paths,
     fallback: 'blocking'
@@ -55,8 +55,8 @@ export async function getStaticPaths(context) {
 
 export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const id = context.params.client
-  const { client } = await apiQuery(ClientDocument, { variables: { id } })
+  const clientId = context.params.client
+  const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
   return {
     props: {
       ...props,

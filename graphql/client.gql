@@ -4,8 +4,8 @@ query AllClients {
 	}
 }
 
-query Client($id: ItemId!) {
-	client(filter: { id: { eq: $id } }) {
+query Client($clientId: String) {
+	client(filter: { clientId: { eq: $clientId } }) {
 		...ClientFragment
 	}
 }
