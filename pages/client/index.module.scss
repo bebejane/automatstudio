@@ -3,5 +3,7 @@
   flex-direction: column;
   padding: 2%;
 
-  form {}
+  input {
+    margin-left: var(--small-margin);
+  }
 }

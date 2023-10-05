@@ -27,8 +27,7 @@ export default function Product({ product }: Props) {
 
           <p>
             <br />
-            <button className="full">Download images</button><br />
-            <span>(inc png, high-res tif and clipping path)</span>
+            <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
           </p>
 
 

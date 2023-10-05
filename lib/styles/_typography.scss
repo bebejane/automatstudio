@@ -1,8 +1,9 @@
 html,
 body,
 h1,
-h2 {
-  font-size: 15px;
+h2,
+input {
+  font-size: 21px;
   font-weight: normal;
   font-family: Helvetica, Arial, sans-serif;
   font-weight: 600;
@@ -10,7 +11,7 @@ h2 {
   line-height: 1.35em;
 
   @include mq($from: tablet) {
-    font-size: 26px;
+    font-size: 28px;
   }
 }
 

@@ -19,9 +19,9 @@ export default function Clients({ clients }: Props) {
 			))}
 			<br />
 			<form className={s.login} method="POST">
-				<label htmlFor="username">Username</label>
+				<label htmlFor="username">Username:</label>
 				<input type="text" name="username" /><br />
-				<label htmlFor="password">Password</label>
+				<label htmlFor="password">Password:</label>
 				<input type="password" name="password" /><br />
 				<button>Log in</button>
 			</form>
