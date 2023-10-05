@@ -14,7 +14,7 @@ fragment ImageInstagramSquareFragment on FileField {
 	) {
 		alt
 		aspectRatio
-		#base64
+		base64
 		height
 		sizes
 		src
