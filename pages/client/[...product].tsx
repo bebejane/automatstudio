@@ -5,6 +5,8 @@ import { AllProductsDocument, ProductDocument } from "/graphql"
 import { GetStaticProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
+import { buildRoute, recordToRoute } from '/lib/routes';
+import { useEffect } from 'react';
 
 export type Props = {
   product: ProductRecord
@@ -18,6 +20,19 @@ const sizes = [
 const colors = ['#cccccc', '#ffffff', '#000000']
 
 export default function Product({ product }: Props) {
+
+
+  useEffect(() => {
+
+    const testRoute = async () => {
+      const route = await buildRoute('product', product.productId)
+      console.log('route', route)
+      //const record = await recordToRoute(product)
+      //console.log('record', record)
+    }
+    testRoute()
+
+  }, [product])
 
   return (
     <div className={s.container}>
