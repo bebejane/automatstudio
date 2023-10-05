@@ -152,10 +152,15 @@ select {
 }
 
 .grid {
-	display: grid;
-	grid-template-columns: repeat(12, minmax(0, 1fr));
-	column-gap: var(--small-margin);
-	margin-bottom: var(--big-margin);
+	@include mq($from: desktop) {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		column-gap: var(--small-margin);
+	}
+
+	div:first-of-type {
+		margin-bottom: var(--big-margin);
+	}
 
 	img {
 		width: 100%;

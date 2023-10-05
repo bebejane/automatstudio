@@ -9,12 +9,15 @@
 
     .image {
       display: flex;
+      background-color: var(--gray);
+      padding-top: var(--big-margin);
       grid-column: span 12 / span 12;
+      @include mq($until: desktop) {
+        margin-bottom: var(--outer-margin);
+      }
       @include mq($from: desktop) {
         grid-column: span 4 / span 4;
       }
-      background-color: var(--gray);
-      padding-top: var(--big-margin);
     }
 
     .picture {
@@ -53,7 +56,11 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       column-gap: var(--small-margin);
-      grid-column: span 6 / span 6;
+      grid-column: span 12 / span 12;
+
+      @include mq($from: desktop) {
+        grid-column: span 6 / span 6;
+      }
       list-style: none;
 
       a {
@@ -61,7 +68,11 @@
       }
 
       li {
-        grid-column: span 1 / span 1;
+        grid-column: span 2 / span 2;
+
+        @include mq($from: desktop) {
+          grid-column: span 1 / span 1;
+        }
         background: var(--gray);
       }
 
