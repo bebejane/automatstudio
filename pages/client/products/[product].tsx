@@ -1,11 +1,10 @@
-import s from './[...product].module.scss';
+import s from './[product].module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
-import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { AllProductsDocument, ProductDocument } from "/graphql"
-import { GetStaticProps } from "next"
+import { apiQuery, } from "dato-nextjs-utils/api"
+import { ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { buildRoute, recordToRoute } from '/lib/routes';
+import { buildRoute } from '/lib/routes';
 import { useEffect } from 'react';
 
 export type Props = {
@@ -20,19 +19,6 @@ const sizes = [
 const colors = ['#cccccc', '#ffffff', '#000000']
 
 export default function Product({ product }: Props) {
-
-
-  useEffect(() => {
-
-    const testRoute = async () => {
-      const route = await buildRoute('product', product.productId)
-      console.log('route', route)
-      //const record = await recordToRoute(product)
-      //console.log('record', record)
-    }
-    testRoute()
-
-  }, [product])
 
   return (
     <div className={s.container}>
@@ -60,9 +46,8 @@ export default function Product({ product }: Props) {
                 <li style={{ backgroundColor: color }}>
                   <Image
                     data={product[prop].responsiveImage}
-                    //className={s.image}
+                    className={s.image}
                     pictureClassName={s.picture}
-                    usePlaceholder={false}
                     placeholderClassName={s.placeholder}
                   />
                 </li>
@@ -76,22 +61,10 @@ export default function Product({ product }: Props) {
     </div>
   )
 }
-/*
-export async function getStaticPaths() {
-  const { products } = await apiQueryAll(AllProductsDocument, {})
-  const paths = products.map(({ client, productId }) => ({ params: { product: [client.clientId, productId] } }))
-
-  return {
-    paths,
-    fallback: 'blocking'
-  }
-}
-*/
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  console.log(context.params.product)
-  const productId = context.params.product[2]
+  const productId = context.params.product
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
 
   return {

@@ -28,14 +28,12 @@
     .picture {
       margin-top: var(--big-margin);
       max-height: 50vh;
-      height: 50vh;
+
       //max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
     }
 
-    .placeholder {
-      display: none;
-    }
+
 
     form {
       input {
@@ -60,10 +58,10 @@
     margin-top: var(--big-margin);
 
     .images {
-      //display: grid;
-      //grid-template-columns: repeat(3, minmax(0, 1fr));
-      //column-gap: var(--small-margin);
-      //grid-column: span 12 / span 12;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--small-margin);
+      grid-column: span 12 / span 12;
 
       @include mq($from: desktop) {
         grid-column: span 6 / span 6;
@@ -83,8 +81,17 @@
         background: var(--gray);
       }
 
+      .image {}
+
       .picture {
         width: 100% !important;
+        object-fit: contain;
+
+      }
+
+      .placeholder {
+        width: 100% !important;
+        object-fit: contain;
       }
     }
 

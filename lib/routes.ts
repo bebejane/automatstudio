@@ -25,8 +25,8 @@ const routes: Routes = {
       }))[0]
 
       if (!product) throw new Error(`Invalid product: ${productId}`)
-      const clientId = (await client.items.find(product.client as string, { version: 'latest', nested: true })).client_id
-      return `/client/${clientId}/products/${productId}`
+
+      return `/client/products/${productId}`
     }
   },
   "client": {

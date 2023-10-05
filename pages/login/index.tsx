@@ -26,12 +26,6 @@ export default function Clients({ clients }: Props) {
 
 	return (
 		<div className={s.container}>
-			{clients.map((client) => (
-				<Link href={`/client/${client.clientId}`} key={client.id}>
-					{client.name}
-				</Link>
-			))}
-			<br />
 			<form className={s.login} method="POST" onSubmit={login}>
 				<label htmlFor="username">Username:</label>
 				<input type="text" name="username" /><br />

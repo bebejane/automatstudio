@@ -2,10 +2,9 @@ import s from './index.module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
-import { GetStaticProps, GetServerSideProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useSession, signIn, getCsrfToken } from 'next-auth/react'
+import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { SessionLoader } from '/components';
@@ -30,6 +29,7 @@ export default function Client({ client, products }: Props) {
     createdAt: products[0]._createdAt,
     products
   }] : []
+  console.log(status)
 
   return (
     <div className={s.container}>
@@ -41,7 +41,7 @@ export default function Client({ client, products }: Props) {
               <button>Download archive</button><br />
               <ul className={s.images}>
                 {batch.products?.map((product) => (
-                  <Link href={`/client/${product.client.clientId}/products/${product.productId}`} key={product.id}>
+                  <Link href={`/client/products/${product.productId}`} key={product.id}>
                     <li>
                       <Image
                         data={product.png.responsiveImage}
@@ -63,7 +63,6 @@ export default function Client({ client, products }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-
   const clientId = props.session.user.id
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
   const { products } = await apiQueryAll(AllProductsByClientDocument, { variables: { id: client.id } })
@@ -72,8 +71,7 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
     props: {
       ...props,
       client,
-      products,
-
+      products
     }
   };
 });
