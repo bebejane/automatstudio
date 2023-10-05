@@ -7,6 +7,15 @@ query AllProducts {
 	}
 }
 
+query AllProductsByClient($id: ItemId) {
+	products: allProducts(filter: { client: { eq: $id } }) {
+		...ProductFragment
+	}
+	pagination: _allProductsMeta(filter: { client: { eq: $id } }) {
+		count
+	}
+}
+
 query Product($productId: String) {
 	product(filter: { productId: { eq: $productId } }) {
 		...ProductFragment

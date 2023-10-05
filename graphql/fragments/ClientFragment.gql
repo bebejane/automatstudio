@@ -3,7 +3,4 @@ fragment ClientFragment on ClientRecord {
 	clientId
 	name
 	email
-	_allReferencingProducts {
-		...ProductFragment
-	}
 }

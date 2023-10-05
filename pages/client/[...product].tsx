@@ -1,4 +1,4 @@
-import s from './[product].module.scss';
+import s from './[...product].module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { AllProductsDocument, ProductDocument } from "/graphql"
@@ -61,7 +61,7 @@ export default function Product({ product }: Props) {
 
 export async function getStaticPaths() {
   const { products } = await apiQueryAll(AllProductsDocument, {})
-  const paths = products.map(({ batch, productId }) => ({ params: { product: productId } }))
+  const paths = products.map(({ client, productId }) => ({ params: { product: [client.clientId, productId] } }))
 
   return {
     paths,
@@ -72,7 +72,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const productId = context.params.product
+  const productId = context.params.product[2]
 
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
   return {

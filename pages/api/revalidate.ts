@@ -11,7 +11,7 @@ export default withRevalidate(async (record, revalidate) => {
 
   switch (apiKey) {
     case 'product':
-      const c = (await client.items.find(record.attributes.client.id, { version: 'latest', nested: true })) as any
+      const c = (await client.items.find(record.client, { version: 'latest', nested: true })) as any
       paths.push(`/client/${c.client_id}/products/${product_id}`)
       break;
     case 'client':
