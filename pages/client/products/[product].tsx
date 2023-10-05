@@ -64,7 +64,7 @@ export default function Product({ product }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
 
-  if (!props.session && context.query.secret !== process.env.DATO_PREVIEW_SECRET)
+  if (!props.session && (!context.query.secret || context.query.secret !== process.env.DATOCMS_PREVIEW_SECRET))
     return { redirect: { destination: '/login', permanent: false } }
 
   const productId = context.params.product
