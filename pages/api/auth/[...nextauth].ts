@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email as string,
             name: user.name as string,
           }
-          console.log('user logged in', session)
+
           return session
         } catch (err) {
           console.error(err)
