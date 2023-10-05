@@ -5,7 +5,10 @@ import { AllClientsDocument, ClientDocument, AllProductsByClientDocument } from 
 import { GetStaticProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
+import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { SessionLoader } from '/components';
 
 export type Props = {
   client: ClientRecord
@@ -13,6 +16,17 @@ export type Props = {
 }
 
 export default function Client({ client, products }: Props) {
+
+  const { data: session, status } = useSession()
+
+  useEffect(() => {
+    console.log(session, status)
+    return
+    if (status === 'loading' || session) return
+    if (status === 'unauthenticated') signIn()
+  }, [session, status])
+
+  //if (status === 'loading' || !session) return <SessionLoader />
 
   const batches = products.length ? [{
     createdAt: products[0]._createdAt,
