@@ -64,6 +64,9 @@ export default function Product({ product }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
+  if (!props.session)
+    return { redirect: { destination: '/login', permanent: false } }
+
   const productId = context.params.product
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
 
