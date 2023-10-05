@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { asPath: pathname } = router
   const { site, seo, } = pageProps as any;
-
+  console.log('pageProps session', pageProps.session)
   return (
     <>
       <DatoSEO seo={seo} site={site} />

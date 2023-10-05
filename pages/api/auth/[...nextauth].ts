@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { NextAuthOptions } from 'next-auth';
+import type { NextAuthOptions, User } from 'next-auth';
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { buildClient } from '@datocms/cma-client-browser';
@@ -14,17 +14,26 @@ export const authOptions: NextAuthOptions = {
     maxAge: 365 * (24 * 60 * 60), // 365 days
   },
   pages: {
-    signIn: '/client',
-    signOut: '/client/signout',
+    signIn: '/login',
+    signOut: '/logout',
     //error: '/client/type=error', // Error code passed in query string as ?error=    
     //verifyRequest: '/auth/verify-request', // (used for check email message)    
     //newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)  }
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log(user)
-      return `/client/${user.id}`
+      return true
     },
+    async jwt({ token, user }) {
+      if (user?.id)
+        token.id = user.id
+      return token
+    },
+    async session({ session, token }) {
+      //@ts-ignore
+      session.user.id = token.id;
+      return session;
+    }
   },
   providers: [
     CredentialsProvider({
@@ -51,10 +60,11 @@ export const authOptions: NextAuthOptions = {
 
           if (!user) return null
 
-          const session = {
+          const session: User = {
             id: user.client_id as string,
             email: user.email as string,
             name: user.name as string,
+            image: null
           }
 
           return session

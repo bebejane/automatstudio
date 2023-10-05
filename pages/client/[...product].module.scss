@@ -16,9 +16,11 @@
       background-color: var(--gray);
       padding-top: var(--big-margin);
       grid-column: span 12 / span 12;
+
       @include mq($until: desktop) {
         margin-bottom: var(--outer-margin);
       }
+
       @include mq($from: desktop) {
         grid-column: span 4 / span 4;
       }
@@ -27,8 +29,13 @@
     .picture {
       margin-top: var(--big-margin);
       max-height: 50vh;
+      height: 50vh;
       //max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
+    }
+
+    .placeholder {
+      display: none;
     }
 
     form {
@@ -62,6 +69,7 @@
       @include mq($from: desktop) {
         grid-column: span 6 / span 6;
       }
+
       list-style: none;
 
       a {
@@ -80,6 +88,7 @@
         width: 100% !important;
       }
     }
+
     h2 {
       //grid-column-start: 1;
       //grid-column-end: 6;

@@ -1,11 +1,11 @@
-import s from './[client].module.scss';
+import s from './index.module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { AllClientsDocument, ClientDocument, AllProductsByClientDocument } from "/graphql"
-import { GetStaticProps } from "next"
+import { ClientDocument, AllProductsByClientDocument } from "/graphql"
+import { GetStaticProps, GetServerSideProps } from "next"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, getCsrfToken } from 'next-auth/react'
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { SessionLoader } from '/components';
@@ -20,13 +20,11 @@ export default function Client({ client, products }: Props) {
   const { data: session, status } = useSession()
 
   useEffect(() => {
-    console.log(session, status)
-    return
     if (status === 'loading' || session) return
     if (status === 'unauthenticated') signIn()
   }, [session, status])
 
-  //if (status === 'loading' || !session) return <SessionLoader />
+  if (status === 'loading' || !session) return <SessionLoader />
 
   const batches = products.length ? [{
     createdAt: products[0]._createdAt,
@@ -62,28 +60,20 @@ export default function Client({ client, products }: Props) {
     </div >
   )
 }
-/*
-export async function getStaticPaths(context) {
-  const { clients } = await apiQueryAll(AllClientsDocument)
-  const paths = clients.map(({ clientId }) => ({ params: { client: clientId } }))
-  return {
-    paths,
-    fallback: 'blocking'
-  }
-}
-*/
 
-export const getServerSideProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
+export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const clientId = context.params.client
+
+  const clientId = props.session.user.id
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
   const { products } = await apiQueryAll(AllProductsByClientDocument, { variables: { id: client.id } })
+
   return {
     props: {
       ...props,
       client,
-      products
-    },
-    //revalidate
+      products,
+
+    }
   };
 });

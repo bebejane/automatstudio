@@ -1,9 +1,8 @@
-import { ca } from 'date-fns/locale';
 import s from './index.module.scss'
 import { AllClientsDocument } from '/graphql';
 import withGlobalProps from '/lib/withGlobalProps';
 import type { GetStaticProps } from 'next'
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export type Props = {
@@ -19,7 +18,7 @@ export default function Clients({ clients }: Props) {
 		const username = formData.get('username') as string
 		const password = formData.get('password') as string
 		try {
-			await signIn('credentials', { username, password })
+			await signIn('credentials', { username, password, callbackUrl: '/client' })
 		} catch (err) {
 			console.log(err)
 		}
@@ -40,6 +39,7 @@ export default function Clients({ clients }: Props) {
 				<input type="password" name="password" /><br />
 				<button type="submit">Log in</button>
 			</form>
+			<button onClick={() => signOut()}>Logout</button>
 		</div>
 	)
 }

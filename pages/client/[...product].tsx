@@ -50,8 +50,6 @@ export default function Product({ product }: Props) {
             <input type="text" id="name" name="name" /><br />
           </form>
 
-
-
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
@@ -62,8 +60,10 @@ export default function Product({ product }: Props) {
                 <li style={{ backgroundColor: color }}>
                   <Image
                     data={product[prop].responsiveImage}
-                    className={s.image}
+                    //className={s.image}
                     pictureClassName={s.picture}
+                    usePlaceholder={false}
+                    placeholderClassName={s.placeholder}
                   />
                 </li>
               </a>
@@ -76,7 +76,7 @@ export default function Product({ product }: Props) {
     </div>
   )
 }
-
+/*
 export async function getStaticPaths() {
   const { products } = await apiQueryAll(AllProductsDocument, {})
   const paths = products.map(({ client, productId }) => ({ params: { product: [client.clientId, productId] } }))
@@ -86,18 +86,18 @@ export async function getStaticPaths() {
     fallback: 'blocking'
   }
 }
+*/
 
+export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
-
+  console.log(context.params.product)
   const productId = context.params.product[2]
-
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
+
   return {
     props: {
       ...props,
       product
-    },
-    revalidate
+    }
   };
 });
