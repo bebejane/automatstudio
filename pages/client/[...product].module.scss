@@ -1,4 +1,8 @@
 .container {
+  img {
+    height: auto !important;
+  }
+
   .intro {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -47,16 +51,13 @@
   }
 
   .gallery {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--small-margin);
     margin-top: var(--big-margin);
 
     .images {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      column-gap: var(--small-margin);
-      grid-column: span 12 / span 12;
+      //display: grid;
+      //grid-template-columns: repeat(3, minmax(0, 1fr));
+      //column-gap: var(--small-margin);
+      //grid-column: span 12 / span 12;
 
       @include mq($from: desktop) {
         grid-column: span 6 / span 6;
@@ -64,28 +65,25 @@
       list-style: none;
 
       a {
-        display: block;
+        display: flex;
+        //grid-column: span 2 / span 2;
+        //@include mq($from: desktop) {
+        //  grid-column: span 1 / span 1;
+        //}
       }
 
       li {
-        grid-column: span 2 / span 2;
-
-        @include mq($from: desktop) {
-          grid-column: span 1 / span 1;
-        }
         background: var(--gray);
       }
 
       .picture {
         width: 100% !important;
-        max-height: 100% !important;
-        height: auto !important;
       }
     }
     h2 {
-      grid-column-start: 1;
-      grid-column-end: 6;
-      padding-top: 0.5em;
+      //grid-column-start: 1;
+      //grid-column-end: 6;
+      //padding-top: 0.5em;
     }
   }
 }

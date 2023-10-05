@@ -13,7 +13,6 @@ export default function Contact({ contact }: Props) {
 	return (
 		<div className={s.container}>
 			<div className="grid">
-				<p>Contact</p>
 				<Markdown className={s.contact}>{contact.text}</Markdown>
 			</div>
 		</div>
