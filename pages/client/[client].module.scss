@@ -1,20 +1,28 @@
 .container {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--small-margin);
+
   ul {
+    grid-column-start: 1;
+    grid-column-end: 7;
     list-style: none;
   }
 
   .images {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: var(--small-margin);
     margin-top: var(--outer-margin);
+
+    a {
+      display: flex;
+      grid-column: span 1 / span 1;
+    }
 
     li {
       padding: var(--outer-margin);
-      padding-left: var(--big-margin);
-      padding-right: var(--big-margin);
       background-color: var(--gray);
-      margin-right: var(--outer-margin);
       transition: background-color 0.5s;
 
       &:hover {
@@ -28,7 +36,10 @@
     }
 
     .picture {
-      height: 10vw;
+      img {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 }

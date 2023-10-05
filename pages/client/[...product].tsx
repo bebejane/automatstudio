@@ -40,23 +40,22 @@ export default function Product({ product }: Props) {
         <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
         <div className={s.details}>
           {format(new Date(product._createdAt), 'yyyy MM dd')}<br />
-          <br />
+          <p>
+            <br />
+            <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
+          </p>
 
           <form>
             <label htmlFor="name">Tag:</label>
             <input type="text" id="name" name="name" /><br />
           </form>
 
-          <p>
-            <br />
-            <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
-          </p>
+
 
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
         <div key={idx} className={s.gallery}>
-          <h2>Download {label} ({width}x{height})</h2>
           <ul className={s.images}>
             {colors.map((color, i) => (
               <a key={i} href={`${product[prop].responsiveImage.src}&bg=${color.replace('#', '')}`} download>
@@ -70,6 +69,8 @@ export default function Product({ product }: Props) {
               </a>
             ))}
           </ul>
+          <h2>Download {label} ({width}x{height})</h2>
+
         </div>
       ))}
     </div>

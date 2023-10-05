@@ -30,7 +30,7 @@ export default function Client({ client, products }: Props) {
               <ul className={s.images}>
                 {batch.products?.map((product) => (
                   <Link href={`/client/${product.client.clientId}/products/${product.productId}`} key={product.id}>
-                    <li >
+                    <li>
                       <Image
                         data={product.png.responsiveImage}
                         className={s.image}
@@ -43,8 +43,9 @@ export default function Client({ client, products }: Props) {
             </li>
           ))}
         </ul>
-        : <div>No batches found</div>}
-    </div>
+        : <div>No batches found</div>
+      }
+    </div >
   )
 }
 

@@ -1,20 +1,23 @@
 .container {
   .intro {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--small-margin);
+
     flex-direction: row;
     flex: 0 0;
 
     .image {
-      height: 70vh;
-      width: 30vw;
+      display: flex;
+      grid-column: span 4 / span 4;
       background-color: var(--gray);
       padding-top: var(--big-margin);
-      padding-bottom: var(--big-margin);
     }
 
     .picture {
       margin-top: var(--big-margin);
-      max-height: calc(70vh - (2 * var(--big-margin)));
+      max-height: 50vh;
+      //max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
     }
 
@@ -29,30 +32,27 @@
     }
 
     .details {
-      flex: 1 1 100%;
-      padding-top: var(--big-margin);
-      padding-left: var(--big-margin);
-      background-color: var(--gray);
+      grid-column: span 6 / span 6;
     }
   }
 
   .gallery {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--small-margin);
     margin-top: var(--big-margin);
 
     .images {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--small-margin);
+      grid-column: span 6 / span 6;
       flex: 0 0;
       list-style: none;
 
       li {
-        padding: var(--outer-margin);
+        grid-column: span 1 / span 1;
         background: var(--gray);
-        margin-right: var(--outer-margin);
       }
 
       .image {
@@ -60,9 +60,14 @@
       }
 
       .picture {
-        height: 30vh;
+        //height: 30vh;
         object-fit: contain;
       }
+    }
+    h2 {
+      grid-column-start: 1;
+      grid-column-end: 6;
+      padding-top: 0.5em;
     }
   }
 }
