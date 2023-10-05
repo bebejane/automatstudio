@@ -45,6 +45,24 @@ declare module '*/ImageFragment.gql' {
 }
     
 
+declare module '*/ImageInstagramSquareFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageInstagramSquareFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ImageInstagramStoryFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageInstagramStoryFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ImageThumbnailFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

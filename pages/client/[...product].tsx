@@ -10,6 +10,13 @@ export type Props = {
   product: ProductRecord
 }
 
+const sizes = [
+  { width: 1080, height: 1920, label: 'Instagram Story', prop: 'instagramStory' },
+  { width: 1080, height: 1080, label: 'Instagram Square', prop: 'instagramSquare' },
+]
+
+const colors = ['#cccccc', '#ffffff', '#000000']
+
 export default function Product({ product }: Props) {
 
   return (
@@ -30,31 +37,26 @@ export default function Product({ product }: Props) {
             <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
           </p>
 
-
         </div>
       </div>
-      <div className={s.gallery}>
-        <h2>Download Instagram Story (1080x1920)</h2>
-
-        <ul className={s.images}>
-          {new Array(3).fill(0).map((_, i) => (
-            <li key={i}>
-              <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={s.gallery}>
-        <h2>Download Instagram Square (700x700) </h2>
-
-        <ul className={s.images}>
-          {new Array(3).fill(0).map((_, i) => (
-            <li key={i}>
-              <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      {sizes.map(({ width, height, label, prop }, idx) => (
+        <div key={idx} className={s.gallery}>
+          <h2>Download {label} ({width}x{height})</h2>
+          <ul className={s.images}>
+            {colors.map((color, i) => (
+              <a key={i} href={`${product[prop].responsiveImage.src}&bg=${color.replace('#', '')}`} download>
+                <li style={{ backgroundColor: color }}>
+                  <Image
+                    data={product[prop].responsiveImage}
+                    className={s.image}
+                    pictureClassName={s.picture}
+                  />
+                </li>
+              </a>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   )
 }

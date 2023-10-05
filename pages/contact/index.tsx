@@ -20,10 +20,4 @@ export default function Contact({ contact }: Props) {
 	)
 }
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [ContactDocument] }, async ({ props, revalidate }: any) => {
-
-	return {
-		props,
-		revalidate
-	};
-});
+export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [ContactDocument] })

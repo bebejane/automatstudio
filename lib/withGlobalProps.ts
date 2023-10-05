@@ -4,7 +4,7 @@ import { GlobalDocument, } from "/graphql";
 import type { TypedDocumentNode } from "@apollo/client/core/types.js";
 
 
-export default function withGlobalProps(opt: any, callback: Function): GetStaticProps | GetServerSideProps {
+export default function withGlobalProps(opt: any, callback?: Function): GetStaticProps | GetServerSideProps {
 
   const revalidate: number = parseInt(process.env.REVALIDATE_TIME)
   const queries: TypedDocumentNode[] = [GlobalDocument]
@@ -23,6 +23,6 @@ export default function withGlobalProps(opt: any, callback: Function): GetStatic
     if (callback)
       return await callback({ context, props: { ...props }, revalidate });
     else
-      return { props: { ...props }, context, revalidate };
+      return { props: { ...props }, revalidate };
   }
 }

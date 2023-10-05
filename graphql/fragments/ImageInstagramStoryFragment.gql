@@ -1,0 +1,24 @@
+fragment ImageInstagramStoryFragment on FileField {
+	alt
+	basename
+	format
+	height
+	id
+	mimeType
+	size
+	title
+	url
+	width
+	responsiveImage(imgixParams: { w: 1080, h: 1920, fit: clamp, auto: format }) {
+		alt
+		aspectRatio
+		base64
+		height
+		sizes
+		src
+		srcSet
+		webpSrcSet
+		title
+		width
+	}
+}
