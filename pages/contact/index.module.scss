@@ -1,5 +1,9 @@
-.container{
+.container {
   display: flex;
   flex-direction: column;
-  padding:2%;
+
+  p {
+    grid-column-start: 7;
+    grid-column-end: 11;
+  }
 }

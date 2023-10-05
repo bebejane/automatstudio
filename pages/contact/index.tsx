@@ -9,7 +9,9 @@ export default function Contact({ }: Props) {
 
 	return (
 		<div className={s.container}>
-			Contact
+			<div className="grid">
+				<p>Contact</p>
+			</div>
 		</div>
 	)
 }
