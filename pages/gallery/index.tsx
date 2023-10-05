@@ -1,28 +1,40 @@
+import { Image } from 'react-datocms';
 import s from './index.module.scss'
+import { GalleryDocument } from '/graphql';
 import withGlobalProps from '/lib/withGlobalProps';
 import type { GetStaticProps } from 'next'
-import Link from 'next/link';
 
-export type Props = {}
+export type Props = {
+	gallery: GalleryRecord
+}
 
-export default function Gallery({ }: Props) {
+export default function Gallery({ gallery }: Props) {
 
 	return (
 		<div className={s.container}>
 			Gallery
-			<div className="grid">
-				<div className="m1 e5"><img src="https://www.datocms-assets.com/107061/1696340294-output_medium_validoo.png?auto=format&dpr=1.5&q=50&w=800"></img></div>
-			</div>
-
-			<div className="grid">
-				<div className="m3 e5"><img src="https://www.datocms-assets.com/107061/1696340294-output_medium_validoo.png?auto=format&dpr=1.5&q=50&w=800"></img></div>
-				<div className="m6 e9"><img src="https://www.datocms-assets.com/107061/1696340294-output_medium_validoo.png?auto=format&dpr=1.5&q=50&w=800"></img></div>
-			</div >
+			{gallery.content.map((item) => (
+				<div key={item.id} className="grid">
+					{item.__typename === 'ImageBlockRecord' ?
+						<div className={`m${item.margin} e${item.end}`}>
+							<Image data={item.image.responsiveImage} className={s.image} pictureClassName={s.picture} />
+						</div>
+						: item.__typename === 'ImagesBlockRecord' ?
+							item.images.map((item, idx) =>
+								<div key={idx} className={`m${item.margin} e${item.end}`}>
+									<Image data={item.image.responsiveImage} className={s.image} pictureClassName={s.picture} />
+								</div>
+							)
+							: null
+					}
+				</div>
+			)
+			)}
 		</div >
 	)
 }
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate }: any) => {
+export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [GalleryDocument] }, async ({ props, revalidate }: any) => {
 
 	return {
 		props,

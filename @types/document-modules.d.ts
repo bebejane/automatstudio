@@ -81,6 +81,17 @@ declare module '*/VideoFragment.gql' {
 }
     
 
+declare module '*/gallery.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Gallery: DocumentNode;
+export const ImageBlock: DocumentNode;
+export const ImagesBlock: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/global.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

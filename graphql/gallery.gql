@@ -1,0 +1,29 @@
+query Gallery {
+	gallery {
+		id
+		content {
+			... on ImageBlockRecord {
+				...ImageBlock
+			}
+			... on ImagesBlockRecord {
+				...ImagesBlock
+			}
+		}
+	}
+}
+
+fragment ImageBlock on ImageBlockRecord {
+	id
+	image {
+		...ImageFragment
+	}
+	margin
+	end
+}
+
+fragment ImagesBlock on ImagesBlockRecord {
+	id
+	images {
+		...ImageBlock
+	}
+}
