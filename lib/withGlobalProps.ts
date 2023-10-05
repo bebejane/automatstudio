@@ -2,7 +2,7 @@ import { apiQuery, SEOQuery } from "dato-nextjs-utils/api";
 import { GetStaticProps, GetServerSideProps, GetStaticPropsContext } from 'next'
 import { GlobalDocument, } from "/graphql";
 import type { TypedDocumentNode } from "@apollo/client/core/types.js";
-
+import { getServerSession } from "next-auth/next";
 
 export default function withGlobalProps(opt: any, callback?: Function): GetStaticProps | GetServerSideProps {
 

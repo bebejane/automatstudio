@@ -62,7 +62,7 @@ export default function Client({ client, products }: Props) {
     </div >
   )
 }
-
+/*
 export async function getStaticPaths(context) {
   const { clients } = await apiQueryAll(AllClientsDocument)
   const paths = clients.map(({ clientId }) => ({ params: { client: clientId } }))
@@ -71,9 +71,9 @@ export async function getStaticPaths(context) {
     fallback: 'blocking'
   }
 }
+*/
 
-
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
+export const getServerSideProps: GetStaticProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
   const clientId = context.params.client
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
@@ -84,6 +84,6 @@ export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [] }, a
       client,
       products
     },
-    revalidate
+    //revalidate
   };
 });
