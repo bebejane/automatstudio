@@ -9,7 +9,9 @@ fragment ImageInstagramSquareFragment on FileField {
 	title
 	url
 	width
-	responsiveImage(imgixParams: { w: 1080, h: 1080, fit: fill, fm: png32, bg: "#00000000" }) {
+	responsiveImage(
+		imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#00000000" }
+	) {
 		alt
 		aspectRatio
 		#base64

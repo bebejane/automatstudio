@@ -62,7 +62,7 @@ export default function Product({ product }: Props) {
   )
 }
 
-export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
+export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
 
   if (!props.session)
     return { redirect: { destination: '/login', permanent: false } }
