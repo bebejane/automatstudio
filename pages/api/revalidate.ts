@@ -8,9 +8,6 @@ export default withRevalidate(async (record, revalidate) => {
   const paths = []
 
   switch (apiKey) {
-    case 'product':
-      paths.push(await buildRoute('product', product_id))
-      break;
     case 'client':
       paths.push(await buildRoute('client', client_id))
       break;

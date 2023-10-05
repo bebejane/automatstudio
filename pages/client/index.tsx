@@ -29,7 +29,6 @@ export default function Client({ client, products }: Props) {
     createdAt: products[0]._createdAt,
     products
   }] : []
-  console.log(status)
 
   return (
     <div className={s.container}>

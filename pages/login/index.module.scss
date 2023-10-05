@@ -6,4 +6,19 @@
   input {
     margin-left: var(--small-margin);
   }
+
+  button.loading {
+    animation: pulse 0.4s ease-in-out infinite alternate;
+
+    @keyframes pulse {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0.2;
+      }
+
+    }
+  }
 }
