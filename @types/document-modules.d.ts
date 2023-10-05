@@ -9,6 +9,15 @@ export const Client: DocumentNode;
 }
     
 
+declare module '*/contact.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Contact: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ClientFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

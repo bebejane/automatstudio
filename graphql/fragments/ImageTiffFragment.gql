@@ -9,7 +9,7 @@ fragment ImageTiffFragment on FileField {
 	title
 	url
 	width
-	responsiveImage(imgixParams: { fm: png32, bgRemove: true, bg: "#cccccc" }) {
+	responsiveImage(imgixParams: { fm: png32, bgRemove: true, bg: "pink" }) {
 		alt
 		aspectRatio
 		base64
