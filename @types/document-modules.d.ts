@@ -45,6 +45,15 @@ declare module '*/ImageThumbnailFragment.gql' {
 }
     
 
+declare module '*/ImageTiffFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageTiffFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ProductFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -85,6 +94,7 @@ declare module '*/gallery.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const Gallery: DocumentNode;
+export const TextBlock: DocumentNode;
 export const ImageBlock: DocumentNode;
 export const ImagesBlock: DocumentNode;
 

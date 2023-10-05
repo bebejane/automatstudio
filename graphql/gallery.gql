@@ -8,8 +8,18 @@ query Gallery {
 			... on ImagesBlockRecord {
 				...ImagesBlock
 			}
+			... on TextBlockRecord {
+				...TextBlock
+			}
 		}
 	}
+}
+
+fragment TextBlock on TextBlockRecord {
+	id
+	text
+	margin
+	end
 }
 
 fragment ImageBlock on ImageBlockRecord {
