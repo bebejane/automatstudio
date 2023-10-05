@@ -1,3 +1,4 @@
+export { default as SessionLoader } from './auth/SessionLoader'
 export { default as Block } from './blocks'
 export { default as Content } from './Content'
 export { default as Footer } from './Footer'
