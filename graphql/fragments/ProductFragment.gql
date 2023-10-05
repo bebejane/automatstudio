@@ -4,8 +4,11 @@ fragment ProductFragment on ProductRecord {
 	png {
 		...ImageFragment
 	}
-	tiff {
-		...ImageFragment
+	instagramStory: png {
+		...ImageInstagramStoryFragment
+	}
+	instagramSquare: png {
+		...ImageInstagramSquareFragment
 	}
 	productId
 	tags {

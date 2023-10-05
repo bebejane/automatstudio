@@ -9,6 +9,15 @@ export const Client: DocumentNode;
 }
     
 
+declare module '*/contact.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Contact: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ClientFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -31,6 +40,24 @@ declare module '*/ImageFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ImageFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ImageInstagramSquareFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageInstagramSquareFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ImageInstagramStoryFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageInstagramStoryFragment: DocumentNode;
 
   export default defaultDocument;
 }

@@ -17,7 +17,7 @@ query Gallery {
 
 fragment TextBlock on TextBlockRecord {
 	id
-	text
+	text(markdown: false)
 	margin
 	end
 }

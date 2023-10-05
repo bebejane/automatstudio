@@ -37,10 +37,4 @@ export default function Gallery({ gallery }: Props) {
 	)
 }
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [GalleryDocument] }, async ({ props, revalidate }: any) => {
-
-	return {
-		props,
-		revalidate
-	};
-});
+export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [GalleryDocument] })

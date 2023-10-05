@@ -1,7 +1,5 @@
 import { withWebPreviewsEdge } from 'dato-nextjs-utils/hoc';
-import { buildClient } from '@datocms/cma-client-browser';
-
-const client = buildClient({ apiToken: process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN });
+import { buildRoute } from '/lib/routes';
 
 export const config = {
   runtime: 'edge'
@@ -13,15 +11,18 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
 
   const { product_id, client_id } = item.attributes
 
-  //console.log(item)
-
   switch (itemType.attributes.api_key) {
     case 'product':
-      const c = (await client.items.find(item.attributes.client, { version: 'latest', nested: true })) as any
-      path = `/client/${c.client_id}/products/${product_id}`
+      path = await buildRoute('product', product_id)
       break;
     case 'client':
-      path = `/client/${client_id}`
+      path = await buildRoute('client', client_id)
+      break;
+    case 'gallery':
+      path = await buildRoute('gallery')
+      break;
+    case 'contact':
+      path = await buildRoute('contact')
       break;
     default:
       break;

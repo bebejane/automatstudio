@@ -29,10 +29,4 @@ export default function Clients({ clients }: Props) {
 	)
 }
 
-export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [AllClientsDocument] }, async ({ props, revalidate }: any) => {
-
-	return {
-		props,
-		revalidate
-	};
-});
+export const getStaticProps: GetStaticProps = withGlobalProps({ queries: [AllClientsDocument] })
