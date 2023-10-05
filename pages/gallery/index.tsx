@@ -12,7 +12,6 @@ export default function Gallery({ gallery }: Props) {
 
 	return (
 		<div className={s.container}>
-			Gallery
 			{gallery.content.map((item) => (
 				<div key={item.id} className="grid">
 					{item.__typename === 'ImageBlockRecord' ?

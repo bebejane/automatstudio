@@ -155,9 +155,13 @@ select {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
 	column-gap: var(--small-margin);
+	margin-bottom: var(--big-margin);
 
 	img {
 		width: 100%;
+	}
+	.m0 {
+		grid-column-start: 1;
 	}
 
 	.m1 {
@@ -195,39 +199,39 @@ select {
 	}
 
 	.e1 {
-		grid-column-end: 1;
-	}
-	.e2 {
 		grid-column-end: 2;
 	}
-	.e3 {
+	.e2 {
 		grid-column-end: 3;
 	}
-	.e4 {
+	.e3 {
 		grid-column-end: 4;
 	}
-	.e5 {
+	.e4 {
 		grid-column-end: 5;
 	}
-	.e6 {
+	.e5 {
 		grid-column-end: 6;
 	}
-	.e7 {
+	.e6 {
 		grid-column-end: 7;
 	}
-	.e8 {
+	.e7 {
 		grid-column-end: 8;
 	}
-	.e9 {
+	.e8 {
 		grid-column-end: 9;
 	}
-	.e10 {
+	.e9 {
 		grid-column-end: 10;
 	}
-	.e11 {
+	.e10 {
 		grid-column-end: 11;
 	}
-	.e12 {
+	.e11 {
 		grid-column-end: 12;
+	}
+	.e12 {
+		grid-column-end: 13;
 	}
 }
