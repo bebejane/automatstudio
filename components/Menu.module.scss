@@ -1,6 +1,6 @@
 .menu {
   margin: var(--outer-margin);
-  width: 100%;
+  width: calc(100% - (2 * var(--outer-margin)));
   text-align: center;
   padding-bottom: var(--outer-margin);
 

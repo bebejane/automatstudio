@@ -9,7 +9,10 @@
 
     .image {
       display: flex;
-      grid-column: span 4 / span 4;
+      grid-column: span 12 / span 12;
+      @include mq($from: desktop) {
+        grid-column: span 4 / span 4;
+      }
       background-color: var(--gray);
       padding-top: var(--big-margin);
     }
@@ -32,7 +35,11 @@
     }
 
     .details {
-      grid-column: span 6 / span 6;
+      grid-column: span 12 / span 12;
+
+      @include mq($from: tablet) {
+        grid-column: span 6 / span 6;
+      }
     }
   }
 
