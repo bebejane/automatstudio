@@ -18,7 +18,7 @@ export default function Footer({ }: Props) {
         Skanstull Automatfoto AB < br />
         Rutger Fuchsgatan 9 < br />
         116 67 Stockholm < br />
-        info@automatstudio.se<br />
+        <a href="mailto:info@automatstudio.se">info@automatstudio.se</a><br />
       </p>
     </footer >
   )

@@ -9,7 +9,7 @@ export default function Home({ site }: HomeProps) {
 
 	return (
 		<div className={s.container}>
-			Automatstudio
+			Home
 		</div>
 	)
 }
