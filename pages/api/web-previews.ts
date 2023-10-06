@@ -16,7 +16,7 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
       path = `${(await buildRoute('product', product_id))}?secret=${process.env.DATOCMS_PREVIEW_SECRET}`
       break;
     case 'client':
-      path = await buildRoute('client', client_id)
+      path = `${(await buildRoute('client'))}?secret=${process.env.DATOCMS_PREVIEW_SECRET}&client_id=${client_id}`
       break;
     case 'gallery':
       path = await buildRoute('gallery')

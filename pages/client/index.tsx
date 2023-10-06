@@ -62,7 +62,11 @@ export default function Client({ client, products }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const clientId = props.session.user.id
+  const clientId = props.session?.user.id ?? context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null
+
+  if (!clientId)
+    return { redirect: { destination: '/login', permanent: false } }
+
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
   const { products } = await apiQueryAll(AllProductsByClientDocument, { variables: { id: client.id } })
 
