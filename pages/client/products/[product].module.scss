@@ -27,13 +27,11 @@
 
     .picture {
       margin-top: var(--big-margin);
-      max-height: 50vh;
+      max-height: 50vh !important;
 
       //max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
     }
-
-
 
     form {
       input {
@@ -47,15 +45,21 @@
 
     .details {
       grid-column: span 12 / span 12;
+      @include mq($until: desktop) {
+        padding-top: var(--outer-margin);
+      }
 
-      @include mq($from: tablet) {
+      @include mq($from: desktop) {
         grid-column: span 6 / span 6;
       }
     }
   }
 
   .gallery {
+    display: grid;
+    column-gap: var(--small-margin);
     margin-top: var(--big-margin);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
 
     .images {
       display: grid;
@@ -71,22 +75,19 @@
 
       a {
         display: flex;
-        //grid-column: span 2 / span 2;
-        //@include mq($from: desktop) {
-        //  grid-column: span 1 / span 1;
-        //}
+        grid-column: span 1 / span 1;
       }
 
       li {
         background: var(--gray);
       }
 
-      .image {}
+      .image {
+      }
 
       .picture {
         width: 100% !important;
         object-fit: contain;
-
       }
 
       .placeholder {
@@ -96,9 +97,8 @@
     }
 
     h2 {
-      //grid-column-start: 1;
-      //grid-column-end: 6;
-      //padding-top: 0.5em;
+      grid-column: span 12 / span 12;
+      padding-top: var(--small-margin);
     }
   }
 }
