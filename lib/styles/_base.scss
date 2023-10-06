@@ -2,17 +2,20 @@
 	--black: #161616;
 	--white: rgba(241, 241, 241, 1);
 	--red: #bf0000;
-	--gray: #e6e6e6;
+	--gray: rgba(189, 189, 189, 1);
 	--outer-margin: 1rem;
 	--big-margin: 2rem;
 	--small-margin: 0.5em;
+	--nav-height: calc((6 * var(--outer-margin) + 2rem));
 
 	--background: var(--white);
 	--foreground: var(--black);
 
-	@include mq($from: tablet) {}
+	@include mq($from: tablet) {
+	}
 
-	@include mq($until: tablet) {}
+	@include mq($until: tablet) {
+	}
 }
 
 body {
@@ -61,9 +64,11 @@ a {
 	text-decoration: none;
 	color: var(--foreground);
 
-	&:hover {}
+	&:hover {
+	}
 
-	&:visited {}
+	&:visited {
+	}
 }
 
 article p a {
@@ -107,10 +112,12 @@ button {
 }
 
 figcaption {
-	@include mq($until: tablet) {}
+	@include mq($until: tablet) {
+	}
 }
 
-hr {}
+hr {
+}
 
 input,
 textarea,
@@ -118,7 +125,8 @@ select {
 	background-color: var(--white) !important;
 	border: none !important;
 
-	&:focus {}
+	&:focus {
+	}
 }
 
 select {
@@ -163,8 +171,6 @@ select {
 		}
 	}
 }
-
-
 
 .grid {
 	@include mq($from: desktop) {
