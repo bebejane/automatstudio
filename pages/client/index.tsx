@@ -54,7 +54,7 @@ export default function Client({ client, products }: Props) {
             </li>
           ))}
         </ul>
-        : <div>No batches found</div>
+        : <div>No products found...</div>
       }
     </div >
   )
@@ -62,8 +62,8 @@ export default function Client({ client, products }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, revalidate, context }: any) => {
 
-  const clientId = props.session?.user.id ?? context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null
-  console.log(clientId, context.query.secret, context.query.client_id)
+  const clientId = props.session?.user.id ?? (context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null)
+
   if (!clientId)
     return { redirect: { destination: '/login', permanent: false } }
 
