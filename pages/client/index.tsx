@@ -141,7 +141,6 @@ const generateDownload = async (batch: Batch) => {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
 
-  console.log(context.query.secret, process.env.DATOCMS_PREVIEW_SECRET, context.query.client_id)
   const clientId = props.session?.user.clientId ?? (context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null)
 
   if (!clientId)
