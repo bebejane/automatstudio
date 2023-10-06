@@ -10,18 +10,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!session) return res.status(401).json({ success: false, error: 'Unauthorized' })
 
-    const upload_ids = (req.body.upload_ids as String)?.split(',');
+    const upload_ids = (req.body.upload_ids as String)//?.split(',');
     const filename = req.body.filename;
     const url = `https://kt-api.up.railway.app/automatstudio/download`
+    //const url = `http://localhost:5000/automatstudio/download`
 
     return res.status(200).json({
       url: url,
       username: process.env.BASIC_AUTH_USER,
       password: process.env.BASIC_AUTH_PASSWORD,
-      body: JSON.stringify({
+      body: {
         upload_ids,
         filename,
-      })
+      }
     })
 
   } catch (err) {
