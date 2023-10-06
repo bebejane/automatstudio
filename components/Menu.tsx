@@ -11,18 +11,21 @@ export default function Menu({ }: MenuProps) {
 
   const { data: session, status } = useSession()
 
-  if (status === 'loading') return null
-
   return (
     <nav className={s.menu}>
-      <Link href="/"><h1>Automatstudio</h1></Link>
+      <Link href="/">
+        <h1>Automatstudio</h1>
+      </Link>
       <Link href="/gallery">
         Gallery
       </Link>
       <Link href="/contact">
         Contact
       </Link>
-      <Link href={status === 'authenticated' ? '/client' : '/login'}>
+      <Link
+        href={status === 'authenticated' ? '/client' : '/login'}
+        className={cn(status === 'loading' && s.loading)}
+      >
         {status === 'authenticated' ? 'Account' : 'Login'}
       </Link>
     </nav>
