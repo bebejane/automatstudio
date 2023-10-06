@@ -13,7 +13,7 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
 
   switch (itemType.attributes.api_key) {
     case 'product':
-      path = `${(await buildRoute('product', product_id))}?secret=${process.env.DATO_PREVIEW_SECRET}`
+      path = `${(await buildRoute('product', product_id))}?secret=${process.env.DATOCMS_PREVIEW_SECRET}`
       break;
     case 'client':
       path = await buildRoute('client', client_id)
