@@ -14,6 +14,11 @@ export type Props = {
   products: ProductRecord[]
 }
 
+const createArchiveUrl = (products: ProductRecord[], filename: string) => {
+  const upload_ids = products.map((product) => product.png.id).join(',')
+  return `https://kt-api.up.railway.app/automatstudio/download?upload_ids=${upload_ids}&filename=${filename}`
+}
+
 export default function Client({ client, products }: Props) {
 
   const { data: session, status } = useSession()
@@ -27,7 +32,8 @@ export default function Client({ client, products }: Props) {
 
   const batches = products.length ? [{
     createdAt: products[0]._createdAt,
-    products
+    products,
+    archiveUrl: createArchiveUrl(products, `automatstudio-${format(new Date(products[0]._createdAt), 'yyyy-MM-dd')}.zip`)
   }] : []
 
   return (
@@ -37,7 +43,7 @@ export default function Client({ client, products }: Props) {
           {batches?.map((batch, idx) => (
             <li key={idx}>
               {format(new Date(batch.createdAt), 'yyyy MM dd')}<br />
-              <button>Download archive</button><br />
+              <button><a href={batch.archiveUrl} download>Download archive</a></button><br />
               <ul className={s.images}>
                 {batch.products?.map((product) => (
                   <Link href={`/client/products/${product.productId}`} key={product.id}>
