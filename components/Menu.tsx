@@ -1,12 +1,17 @@
 import s from './Menu.module.scss'
 import cn from 'classnames'
-import { useRouter } from 'next/router'
-import { useState, useRef, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
-export type MenuProps = {}
+export type MenuProps = {
+
+}
 
 export default function Menu({ }: MenuProps) {
+
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') return null
 
   return (
     <nav className={s.menu}>
@@ -17,8 +22,8 @@ export default function Menu({ }: MenuProps) {
       <Link href="/contact">
         Contact
       </Link>
-      <Link href="/login">
-        Login
+      <Link href={status === 'authenticated' ? '/client' : '/login'}>
+        {status === 'authenticated' ? 'Account' : 'Login'}
       </Link>
     </nav>
 

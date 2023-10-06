@@ -10,11 +10,9 @@
 	--background: var(--white);
 	--foreground: var(--black);
 
-	@include mq($from: tablet) {
-	}
+	@include mq($from: tablet) {}
 
-	@include mq($until: tablet) {
-	}
+	@include mq($until: tablet) {}
 }
 
 body {
@@ -63,11 +61,9 @@ a {
 	text-decoration: none;
 	color: var(--foreground);
 
-	&:hover {
-	}
+	&:hover {}
 
-	&:visited {
-	}
+	&:visited {}
 }
 
 article p a {
@@ -111,20 +107,18 @@ button {
 }
 
 figcaption {
-	@include mq($until: tablet) {
-	}
+	@include mq($until: tablet) {}
 }
 
-hr {
-}
+hr {}
 
 input,
 textarea,
 select {
 	background-color: var(--white) !important;
-	border: none;
-	&:focus {
-	}
+	border: none !important;
+
+	&:focus {}
 }
 
 select {
@@ -151,6 +145,14 @@ select {
 	align-items: center;
 }
 
+.error {
+	color: var(--red);
+	font-size: 0.75rem;
+	margin-top: 1em;
+	margin-bottom: 1em;
+
+}
+
 .grid {
 	@include mq($from: desktop) {
 		display: grid;
@@ -165,6 +167,7 @@ select {
 	img {
 		width: 100%;
 	}
+
 	.m0 {
 		grid-column-start: 1;
 	}
@@ -172,33 +175,43 @@ select {
 	.m1 {
 		grid-column-start: 2;
 	}
+
 	.m2 {
 		grid-column-start: 3;
 	}
+
 	.m3 {
 		grid-column-start: 4;
 	}
+
 	.m4 {
 		grid-column-start: 5;
 	}
+
 	.m5 {
 		grid-column-start: 6;
 	}
+
 	.m6 {
 		grid-column-start: 7;
 	}
+
 	.m7 {
 		grid-column-start: 8;
 	}
+
 	.m8 {
 		grid-column-start: 9;
 	}
+
 	.m9 {
 		grid-column-start: 10;
 	}
+
 	.m10 {
 		grid-column-start: 11;
 	}
+
 	.m11 {
 		grid-column-start: 12;
 	}
@@ -206,36 +219,47 @@ select {
 	.e1 {
 		grid-column-end: 2;
 	}
+
 	.e2 {
 		grid-column-end: 3;
 	}
+
 	.e3 {
 		grid-column-end: 4;
 	}
+
 	.e4 {
 		grid-column-end: 5;
 	}
+
 	.e5 {
 		grid-column-end: 6;
 	}
+
 	.e6 {
 		grid-column-end: 7;
 	}
+
 	.e7 {
 		grid-column-end: 8;
 	}
+
 	.e8 {
 		grid-column-end: 9;
 	}
+
 	.e9 {
 		grid-column-end: 10;
 	}
+
 	.e10 {
 		grid-column-end: 11;
 	}
+
 	.e11 {
 		grid-column-end: 12;
 	}
+
 	.e12 {
 		grid-column-end: 13;
 	}

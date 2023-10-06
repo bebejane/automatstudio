@@ -25,13 +25,20 @@ export const authOptions: NextAuthOptions = {
       return true
     },
     async jwt({ token, user }) {
-      if (user?.id)
-        token.id = user.id
+      if (token && user) {
+        //@ts-ignore
+        token.id = user?.id
+        //@ts-ignore
+        token.clientId = user?.clientId
+      }
+
       return token
     },
     async session({ session, token }) {
       //@ts-ignore
-      session.user.id = token.id;
+      session.user.id = token?.id;
+      //@ts-ignore
+      session.user.clientId = token?.clientId;
       return session;
     }
   },
@@ -60,8 +67,9 @@ export const authOptions: NextAuthOptions = {
 
           if (!user) return null
 
-          const session: User = {
-            id: user.client_id as string,
+          const session = {
+            id: user.id as string,
+            clientId: user.client_id as string,
             email: user.email as string,
             name: user.name as string,
             image: null

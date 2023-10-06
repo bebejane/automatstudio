@@ -55,8 +55,13 @@ fragment ProductFragment on ProductRecord {
 	productId
 	tags {
 		... on TagRecord {
+			_createdAt
 			id
 			tag
+			client {
+				id
+				clientId
+			}
 		}
 	}
 	client {

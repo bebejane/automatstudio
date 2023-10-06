@@ -28,8 +28,6 @@
     .picture {
       margin-top: var(--big-margin);
       max-height: 50vh !important;
-
-      //max-height: calc(70vh - (2 * var(--big-margin)));
       object-fit: contain;
     }
 
@@ -41,10 +39,33 @@
         padding: var(--small-margin);
         border: none;
       }
+
+      .tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+
+        .tag {
+          background-color: var(--gray);
+          padding: 0.2em;
+          margin: 0.2em;
+          cursor: pointer;
+
+          .close {
+            margin-left: 0.2em;
+            cursor: pointer;
+          }
+        }
+      }
+
+      &.saving {
+        opacity: 0.5;
+        pointer-events: none;
+      }
     }
 
     .details {
       grid-column: span 12 / span 12;
+
       @include mq($until: desktop) {
         padding-top: var(--outer-margin);
       }
@@ -82,8 +103,7 @@
         background: var(--gray);
       }
 
-      .image {
-      }
+      .image {}
 
       .picture {
         width: 100% !important;

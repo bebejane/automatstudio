@@ -4,10 +4,7 @@ import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { SessionLoader } from '/components';
 
 export type Props = {
   client: ClientRecord
@@ -20,15 +17,6 @@ const createArchiveUrl = (products: ProductRecord[], filename: string) => {
 }
 
 export default function Client({ client, products }: Props) {
-
-  const { data: session, status } = useSession()
-
-  useEffect(() => {
-    if (status === 'loading' || session) return
-    if (status === 'unauthenticated') signIn()
-  }, [session, status])
-
-  if (status === 'loading' || !session) return <SessionLoader />
 
   const batches = products?.length ? [{
     createdAt: products[0]._createdAt,
@@ -60,7 +48,7 @@ export default function Client({ client, products }: Props) {
             </li>
           ))}
         </ul>
-        : <div>No products found...</div>
+        : <div>No products available...</div>
       }
     </div >
   )
@@ -68,7 +56,7 @@ export default function Client({ client, products }: Props) {
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
 
-  const clientId = props.session?.user.id ?? (context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null)
+  const clientId = props.session?.user.clientId ?? (context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null)
 
   if (!clientId)
     return { redirect: { destination: '/login', permanent: false } }

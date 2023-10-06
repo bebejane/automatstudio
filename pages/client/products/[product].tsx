@@ -1,11 +1,11 @@
 import s from './[product].module.scss';
+import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, } from "dato-nextjs-utils/api"
 import { ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { buildRoute } from '/lib/routes';
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 export type Props = {
   product: ProductRecord
@@ -30,12 +30,7 @@ export default function Product({ product }: Props) {
             <br />
             <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
           </p>
-
-          <form>
-            <label htmlFor="name">Tag:</label>
-            <input type="text" id="name" name="name" /><br />
-          </form>
-
+          <TagForm product={product} />
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
@@ -58,7 +53,6 @@ export default function Product({ product }: Props) {
             })}
           </ul>
           <h2>Download {label} ({width}x{height})</h2>
-
         </div>
       ))}
     </div>
@@ -80,3 +74,54 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
     }
   };
 });
+
+
+const TagForm = ({ product }: { product: ProductRecord }) => {
+
+  const [tags, setTags] = useState<TagRecord[]>(product.tags)
+  const [error, setError] = useState<Error | null>(null)
+  const [saving, setSaving] = useState(false)
+
+  const saveTags = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const t = formData.get('tags') as string
+    const product_id = formData.get('product_id') as string
+
+    try {
+
+      setSaving(true)
+
+      const res = await fetch('/api/product', {
+        method: 'POST',
+        body: JSON.stringify({ tags: t, product_id }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (res.status !== 200) throw new Error('Error saving tags')
+
+      const { tags, error } = await res.json()
+
+      if (error)
+        throw new Error(error)
+
+      setTags(tags)
+
+    } catch (e) {
+      setError(e)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <form method="POST" action="/api/product" onSubmit={saveTags} className={cn(saving && s.saving)}>
+      <label htmlFor="tags">Tag:</label>
+      <input type="hidden" id="product_id" name="product_id" value={product.id} />
+      <input type="text" id="tags" name="tags" defaultValue={tags.map((t) => t.tag).join(',')} />
+      {error && <div className="error">{error.message}</div>}
+    </form>
+  )
+}
