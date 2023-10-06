@@ -1,0 +1,12 @@
+fragment ImageBaseFragment on FileField {
+	alt
+	basename
+	format
+	height
+	id
+	mimeType
+	size
+	title
+	url
+	width
+}

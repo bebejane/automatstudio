@@ -12,11 +12,11 @@ export type Props = {
 }
 
 const sizes = [
-  { width: 1080, height: 1920, label: 'Instagram Story', prop: 'instagramStory' },
-  { width: 1080, height: 1080, label: 'Instagram Square', prop: 'instagramSquare' },
+  { width: 1080, height: 1920, label: 'Instagram Story', prop: 'istory' },
+  { width: 1080, height: 1080, label: 'Instagram Square', prop: 'isquare' },
 ]
 
-const colors = ['#cccccc', '#ffffff', '#000000']
+const colors = ['black', 'white', 'gray']
 
 export default function Product({ product }: Props) {
 
@@ -42,10 +42,10 @@ export default function Product({ product }: Props) {
         <div key={idx} className={s.gallery}>
           <ul className={s.images}>
             {colors.map((color, i) => (
-              <a key={i} href={`${product[prop].responsiveImage.src}&bg=${color.replace('#', '')}`} download>
-                <li style={{ backgroundColor: color }}>
+              <a key={i} href={`${product[`${prop}${color}`].responsiveImage.src}`} download>
+                <li>
                   <Image
-                    data={product[prop].responsiveImage}
+                    data={product[`${prop}${color}`].responsiveImage}
                     className={s.image}
                     pictureClassName={s.picture}
                     placeholderClassName={s.placeholder}
