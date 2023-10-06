@@ -49,7 +49,7 @@ export default function Clients({ clients }: Props) {
 				<input type="text" name="username" /><br />
 				<label htmlFor="password">Password:</label>
 				<input type="password" name="password" /><br />
-				<button type="submit" >Log in</button>
+				<button className={cn(loggingIn && 'pulse')} type="submit" >Log in</button>
 			</form>
 		</div>
 	)

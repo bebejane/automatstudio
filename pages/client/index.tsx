@@ -1,29 +1,95 @@
 import s from './index.module.scss';
+import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
 import Link from 'next/link';
+import { useState } from 'react';
 
 export type Props = {
   client: ClientRecord
   products: ProductRecord[]
 }
 
-const createArchiveUrl = (products: ProductRecord[], filename: string) => {
-  const upload_ids = products.map((product) => product.png.id).join(',')
-  //return `https://kt-api.up.railway.app/automatstudio/download?upload_ids=${upload_ids}&filename=${filename}`
-  return `${process.env.NEXT_PUBLIC_SITE_URL}/api/download?upload_ids=${upload_ids}&filename=${filename}`
+type Batch = {
+  date: string
+  createdAt: string
+  products: ProductRecord[]
+  downloading: boolean
+  error: Error | null
+}
+
+const generateBatches = (products: ProductRecord[]): Batch[] => {
+
+  if (!products) return []
+
+  const batches: Batch[] = []
+
+  products.forEach((product) => {
+    const batch = batches.find((batch) => format(new Date(batch.createdAt), 'yyyy MM dd') === format(new Date(product._createdAt), 'yyyy MM dd'))
+    if (batch) {
+      batch.products.push(product)
+    } else {
+      batches.push({
+        date: format(new Date(product._createdAt), 'yyyy MM dd'),
+        createdAt: product._createdAt,
+        products: [product],
+        downloading: false,
+        error: null
+      })
+    }
+  })
+  return batches
 }
 
 export default function Client({ client, products }: Props) {
 
-  const batches = products?.length ? [{
-    createdAt: products[0]._createdAt,
-    products,
-    archiveUrl: createArchiveUrl(products, `automatstudio-${format(new Date(products[0]._createdAt), 'yyyy-MM-dd')}.zip`)
-  }] : []
+  const [downloading, setDownloading] = useState({})
+  const [error, setError] = useState({})
+
+  const batches = generateBatches(products)
+
+  const download = async (batch: Batch) => {
+
+    const { products } = batch
+
+
+    setDownloading({ ...downloading, [batch.date]: true })
+    setError({ ...error, [batch.date]: null })
+
+    try {
+
+      const filename = `automatstudio-${format(new Date(products[0]._createdAt), 'yyyy-MM-dd')}.zip`
+      const upload_ids = products.map((product) => product.png.id).join(',')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download?upload_ids=${upload_ids}&filename=${filename}`)
+      const { url, username, password } = await res.json()
+
+      const dres = await fetch(url, {
+        headers: {
+          'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+        }
+      })
+
+      if (dres.status !== 200)
+        throw new Error('Error generating archive')
+
+      const blob = await dres.blob()
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = downloadUrl
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+
+    } catch (e) {
+      setError({ ...error, [batch.date]: e })
+    } finally {
+      setDownloading({ ...downloading, [batch.date]: false })
+    }
+  }
 
   return (
     <div className={s.container}>
@@ -31,8 +97,12 @@ export default function Client({ client, products }: Props) {
         <ul>
           {batches?.map((batch, idx) => (
             <li key={idx}>
-              {format(new Date(batch.createdAt), 'yyyy MM dd')}<br />
-              <button><a href={batch.archiveUrl} download>Download archive</a></button><br />
+              {batch.date}<br />
+              <button className={cn(downloading[batch.date] && 'pulse')} onClick={() => download(batch)}>
+                {downloading[batch.date] ? 'Generating archive...' : 'Download archive'}
+              </button>
+              {error[batch.date] && <div className="error">{error[batch.date]?.message}</div>}
+              <br />
               <ul className={s.images}>
                 {batch.products?.map((product) => (
                   <Link href={`/client/products/${product.productId}`} key={product.id}>
