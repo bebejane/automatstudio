@@ -12,11 +12,11 @@ export type Props = {
 }
 
 const sizes = [
-  { width: 1080, height: 1920, label: 'Instagram Story', prop: 'instagramStory' },
-  { width: 1080, height: 1080, label: 'Instagram Square', prop: 'instagramSquare' },
+  { width: 1080, height: 1920, label: 'Instagram Story', prop: 'istory' },
+  { width: 1080, height: 1080, label: 'Instagram Square', prop: 'isquare' },
 ]
 
-const colors = ['#cccccc', '#ffffff', '#000000']
+const colors = ['black', 'white', 'gray']
 
 export default function Product({ product }: Props) {
 
@@ -41,18 +41,21 @@ export default function Product({ product }: Props) {
       {sizes.map(({ width, height, label, prop }, idx) => (
         <div key={idx} className={s.gallery}>
           <ul className={s.images}>
-            {colors.map((color, i) => (
-              <a key={i} href={`${product[prop].responsiveImage.src}&bg=${color.replace('#', '')}`} download>
-                <li style={{ backgroundColor: color }}>
-                  <Image
-                    data={product[prop].responsiveImage}
-                    className={s.image}
-                    pictureClassName={s.picture}
-                    placeholderClassName={s.placeholder}
-                  />
-                </li>
-              </a>
-            ))}
+            {colors.map((color, i) => {
+              const image = product[`${prop}${color}`]
+              return (
+                <a key={i} href={image.responsiveImage.src} download>
+                  <li>
+                    <Image
+                      data={image.responsiveImage}
+                      className={s.image}
+                      pictureClassName={s.picture}
+                      placeholderClassName={s.placeholder}
+                    />
+                  </li>
+                </a>
+              )
+            })}
           </ul>
           <h2>Download {label} ({width}x{height})</h2>
 

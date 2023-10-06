@@ -4,11 +4,53 @@ fragment ProductFragment on ProductRecord {
 	png {
 		...ImageFragment
 	}
-	instagramStory: png {
-		...ImageInstagramStoryFragment
+	isquareblack: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
 	}
-	instagramSquare: png {
-		...ImageInstagramSquareFragment
+	isquarewhite: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
+	}
+	isquaregray: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
+	}
+	istoryblack: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
+	}
+	istorywhite: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
+	}
+	istorygray: png {
+		...ImageBaseFragment
+		responsiveImage(
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 80 }
+		) {
+			...ResponsiveImageFragment
+		}
 	}
 	productId
 	tags {

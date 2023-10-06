@@ -36,28 +36,19 @@ declare module '*/ClientLightFragment.gql' {
 }
     
 
+declare module '*/ImageBaseFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ImageBaseFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ImageFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ImageFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/ImageInstagramSquareFragment.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const ImageInstagramSquareFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
-declare module '*/ImageInstagramStoryFragment.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const ImageInstagramStoryFragment: DocumentNode;
 
   export default defaultDocument;
 }
@@ -85,6 +76,15 @@ declare module '*/ProductFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ProductFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/ResponsiveImageFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ResponsiveImageFragment: DocumentNode;
 
   export default defaultDocument;
 }
