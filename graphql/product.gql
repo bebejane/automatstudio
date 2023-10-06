@@ -8,16 +8,32 @@ query AllProducts {
 }
 
 query AllProductsByClient($id: ItemId) {
-	products: allProducts(filter: { client: { eq: $id } }) {
+	products: allProducts(
+		filter: {
+			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+		}
+	) {
 		...ProductFragment
 	}
-	pagination: _allProductsMeta(filter: { client: { eq: $id } }) {
+	pagination: _allProductsMeta(
+		filter: {
+			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+		}
+	) {
 		count
 	}
 }
 
 query Product($productId: String) {
-	product(filter: { productId: { eq: $productId } }) {
+	product(
+		filter: {
+			AND: [
+				{ productId: { eq: $productId } }
+				{ png: { exists: true } }
+				{ tiff: { exists: true } }
+			]
+		}
+	) {
 		...ProductFragment
 	}
 }

@@ -30,7 +30,7 @@ export default function Client({ client, products }: Props) {
 
   if (status === 'loading' || !session) return <SessionLoader />
 
-  const batches = products.length ? [{
+  const batches = products?.length ? [{
     createdAt: products[0]._createdAt,
     products,
     archiveUrl: createArchiveUrl(products, `automatstudio-${format(new Date(products[0]._createdAt), 'yyyy-MM-dd')}.zip`)
