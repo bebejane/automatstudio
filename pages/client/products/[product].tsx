@@ -41,18 +41,21 @@ export default function Product({ product }: Props) {
       {sizes.map(({ width, height, label, prop }, idx) => (
         <div key={idx} className={s.gallery}>
           <ul className={s.images}>
-            {colors.map((color, i) => (
-              <a key={i} href={`${product[`${prop}${color}`].responsiveImage.src}`} download>
-                <li>
-                  <Image
-                    data={product[`${prop}${color}`].responsiveImage}
-                    className={s.image}
-                    pictureClassName={s.picture}
-                    placeholderClassName={s.placeholder}
-                  />
-                </li>
-              </a>
-            ))}
+            {colors.map((color, i) => {
+              const image = product[`${prop}${color}`]
+              return (
+                <a key={i} href={image.responsiveImage.src} download>
+                  <li>
+                    <Image
+                      data={image.responsiveImage}
+                      className={s.image}
+                      pictureClassName={s.picture}
+                      placeholderClassName={s.placeholder}
+                    />
+                  </li>
+                </a>
+              )
+            })}
           </ul>
           <h2>Download {label} ({width}x{height})</h2>
 
