@@ -106,7 +106,7 @@ const generateDownload = async (batch: Batch) => {
     throw new Error('No products to download')
 
   const filename = `automatstudio-${formatDate(products[0]._createdAt)}.zip`
-  const upload_ids = products.map((product) => product.png.id).join(',')
+  const upload_ids = products.map((product) => product.png.id)
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
     method: 'POST',
     headers: {
