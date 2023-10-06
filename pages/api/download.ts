@@ -20,7 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
     res.setHeader('Content-Type', 'application/zip');
-    readableStream.pipe(res);
+    readableStream.pipe(res).on('close', () => {
+      console.log('done')
+      res.status(200).end()
+    });
 
   } catch (err) {
     console.log(err)
