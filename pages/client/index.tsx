@@ -5,85 +5,25 @@ import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import Link from 'next/link';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export type Props = {
   client: ClientRecord
   products: ProductRecord[]
 }
 
-type Batch = {
-  date: string
-  createdAt: string
-  products: ProductRecord[]
-  downloading: boolean
-  error: Error | null
-}
-
-const generateBatches = (products: ProductRecord[]): Batch[] => {
-
-  if (!products) return []
-
-  const batches: Batch[] = []
-
-  products.forEach((product) => {
-    const batch = batches.find((batch) => format(new Date(batch.createdAt), 'yyyy MM dd') === format(new Date(product._createdAt), 'yyyy MM dd'))
-    if (batch) {
-      batch.products.push(product)
-    } else {
-      batches.push({
-        date: format(new Date(product._createdAt), 'yyyy MM dd'),
-        createdAt: product._createdAt,
-        products: [product],
-        downloading: false,
-        error: null
-      })
-    }
-  })
-  return batches
-}
-
 export default function Client({ client, products }: Props) {
 
+  const batches = generateBatches(products)
   const [downloading, setDownloading] = useState({})
   const [error, setError] = useState({})
 
-  const batches = generateBatches(products)
-
   const download = async (batch: Batch) => {
-
-    const { products } = batch
-
-
     setDownloading({ ...downloading, [batch.date]: true })
     setError({ ...error, [batch.date]: null })
-
     try {
-
-      const filename = `automatstudio-${format(new Date(products[0]._createdAt), 'yyyy-MM-dd')}.zip`
-      const upload_ids = products.map((product) => product.png.id).join(',')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download?upload_ids=${upload_ids}&filename=${filename}`)
-      const { url, username, password } = await res.json()
-
-      const dres = await fetch(url, {
-        headers: {
-          'Authorization': `Basic ${btoa(`${username}:${password}`)}`
-        }
-      })
-
-      if (dres.status !== 200)
-        throw new Error('Error generating archive')
-
-      const blob = await dres.blob()
-      const downloadUrl = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = downloadUrl
-      a.download = filename
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-
+      await generateDownload(batch)
     } catch (e) {
       setError({ ...error, [batch.date]: e })
     } finally {
@@ -123,6 +63,77 @@ export default function Client({ client, products }: Props) {
       }
     </div >
   )
+}
+
+type Batch = {
+  date: string
+  createdAt: string
+  products: ProductRecord[]
+  downloading: boolean
+  error: Error | null
+}
+
+const generateBatches = (products: ProductRecord[]): Batch[] => {
+
+  if (!products) return []
+
+  const batches: Batch[] = []
+
+  products.forEach((product) => {
+    const batch = batches.find((batch) => formatDate(batch.createdAt) === formatDate(product._createdAt))
+    if (batch) {
+      batch.products.push(product)
+    } else {
+      batches.push({
+        date: formatDate(product._createdAt),
+        createdAt: product._createdAt,
+        products: [product],
+        downloading: false,
+        error: null
+      })
+    }
+  })
+  return batches
+}
+
+const formatDate = (date: string) => format(new Date(date), 'yyyy-MM-dd')
+
+const generateDownload = async (batch: Batch) => {
+
+  const { products } = batch
+
+  if (!products || products.length === 0)
+    throw new Error('No products to download')
+
+  const filename = `automatstudio-${formatDate(products[0]._createdAt)}.zip`
+  const upload_ids = products.map((product) => product.png.id).join(',')
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ upload_ids, filename })
+  })
+  const { url, username, password } = await res.json()
+
+  const dres = await fetch(url, {
+    headers: {
+      'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+    }
+  })
+
+  if (dres.status !== 200)
+    throw new Error('Error generating archive')
+
+  const blob = await dres.blob()
+  const downloadUrl = window.URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = downloadUrl
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+
 }
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
