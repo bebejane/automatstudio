@@ -4,7 +4,7 @@ import { DatoSEO } from 'dato-nextjs-utils/components';
 import { useRouter } from 'next/router';
 import { PageProvider } from '/lib/context/page';
 import { Layout } from '/components';
-import { SessionProvider, getSession } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
 import { DefaultDatoSEO } from 'dato-nextjs-utils/components';
 
 function MyApp({ Component, pageProps }: AppProps) {
