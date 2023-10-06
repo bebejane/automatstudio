@@ -13,7 +13,8 @@ export type Props = {
 
 const createArchiveUrl = (products: ProductRecord[], filename: string) => {
   const upload_ids = products.map((product) => product.png.id).join(',')
-  return `https://kt-api.up.railway.app/automatstudio/download?upload_ids=${upload_ids}&filename=${filename}`
+  //return `https://kt-api.up.railway.app/automatstudio/download?upload_ids=${upload_ids}&filename=${filename}`
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/api/download?upload_ids=${upload_ids}&filename=${filename}`
 }
 
 export default function Client({ client, products }: Props) {
