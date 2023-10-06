@@ -4,12 +4,11 @@ import { buildRoute } from '/lib/routes';
 export default withRevalidate(async (record, revalidate) => {
 
   const { api_key: apiKey } = record.model;
-  const { product_id, client_id } = record
   const paths = []
 
   switch (apiKey) {
-    case 'client':
-      paths.push(await buildRoute('client', client_id))
+    case 'start':
+      paths.push(await buildRoute('start'))
       break;
     case 'gallery':
       paths.push(await buildRoute('gallery'))

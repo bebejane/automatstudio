@@ -1,6 +1,6 @@
 import { buildClient } from "@datocms/cma-client-browser"
 
-const client = buildClient({ apiToken: process.env.NEXT_PUBLIC_GRAPHQL_API_TOKEN })
+const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN })
 
 type Routes = {
   [key: string]: Route
