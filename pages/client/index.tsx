@@ -114,14 +114,17 @@ const generateDownload = async (batch: Batch) => {
     },
     body: JSON.stringify({ upload_ids, filename })
   })
-  const { url, username, password } = await res.json()
+
+  const { url, username, password, body } = await res.json()
 
   const dres = await fetch(url, {
+    method: 'POST',
     headers: {
       'Authorization': `Basic ${btoa(`${username}:${password}`)}`
-    }
+    },
+    body
   })
-
+  console.log(dres)
   if (dres.status !== 200)
     throw new Error('Error generating archive')
 
