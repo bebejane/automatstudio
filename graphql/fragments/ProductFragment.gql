@@ -7,7 +7,7 @@ fragment ProductFragment on ProductRecord {
 	isquareblack: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 80 }
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
@@ -15,7 +15,7 @@ fragment ProductFragment on ProductRecord {
 	isquarewhite: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 80 }
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
@@ -23,7 +23,7 @@ fragment ProductFragment on ProductRecord {
 	isquaregray: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 80 }
+			imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
@@ -31,7 +31,7 @@ fragment ProductFragment on ProductRecord {
 	istoryblack: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 80 }
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#000000", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
@@ -39,7 +39,7 @@ fragment ProductFragment on ProductRecord {
 	istorywhite: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 80 }
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#FFFFFF", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
@@ -47,7 +47,7 @@ fragment ProductFragment on ProductRecord {
 	istorygray: png {
 		...ImageBaseFragment
 		responsiveImage(
-			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 80 }
+			imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: "#BDBDBD", pad: 160 }
 		) {
 			...ResponsiveImageFragment
 		}
