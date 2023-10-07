@@ -12,13 +12,15 @@ export type Props = {
 
 export default function DownloadZipButton({ products, label, generating, className }: Props) {
   const [downloading, setDownloading] = useState(false)
+  const [progress, setProgress] = useState<number | null>(null)
   const [error, setError] = useState(null)
 
   const download = async () => {
     setDownloading(true)
     setError(null)
+    setProgress(null)
     try {
-      await generateDownload(products)
+      await generateDownload(products, setProgress)
     } catch (e) {
       setError(e)
     } finally {
@@ -29,14 +31,14 @@ export default function DownloadZipButton({ products, label, generating, classNa
   return (
     <>
       <button className={cn(className, downloading && 'pulse')} onClick={download}>
-        {downloading ? generating : label}
+        {downloading ? `${generating}${progress !== null ? ` ${progress}%` : ''}` : label}
       </button>
       {error && <div className="error">{error?.message}</div>}
     </>
   )
 }
 
-const generateDownload = async (products: ProductRecord[] | ProductRecord) => {
+const generateDownload = async (products: ProductRecord[] | ProductRecord, setProgress: React.Dispatch<React.SetStateAction<number>>) => {
 
   if (!products)
     throw new Error('No products to download')
@@ -54,14 +56,34 @@ const generateDownload = async (products: ProductRecord[] | ProductRecord) => {
   })
 
   const { url, username, password, body } = await res.json()
-  const dres = await fetch(url, {
+
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Authorization': `Basic ${btoa(`${username}:${password}`)}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  })
+  });
+
+  const contentLength = response.headers.get('content-length');
+  const total = parseInt(contentLength, 10);
+  let loaded = 0;
+
+  const dres = new Response(new ReadableStream({
+    async start(controller) {
+      const reader = response.body.getReader();
+      for (; ;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        loaded += value.byteLength;
+        setProgress(Math.round(((loaded / total) * 100)))
+        controller.enqueue(value);
+      }
+      controller.close();
+    },
+  }));
+
 
   if (dres.status !== 200)
     throw new Error('Error generating archive')

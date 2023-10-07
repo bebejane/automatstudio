@@ -1,7 +1,6 @@
 import s from './Footer.module.scss'
 import cn from 'classnames'
 import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/router'
 
 type Props = {
 

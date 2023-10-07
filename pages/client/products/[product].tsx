@@ -32,9 +32,9 @@ export default function Product({ product }: Props) {
             <DownloadZipButton
               products={product}
               label="Download images"
-              generating="Generating archive..."
+              generating="Download images"
             />
-            &nbsp;
+            <br />
             <span>(inc png, high-res tif and clipping path)</span>
           </p>
           <TagForm product={product} />
