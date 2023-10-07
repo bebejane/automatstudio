@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (!session) {
       pingEndpoint('/api/auth/session', 'GET')
+      pingEndpoint('/client', 'GET')
     }
   }, [session])
 
