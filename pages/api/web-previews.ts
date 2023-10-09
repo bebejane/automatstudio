@@ -1,11 +1,11 @@
-import { withWebPreviewsEdge } from 'dato-nextjs-utils/hoc';
+import { withWebPreviewsEdge, withBasicAuthEdge } from 'dato-nextjs-utils/hoc';
 import { buildRoute } from '/lib/routes';
 
 export const config = {
   runtime: 'edge'
 }
 
-export default withWebPreviewsEdge(async ({ item, itemType }) => {
+export default withBasicAuthEdge(withWebPreviewsEdge(async ({ item, itemType }) => {
 
   let path = null;
 
@@ -29,4 +29,4 @@ export default withWebPreviewsEdge(async ({ item, itemType }) => {
   }
 
   return path
-})
+}))
