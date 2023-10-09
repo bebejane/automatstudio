@@ -10,6 +10,7 @@ form {
   font-weight: 600;
   letter-spacing: 0.05em;
   line-height: 1.35em;
+  word-spacing: 0.125em;
 
   @include mq($from: tablet) {
     font-size: 28px;
