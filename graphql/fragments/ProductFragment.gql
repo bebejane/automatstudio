@@ -1,7 +1,11 @@
 fragment ProductFragment on ProductRecord {
 	_createdAt
 	id
+	productId
 	png {
+		...ImageFragment
+	}
+	tiff {
 		...ImageFragment
 	}
 	isquareblack: png {
@@ -52,7 +56,6 @@ fragment ProductFragment on ProductRecord {
 			...ResponsiveImageFragment
 		}
 	}
-	productId
 	tags {
 		... on TagRecord {
 			_createdAt

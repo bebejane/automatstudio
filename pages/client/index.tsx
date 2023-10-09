@@ -4,32 +4,28 @@ import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { Image } from 'react-datocms'
-import { format } from 'date-fns'
-import { useState } from 'react';
+import { formatDate } from '/lib/utils';
 import Link from 'next/link';
+import { DownloadZipButton } from '/components';
 
 export type Props = {
   client: ClientRecord
   products: ProductRecord[]
 }
 
+type Batch = {
+  date: string
+  createdAt: string
+  products: ProductRecord[]
+  downloading: boolean
+  error: Error | null
+}
+
+
 export default function Client({ client, products }: Props) {
 
   const batches = generateBatches(products)
-  const [downloading, setDownloading] = useState({})
-  const [error, setError] = useState({})
 
-  const download = async (batch: Batch) => {
-    setDownloading({ ...downloading, [batch.date]: true })
-    setError({ ...error, [batch.date]: null })
-    try {
-      await generateDownload(batch)
-    } catch (e) {
-      setError({ ...error, [batch.date]: e })
-    } finally {
-      setDownloading({ ...downloading, [batch.date]: false })
-    }
-  }
 
   return (
     <div className={s.container}>
@@ -38,10 +34,11 @@ export default function Client({ client, products }: Props) {
           {batches?.map((batch, idx) => (
             <li key={idx}>
               {batch.date}<br />
-              <button className={cn(downloading[batch.date] && 'pulse')} onClick={() => download(batch)}>
-                {downloading[batch.date] ? 'Generating archive...' : 'Download archive'}
-              </button>
-              {error[batch.date] && <div className="error">{error[batch.date]?.message}</div>}
+              <DownloadZipButton
+                products={products}
+                label="Download archive"
+                generating="Download archive"
+              />
               <br />
               <ul className={s.images}>
                 {batch.products?.map((product) => (
@@ -65,13 +62,6 @@ export default function Client({ client, products }: Props) {
   )
 }
 
-type Batch = {
-  date: string
-  createdAt: string
-  products: ProductRecord[]
-  downloading: boolean
-  error: Error | null
-}
 
 const generateBatches = (products: ProductRecord[]): Batch[] => {
 
@@ -94,49 +84,6 @@ const generateBatches = (products: ProductRecord[]): Batch[] => {
     }
   })
   return batches
-}
-
-const formatDate = (date: string) => format(new Date(date), 'yyyy-MM-dd')
-
-const generateDownload = async (batch: Batch) => {
-
-  const { products } = batch
-
-  if (!products || products.length === 0)
-    throw new Error('No products to download')
-
-  const filename = `automatstudio-${formatDate(products[0]._createdAt)}.zip`
-  const upload_ids = products.map((product) => product.png.id)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ upload_ids, filename })
-  })
-
-  const { url, username, password, body } = await res.json()
-  const dres = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Basic ${btoa(`${username}:${password}`)}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-
-  if (dres.status !== 200)
-    throw new Error('Error generating archive')
-
-  const blob = await dres.blob()
-  const downloadUrl = window.URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = downloadUrl
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-
 }
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {

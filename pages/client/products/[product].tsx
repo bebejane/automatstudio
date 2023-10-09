@@ -6,6 +6,7 @@ import { ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
 import { useState } from 'react';
+import { DownloadZipButton } from '/components';
 
 export type Props = {
   product: ProductRecord
@@ -28,7 +29,13 @@ export default function Product({ product }: Props) {
           {format(new Date(product._createdAt), 'yyyy MM dd')}<br />
           <p>
             <br />
-            <button className="full">Download images</button> <span>(inc png, high-res tif and clipping path)</span>
+            <DownloadZipButton
+              products={product}
+              label="Download images"
+              generating="Download images"
+            />
+            <br />
+            <span>(inc png, high-res tif and clipping path)</span>
           </p>
           <TagForm product={product} />
         </div>
@@ -58,23 +65,6 @@ export default function Product({ product }: Props) {
     </div>
   )
 }
-
-export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
-
-  if (!props.session && (!context.query.secret || context.query.secret !== process.env.DATOCMS_PREVIEW_SECRET))
-    return { redirect: { destination: '/login', permanent: false } }
-
-  const productId = context.params.product
-  const { product } = await apiQuery(ProductDocument, { variables: { productId } })
-
-  return {
-    props: {
-      ...props,
-      product
-    }
-  };
-});
-
 
 const TagForm = ({ product }: { product: ProductRecord }) => {
 
@@ -125,3 +115,19 @@ const TagForm = ({ product }: { product: ProductRecord }) => {
     </form>
   )
 }
+
+export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
+
+  if (!props.session && (!context.query.secret || context.query.secret !== process.env.DATOCMS_PREVIEW_SECRET))
+    return { redirect: { destination: '/login', permanent: false } }
+
+  const productId = context.params.product
+  const { product } = await apiQuery(ProductDocument, { variables: { productId } })
+
+  return {
+    props: {
+      ...props,
+      product
+    }
+  };
+});

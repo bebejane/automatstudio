@@ -1,6 +1,7 @@
 export { default as SessionLoader } from './auth/SessionLoader'
 export { default as Block } from './blocks'
 export { default as Content } from './Content'
+export { default as DownloadZipButton } from './DownloadZipButton'
 export { default as Footer } from './Footer'
 export { default as Layout } from './Layout'
 export { default as Menu } from './Menu'
