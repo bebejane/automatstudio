@@ -32,6 +32,14 @@ const routes: Routes = {
   "client": {
     typeName: "ClientRecord",
     basePath: "/client"
+  },
+  "gallery": {
+    typeName: "GalleryRecord",
+    basePath: "/gallery"
+  },
+  "contact": {
+    typeName: "ContactRecord",
+    basePath: "/contact"
   }
 }
 
