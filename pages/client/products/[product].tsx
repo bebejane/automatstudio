@@ -67,6 +67,7 @@ export default function Product({ product: productFromProps, tags }: Props) {
                       className={s.image}
                       pictureClassName={s.picture}
                       placeholderClassName={s.placeholder}
+                      intersectionMargin="0px 0px 200% 0px"
                     />
                   </li>
                 </a>
