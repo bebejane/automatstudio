@@ -12,15 +12,18 @@ const client = buildClient({
 });
 
 const allClientTags = async (id: string): Promise<TagRecord[]> => {
-  return await client.items.list({
+  const tags = [];
+  for await (const record of client.items.listPagedIterator({
     filter: {
       type: 'tag',
       page: { limit: 30 },
       fields: { client: { eq: id } },
-
     },
     order_by: '_createdAt_DESC'
-  }) as unknown as TagRecord[];
+  })) {
+    tags.push(record);
+  }
+  return tags as TagRecord[];
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -30,8 +33,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!session) return res.status(401).json({ success: false, error: 'Unauthorized' })
 
-    if (req.method !== 'POST')
-      return res.status(405).json({ success: false, error: 'Method not allowed' })
+    if (req.method !== 'POST') // Ping
+      return res.status(200).json({ success: false })
 
     //@ts-ignore
     const id = session.user.id as string;
@@ -49,6 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       client.itemTypes.list(),
       allClientTags(id)
     ])
+
     const tagItemTypeId = itemTypes.find((itemType: any) => itemType.api_key === 'tag').id
     const tagsToAdd = product.tags?.filter(({ id, tag }) => !id || (!clientTags.find((clientTag: any) => clientTag.tag.toLowerCase() === tag.toLowerCase())));
     const tagsToRemove = productRecord.tags.filter((t) => !product.tags.find(({ tag }) => tag.toLowerCase() === t.tag.toLowerCase()));

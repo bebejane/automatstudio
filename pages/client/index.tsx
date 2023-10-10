@@ -36,7 +36,7 @@ export default function Client({ client, products }: Props) {
               <DownloadZipButton
                 products={products}
                 label="Download archive"
-                generating="Download archive"
+                generating="Generating archive"
               />
               <br />
               <ul className={s.images}>

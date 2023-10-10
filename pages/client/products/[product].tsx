@@ -5,8 +5,9 @@ import { apiQuery, apiQueryAll, } from "dato-nextjs-utils/api"
 import { AllClientTagsDocument, ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DownloadZipButton } from '/components';
+import { pingEndpoint } from '/lib/utils';
 
 export type Props = {
   product: ProductRecord
@@ -25,6 +26,10 @@ export default function Product({ product: productFromProps, tags }: Props) {
   const [product, setProduct] = useState(productFromProps)
   const [allTags, setAllTags] = useState<TagRecord[]>(tags)
 
+  useEffect(() => {
+    pingEndpoint('/api/product', 'GET')
+  }, [])
+
   return (
     <div className={s.container}>
       <div className={s.intro}>
@@ -41,7 +46,12 @@ export default function Product({ product: productFromProps, tags }: Props) {
             <br />
             <span>(inc png, high-res tif and clipping path)</span>
           </p>
-          <TagForm product={product} allTags={allTags} setProduct={setProduct} setAllTags={setAllTags} />
+          <TagForm
+            product={product}
+            allTags={allTags}
+            setProduct={setProduct}
+            setAllTags={setAllTags}
+          />
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
@@ -89,6 +99,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
     console.log('save tags function')
     try {
 
+      setQuery('')
       setSaving(true)
       setError(null)
 
@@ -143,6 +154,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
           placeholder="Tags..."
           onChange={(e) => setQuery(e.target.value)} value={query}
         />
+        {saving && <span className={s.loader} />}
         <div className={cn(s.alltags, filteredTags.length > 0 && s.show)}>
           {filteredTags.map((t, i) =>
             <div

@@ -47,6 +47,7 @@
         input {
           margin-left: 0;
           padding-left: 0;
+          width: 100%;
 
           &:focus {
             outline: none;
@@ -57,26 +58,32 @@
           position: absolute;
           display: none;
           background-color: var(--white);
-          padding: 0.5em;
           flex-direction: column;
           top: calc(1em + var(--small-margin));
           left: 0;
           border: 1px solid rgb(204, 204, 204);
-          z-index: 10000;
+          z-index: var(--z-tags-popup);
+          max-height: 300px;
+          overflow-y: scroll;
 
           .tag {
-            margin: 0.2em 0;
             cursor: pointer;
+            padding: 0.3em;
+
+            @include mq($from: desktop) {
+              &:hover {
+                background-color: var(--gray);
+              }
+            }
           }
 
           &.show {
             display: flex;
           }
         }
-
       }
 
-
+      // End Form
 
       .tags {
         display: inline-flex;
@@ -84,13 +91,23 @@
 
         .tag {
           background-color: var(--gray);
-          padding: 0.2em;
+          padding: 0.4em;
           margin-right: 0.2em;
           cursor: pointer;
+          margin-bottom: 0.2em;
 
           .close {
-            margin-left: 0.2em;
+            margin-left: 0.5em;
             cursor: pointer;
+
+            @include mq($from: desktop) {
+              opacity: 0.3;
+
+              &:hover {
+                opacity: 1;
+              }
+
+            }
           }
         }
       }
@@ -141,8 +158,7 @@
         //background: var(--gray);
       }
 
-      .image {
-      }
+      .image {}
 
       .picture {
         width: 100% !important;
@@ -159,5 +175,29 @@
       grid-column: span 12 / span 12;
       padding-top: var(--small-margin);
     }
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  border: 4px solid var(--gray);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 0.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
