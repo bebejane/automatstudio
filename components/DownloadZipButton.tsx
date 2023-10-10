@@ -2,25 +2,34 @@ import s from './DownloadZipButton.module.scss'
 import cn from 'classnames'
 import React, { useState } from 'react'
 import { formatDate } from '/lib/utils'
+import { Loader } from '/components'
 
 export type Props = {
   products: ProductRecord[] | ProductRecord
   label: string
-  generating: string
+  status: {
+    generating: string
+    downloading: string
+  }
   className?: string
 }
 
-export default function DownloadZipButton({ products, label, generating, className }: Props) {
+export default function DownloadZipButton({ products, label, status, className }: Props) {
+
   const [downloading, setDownloading] = useState(false)
   const [progress, setProgress] = useState<number | null>(null)
+  const [contentLength, setContentLength] = useState<number | null>(null)
   const [error, setError] = useState(null)
 
   const download = async () => {
+    if (downloading) return
     setDownloading(true)
     setError(null)
     setProgress(null)
+    setContentLength(null)
+
     try {
-      await generateDownload(products, setProgress)
+      await generateDownload(products, setProgress, setContentLength)
     } catch (e) {
       setError(e)
     } finally {
@@ -28,30 +37,37 @@ export default function DownloadZipButton({ products, label, generating, classNa
     }
   }
 
+  const isGenerating = downloading && progress === null && contentLength === null
+  const isDownloading = downloading && progress !== null && contentLength !== null
+
   return (
     <>
-      <button className={cn(className, downloading && 'pulse')} onClick={download}>
-        {downloading ? `${generating}${progress !== null ? ` ${progress}%` : ''}` : label}
+      <button className={cn(className, downloading)} onClick={download}>
+        {!isGenerating && !isDownloading && label}
+        {isGenerating && <>{status.generating} <Loader /></>}
+        {isDownloading && `${status.downloading} ${progress !== null ? ` ${progress}` : '0'}%`}
       </button>
       {error && <div className="error">{error?.message}</div>}
     </>
   )
 }
 
-const generateDownload = async (products: ProductRecord[] | ProductRecord, setProgress: React.Dispatch<React.SetStateAction<number>>) => {
+const generateDownload = async (
+  products: ProductRecord[] | ProductRecord,
+  setProgress: React.Dispatch<React.SetStateAction<number>>,
+  setContentLength?: React.Dispatch<React.SetStateAction<number>>
+) => {
 
   if (!products)
     throw new Error('No products to download')
 
   const isSingle = !Array.isArray(products)
-
   const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
   const upload_ids = isSingle ? [products.png.id, products.tiff.id] : products.map((product) => product.png.id)
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ upload_ids, filename })
   })
 
@@ -66,9 +82,10 @@ const generateDownload = async (products: ProductRecord[] | ProductRecord, setPr
     body: JSON.stringify(body)
   });
 
-  const contentLength = response.headers.get('content-length');
-  const total = parseInt(contentLength, 10);
+  const contentLength = parseInt(response.headers.get('content-length'), 10);
   let loaded = 0;
+
+  setContentLength(contentLength)
 
   const dres = new Response(new ReadableStream({
     async start(controller) {
@@ -77,7 +94,7 @@ const generateDownload = async (products: ProductRecord[] | ProductRecord, setPr
         const { done, value } = await reader.read();
         if (done) break;
         loaded += value.byteLength;
-        setProgress(Math.round(((loaded / total) * 100)))
+        setProgress(Math.round(((loaded / contentLength) * 100)))
         controller.enqueue(value);
       }
       controller.close();

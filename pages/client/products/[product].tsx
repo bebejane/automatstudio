@@ -6,7 +6,7 @@ import { AllClientTagsDocument, ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
 import { useEffect, useRef, useState } from 'react';
-import { DownloadZipButton } from '/components';
+import { DownloadZipButton, Loader } from '/components';
 import { pingEndpoint } from '/lib/utils';
 
 export type Props = {
@@ -41,7 +41,10 @@ export default function Product({ product: productFromProps, tags }: Props) {
             <DownloadZipButton
               products={product}
               label="Download images"
-              generating="Download images"
+              status={{
+                downloading: 'Download images',
+                generating: 'Generating zip file...',
+              }}
             />
             <br />
             <span>(inc png, high-res tif and clipping path)</span>
@@ -155,7 +158,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
           placeholder="Tags..."
           onChange={(e) => setQuery(e.target.value)} value={query}
         />
-        {saving && <span className={s.loader} />}
+        {saving && <Loader className={s.loader} />}
         <div className={cn(s.alltags, filteredTags.length > 0 && s.show)}>
           {filteredTags.map((t, i) =>
             <div
