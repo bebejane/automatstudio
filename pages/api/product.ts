@@ -4,9 +4,12 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '/pages/api/auth/[...nextauth]';
 import { buildClient } from '@datocms/cma-client-browser';
 
-const client = buildClient({ apiToken: process.env.DATOCMS_CMA_API_TOKEN });
+const client = buildClient({
+  apiToken: process.env.DATOCMS_CMA_API_TOKEN,
+  environment: process.env.DATOCMS_ENVIRONMENT
+});
 
-const allClientTags = async (id: string) => {
+const allClientTags = async (id: string): Promise<TagRecord[]> => {
   return await client.items.list({
     filter: {
       type: 'tag',
@@ -15,7 +18,7 @@ const allClientTags = async (id: string) => {
 
     },
     order_by: '_createdAt_DESC'
-  });
+  }) as unknown as TagRecord[];
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -30,22 +33,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     //@ts-ignore
     const id = session.user.id as string;
-    const productId = req.body.product_id;
+    const { product }: { product: ProductRecord } = req.body;
 
-    if (!productId)
-      return res.status(400).json({ success: false, error: 'Missing product id' })
-
-    const product = await client.items.find(productId);
-
-    if (!product)
-      return res.status(400).json({ success: false, error: `Product not found: ${productId}` })
+    if (!product.productId)
+      return res.status(400).json({ success: false, error: 'Missing product' })
 
     const tagItemType = (await client.itemTypes.list()).find((itemType: any) => itemType.api_key === 'tag').id;
     const clientTags = await allClientTags(id)
-    const tags = req.body.tags?.split(',')?.map((tag: string) => tag.trim()).filter((tag: string) => tag);
-    const tagsToAdd = tags?.filter((tag: string) => !clientTags.find((clientTag: any) => clientTag.tag.toLowerCase() === tag.toLowerCase()));
+    const tagsToAdd = product.tags?.filter(({ id, tag }) => !id || (!clientTags.find((clientTag: any) => clientTag.tag.toLowerCase() === tag.toLowerCase())));
 
-    await Promise.all(tagsToAdd?.map((tag: string) => client.items.create({
+    await Promise.all(tagsToAdd?.map(({ tag }) => client.items.create({
       item_type: {
         type: 'item_type',
         id: tagItemType
@@ -55,11 +52,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })));
 
     const allTags = await allClientTags(id);
-    const productTags = allTags.filter((tag: any) => tags?.includes(tag.tag)).map((tag: any) => tag.id)
+    console.log(allTags)
+    const productTags = allTags.filter((t) => !product.tags.find(({ id }) => id === t.id))
     await client.items.update(product.id, {
-      tags: productTags
+      tags: productTags.map(({ id }) => id)
     })
-    return res.status(200).json({ success: true, tags: productTags })
+    return res.status(200).json({ success: true, product: { ...product, tags: productTags } })
   } catch (err) {
     console.log(err)
     return res.status(500).json({ success: false, error: err })

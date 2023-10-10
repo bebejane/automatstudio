@@ -1,15 +1,16 @@
 import s from './[product].module.scss';
 import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
-import { apiQuery, } from "dato-nextjs-utils/api"
-import { ProductDocument } from "/graphql"
+import { apiQuery, apiQueryAll, } from "dato-nextjs-utils/api"
+import { AllClientTagsDocument, ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { DownloadZipButton } from '/components';
 
 export type Props = {
   product: ProductRecord
+  tags: TagRecord[]
 }
 
 const sizes = [
@@ -19,7 +20,9 @@ const sizes = [
 
 const colors = ['black', 'white', 'gray']
 
-export default function Product({ product }: Props) {
+export default function Product({ product: productFromProps, tags }: Props) {
+
+  const [product, setProduct] = useState(productFromProps)
 
   return (
     <div className={s.container}>
@@ -37,7 +40,7 @@ export default function Product({ product }: Props) {
             <br />
             <span>(inc png, high-res tif and clipping path)</span>
           </p>
-          <TagForm product={product} />
+          <TagForm product={product} allTags={tags} setProduct={setProduct} />
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
@@ -66,51 +69,97 @@ export default function Product({ product }: Props) {
   )
 }
 
-const TagForm = ({ product }: { product: ProductRecord }) => {
+const TagForm = ({ product, setProduct, allTags }: { product: ProductRecord, setProduct, allTags: TagRecord[] }) => {
 
-  const [tags, setTags] = useState<TagRecord[]>(product.tags)
+  const [pTags, setPTags] = useState<TagRecord[]>(product.tags)
   const [error, setError] = useState<Error | null>(null)
   const [saving, setSaving] = useState(false)
+  const [query, setQuery] = useState('')
+  const ref = useRef<HTMLFormElement | null>(null)
+  const filteredTags = allTags.filter((tag) => query && !pTags.find(t => t.id === tag.id) && tag.tag.toLowerCase().startsWith(query.toLowerCase()))
 
-  const saveTags = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const t = formData.get('tags') as string
-    const product_id = formData.get('product_id') as string
+    const tag = formData.get('tag')
+    setQuery('')
+    setPTags([...pTags, { tag } as TagRecord])
+  }
+
+  const saveTags = useCallback(() => async () => {
 
     try {
 
       setSaving(true)
-
+      setError(null)
+      console.log({ product: { ...product, tags: pTags } })
       const res = await fetch('/api/product', {
         method: 'POST',
-        body: JSON.stringify({ tags: t, product_id }),
+        body: JSON.stringify({ product: { ...product, tags: pTags } }),
         headers: {
           'Content-Type': 'application/json'
         }
       })
 
-      if (res.status !== 200) throw new Error('Error saving tags')
+      const data = await res.json()
 
-      const { tags, error } = await res.json()
+      if (data.error)
+        throw new Error(data.error)
 
-      if (error)
-        throw new Error(error)
-
-      setTags(tags)
+      setProduct(data.product)
 
     } catch (e) {
       setError(e)
     } finally {
       setSaving(false)
     }
-  }
+  }, [product, pTags, setProduct])
+
+  useEffect(() => {
+    if (JSON.stringify(pTags) !== JSON.stringify(product.tags))
+      saveTags()
+  }, [pTags, product.tags, saveTags])
 
   return (
-    <form method="POST" action="/api/product" onSubmit={saveTags} className={cn(saving && s.saving)}>
-      <label htmlFor="tags">Tag:</label>
+    <form
+      ref={ref}
+      method="POST"
+      action="/api/product"
+      onSubmit={submitForm}
+      className={cn(saving && s.saving)}
+    >
       <input type="hidden" id="product_id" name="product_id" value={product.id} />
-      <input type="text" id="tags" name="tags" defaultValue={tags.map((t) => t.tag).join(',')} />
+
+      <div className={s.tagInput}>
+        <input
+          type="text"
+          name="tag"
+          autoComplete="off"
+          autoCapitalize="off"
+          autoCorrect="off"
+          placeholder="Tags..."
+          onChange={(e) => setQuery(e.target.value)} value={query}
+        />
+        <div className={cn(s.alltags, filteredTags.length > 0 && s.show)}>
+          {filteredTags.map((t, i) =>
+            <div
+              key={i}
+              className={cn(s.tag, query.toLowerCase() === t.tag.toLowerCase() && s.selected)}
+              onClick={() => {
+                setQuery('')
+                setPTags([...pTags, t])
+              }}
+            >
+              {t.tag}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className={s.tags}>
+        {product.tags.map((t, i) =>
+          <span key={i} className={s.tag}>{t.tag}<span className={s.close}>×</span></span>
+        )}
+      </div>
       {error && <div className="error">{error.message}</div>}
     </form>
   )
@@ -123,11 +172,13 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
 
   const productId = context.params.product
   const { product } = await apiQuery(ProductDocument, { variables: { productId } })
+  const { tags } = await apiQueryAll(AllClientTagsDocument, { variables: { id: product.client.id } })
 
   return {
     props: {
       ...props,
-      product
+      product,
+      tags
     }
   };
 });

@@ -4,6 +4,7 @@ declare module '*/client.gql' {
   const defaultDocument: DocumentNode;
   export const AllClients: DocumentNode;
 export const Client: DocumentNode;
+export const AllClientTags: DocumentNode;
 
   export default defaultDocument;
 }

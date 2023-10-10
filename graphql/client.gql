@@ -12,3 +12,13 @@ query Client($clientId: String) {
 		...ClientFragment
 	}
 }
+
+query AllClientTags($id: ItemId) {
+	tags: allTags(filter: { client: { eq: $id } }) {
+		id
+		tag
+	}
+	pagination: _allClientsMeta {
+		count
+	}
+}

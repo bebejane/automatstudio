@@ -40,6 +40,44 @@
         border: none;
       }
 
+      .tagInput {
+        display: inline;
+        position: relative;
+
+        input {
+          margin-left: 0;
+          padding-left: 0;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .alltags {
+          position: absolute;
+          display: none;
+          background-color: var(--white);
+          padding: 0.5em;
+          flex-direction: column;
+          top: calc(1em + var(--small-margin));
+          left: 0;
+          border: 1px solid rgb(204, 204, 204);
+          z-index: 10000;
+
+          .tag {
+            margin: 0.2em 0;
+            cursor: pointer;
+          }
+
+          &.show {
+            display: flex;
+          }
+        }
+
+      }
+
+
+
       .tags {
         display: inline-flex;
         flex-wrap: wrap;
@@ -47,7 +85,7 @@
         .tag {
           background-color: var(--gray);
           padding: 0.2em;
-          margin: 0.2em;
+          margin-right: 0.2em;
           cursor: pointer;
 
           .close {

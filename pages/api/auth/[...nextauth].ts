@@ -4,7 +4,7 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { buildClient } from '@datocms/cma-client-browser';
 
-const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN })
+const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN, environment: process.env.DATOCMS_ENVIRONMENT })
 
 //export const config = { runtime: 'experimental-edge' }
 
