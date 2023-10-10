@@ -1,5 +1,5 @@
-query AllClients {
-	clients: allClients {
+query AllClients($first: IntType = 10, $skip: IntType = 0) {
+	clients: allClients(first: $first, skip: $skip) {
 		...ClientLightFragment
 	}
 	pagination: _allClientsMeta {
@@ -13,8 +13,8 @@ query Client($clientId: String) {
 	}
 }
 
-query AllClientTags($id: ItemId) {
-	tags: allTags(filter: { client: { eq: $id } }) {
+query AllClientTags($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
+	tags: allTags(first: $first, skip: $skip, filter: { client: { eq: $id } }) {
 		id
 		tag
 	}

@@ -18,7 +18,7 @@ type VideoBlockExtended = VideoBlockRecord & {
 }
 
 export default function Gallery({ gallery }: Props) {
-	console.log(gallery)
+
 	return (
 		<div className={s.container}>
 			{gallery.content.map((item) => (

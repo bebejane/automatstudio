@@ -1,5 +1,5 @@
-query AllProducts {
-	products: allProducts {
+query AllProducts($first: IntType = 10, $skip: IntType = 0) {
+	products: allProducts(first: $first, skip: $skip) {
 		...ProductFragment
 	}
 	pagination: _allProductsMeta {
