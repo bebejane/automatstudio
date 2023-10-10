@@ -47,6 +47,7 @@ export default function Client({ client, products }: Props) {
                         data={product.png.responsiveImage}
                         className={s.image}
                         pictureClassName={s.picture}
+                        intersectionMargin="0px 0px 200% 0px"
                       />
                     </li>
                   </Link>
