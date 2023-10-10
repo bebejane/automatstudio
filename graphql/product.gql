@@ -7,13 +7,15 @@ query AllProducts {
 	}
 }
 
-query AllProductsByClient($id: ItemId) {
+query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
 	products: allProducts(
+		first: $first
+		skip: $skip
 		filter: {
 			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
 		}
 	) {
-		...ProductFragment
+		...ProductLightFragment
 	}
 	pagination: _allProductsMeta(
 		filter: {

@@ -1,0 +1,8 @@
+fragment ProductLightFragment on ProductRecord {
+	_createdAt
+	id
+	productId
+	png {
+		...ImageThumbnailFragment
+	}
+}

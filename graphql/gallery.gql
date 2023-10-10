@@ -11,6 +11,9 @@ query Gallery {
 			... on TextBlockRecord {
 				...TextBlock
 			}
+			... on VideoBlockRecord {
+				...VideoBlock
+			}
 		}
 	}
 }
@@ -35,5 +38,12 @@ fragment ImagesBlock on ImagesBlockRecord {
 	id
 	images {
 		...ImageBlock
+	}
+}
+
+fragment VideoBlock on VideoBlockRecord {
+	id
+	video {
+		...VideoFragment
 	}
 }

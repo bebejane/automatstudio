@@ -4,12 +4,21 @@ import { GalleryDocument } from '/graphql';
 import withGlobalProps from '/lib/withGlobalProps';
 import type { GetStaticProps } from 'next'
 import { DatoMarkdown as Markdown } from 'dato-nextjs-utils/components';
+
 export type Props = {
 	gallery: GalleryRecord
 }
 
-export default function Gallery({ gallery }: Props) {
+type VideoBlockExtended = VideoBlockRecord & {
+	video: {
+		video: {
+			mp4high: string
+		}
+	}
+}
 
+export default function Gallery({ gallery }: Props) {
+	console.log(gallery)
 	return (
 		<div className={s.container}>
 			{gallery.content.map((item) => (
@@ -28,7 +37,11 @@ export default function Gallery({ gallery }: Props) {
 								<div className={`m${item.margin} e${item.end}`}>
 									<Markdown className={s.text}>{item.text}</Markdown>
 								</div>
-								: null
+								: item.__typename === 'VideoBlockRecord' ?
+									<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
+										<source src={(item as VideoBlockExtended).video.video.mp4high} type="video/mp4" />
+									</video>
+									: null
 					}
 				</div>
 			)
