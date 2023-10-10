@@ -12,6 +12,8 @@ export type Props = {
 type VideoBlockExtended = VideoBlockRecord & {
 	video: {
 		video: {
+			mp4low: string
+			mp4med: string
 			mp4high: string
 		}
 	}

@@ -23,6 +23,7 @@ const colors = ['black', 'white', 'gray']
 export default function Product({ product: productFromProps, tags }: Props) {
 
   const [product, setProduct] = useState(productFromProps)
+  const [allTags, setAllTags] = useState<TagRecord[]>(tags)
 
   return (
     <div className={s.container}>
@@ -40,7 +41,7 @@ export default function Product({ product: productFromProps, tags }: Props) {
             <br />
             <span>(inc png, high-res tif and clipping path)</span>
           </p>
-          <TagForm product={product} allTags={tags} setProduct={setProduct} />
+          <TagForm product={product} allTags={allTags} setProduct={setProduct} setAllTags={setAllTags} />
         </div>
       </div>
       {sizes.map(({ width, height, label, prop }, idx) => (
@@ -69,33 +70,38 @@ export default function Product({ product: productFromProps, tags }: Props) {
   )
 }
 
-const TagForm = ({ product, setProduct, allTags }: { product: ProductRecord, setProduct, allTags: TagRecord[] }) => {
+const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: ProductRecord, setProduct, allTags: TagRecord[], setAllTags }) => {
 
-  const [pTags, setPTags] = useState<TagRecord[]>(product.tags)
   const [error, setError] = useState<Error | null>(null)
   const [saving, setSaving] = useState(false)
   const [query, setQuery] = useState('')
   const ref = useRef<HTMLFormElement | null>(null)
-  const filteredTags = allTags.filter((tag) => query && !pTags.find(t => t.id === tag.id) && tag.tag.toLowerCase().startsWith(query.toLowerCase()))
+  const filteredTags = allTags.filter((tag) => query && !product.tags.find(t => t.id === tag.id) && tag.tag.toLowerCase().startsWith(query.toLowerCase()))
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const tag = formData.get('tag')
-    setQuery('')
-    setPTags([...pTags, { tag } as TagRecord])
+    const tag = (formData.get('tag') as string)?.trim()
+    save(allTags.find(t => t.tag.toLowerCase() === tag.toLowerCase()) || tag)
   }
 
-  const saveTags = useCallback(() => async () => {
-
+  const save = async (tag: TagRecord | string, remove = false) => {
+    console.log('save tags function')
     try {
 
       setSaving(true)
       setError(null)
-      console.log({ product: { ...product, tags: pTags } })
+
+      const tags = [...product.tags]
+
+      if (!remove)
+        tags.push(typeof tag === 'string' ? { tag } as TagRecord : tag)
+      else if (typeof tag !== 'string')
+        tags.splice(tags.findIndex(t => t.id === tag.id), 1)
+
       const res = await fetch('/api/product', {
         method: 'POST',
-        body: JSON.stringify({ product: { ...product, tags: pTags } }),
+        body: JSON.stringify({ product: { ...product, tags } }),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -107,18 +113,15 @@ const TagForm = ({ product, setProduct, allTags }: { product: ProductRecord, set
         throw new Error(data.error)
 
       setProduct(data.product)
+      setAllTags(data.allTags)
 
     } catch (e) {
       setError(e)
     } finally {
+      setQuery('')
       setSaving(false)
     }
-  }, [product, pTags, setProduct])
-
-  useEffect(() => {
-    if (JSON.stringify(pTags) !== JSON.stringify(product.tags))
-      saveTags()
-  }, [pTags, product.tags, saveTags])
+  }
 
   return (
     <form
@@ -145,10 +148,7 @@ const TagForm = ({ product, setProduct, allTags }: { product: ProductRecord, set
             <div
               key={i}
               className={cn(s.tag, query.toLowerCase() === t.tag.toLowerCase() && s.selected)}
-              onClick={() => {
-                setQuery('')
-                setPTags([...pTags, t])
-              }}
+              onClick={() => save(t)}
             >
               {t.tag}
             </div>
@@ -157,7 +157,10 @@ const TagForm = ({ product, setProduct, allTags }: { product: ProductRecord, set
       </div>
       <div className={s.tags}>
         {product.tags.map((t, i) =>
-          <span key={i} className={s.tag}>{t.tag}<span className={s.close}>×</span></span>
+          <span key={i} className={s.tag}>
+            {t.tag}
+            <span className={s.close} onClick={() => save(t, true)}>×</span>
+          </span>
         )}
       </div>
       {error && <div className="error">{error.message}</div>}

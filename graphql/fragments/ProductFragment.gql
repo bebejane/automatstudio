@@ -61,10 +61,6 @@ fragment ProductFragment on ProductRecord {
 			_createdAt
 			id
 			tag
-			client {
-				id
-				clientId
-			}
 		}
 	}
 	client {

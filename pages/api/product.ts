@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '/pages/api/auth/[...nextauth]';
 import { buildClient } from '@datocms/cma-client-browser';
+import { apiQuery } from 'dato-nextjs-utils/api';
+import { ProductDocument } from '/graphql';
 
 const client = buildClient({
   apiToken: process.env.DATOCMS_CMA_API_TOKEN,
@@ -38,30 +40,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!product.productId)
       return res.status(400).json({ success: false, error: 'Missing product' })
 
-    const tagItemType = (await client.itemTypes.list()).find((itemType: any) => itemType.api_key === 'tag').id;
-    const clientTags = await allClientTags(id)
+    const [
+      { product: productRecord },
+      itemTypes,
+      clientTags
+    ] = await Promise.all([
+      apiQuery(ProductDocument, { variables: { id: product.productId } }),
+      client.itemTypes.list(),
+      allClientTags(id)
+    ])
+    const tagItemTypeId = itemTypes.find((itemType: any) => itemType.api_key === 'tag').id
     const tagsToAdd = product.tags?.filter(({ id, tag }) => !id || (!clientTags.find((clientTag: any) => clientTag.tag.toLowerCase() === tag.toLowerCase())));
+    const tagsToRemove = productRecord.tags.filter((t) => !product.tags.find(({ tag }) => tag.toLowerCase() === t.tag.toLowerCase()));
 
-    await Promise.all(tagsToAdd?.map(({ tag }) => client.items.create({
-      item_type: {
-        type: 'item_type',
-        id: tagItemType
-      },
-      tag,
-      client: id
-    })));
+    await Promise.all(tagsToAdd?.map(({ tag }) =>
+      client.items.create({
+        item_type: {
+          type: 'item_type',
+          id: tagItemTypeId
+        },
+        tag: tag.trim(),
+        client: id
+      })
+    ));
 
     const allTags = await allClientTags(id);
-    console.log(allTags)
-    const productTags = allTags.filter((t) => !product.tags.find(({ id }) => id === t.id))
+    const productTags = allTags.filter((t) => product.tags.find(({ tag }) => tag.toLowerCase() === t.tag.toLowerCase()))
+
     await client.items.update(product.id, {
-      tags: productTags.map(({ id }) => id)
+      tags: productTags.map(({ id }) => id).filter((id) => !tagsToRemove.find((t) => t.id === id)),
     })
-    return res.status(200).json({ success: true, product: { ...product, tags: productTags } })
+
+    return res.status(200).json({ product: { ...product, tags: productTags }, allTags })
   } catch (err) {
-    console.log(err)
-    return res.status(500).json({ success: false, error: err })
+    console.error(err)
+    return res.status(500).json({ error: err.message || err })
   }
-
-
 }
