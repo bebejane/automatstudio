@@ -40,6 +40,8 @@
       background-color: var(--gray);
       transition: background-color 0.5s;
       margin-bottom: var(--small-margin);
+      display: flex;
+      align-items: flex-end;
 
       &:hover {
         background-color: var(--black);
