@@ -5,10 +5,10 @@
 	"scripts": {
 		"dev": "npm run dev:watch",
 		"dev:test": "DATOCMS_ENVIRONMENT=dev npm run dev:watch",
-		"dev:watch": "next dev & npm run barrel:watch & graphql-codegen --watch",
+		"dev:watch": "node server.js & npm run barrel:watch & graphql-codegen --watch",
 		"build": "next build",
 		"codegen": "graphql-codegen",
-		"start": "next start",
+		"start": "NODE_ENV=production node server.js",
 		"lint": "next lint",
 		"preview": "npm run build && npm run start",
 		"barrel": "node ./lib/scripts/barrel",
