@@ -1,4 +1,3 @@
-require('log-prefix')('[automatstudio]');
 import multer from 'multer';
 import fs from 'fs';
 import { buildClient } from '@datocms/cma-client-node';
