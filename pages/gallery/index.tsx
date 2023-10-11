@@ -48,11 +48,6 @@ export default function Gallery({ gallery }: Props) {
 							<Markdown className={s.text}>{item.text}</Markdown>
 						</div>
 					}
-					{item.__typename === 'VideoBlockRecord' &&
-						<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
-							<source src={(item as VideoBlockExtended).video.video.mp4high} type="video/mp4" />
-						</video>
-					}
 				</div>
 			))}
 		</div>

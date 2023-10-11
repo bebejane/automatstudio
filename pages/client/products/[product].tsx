@@ -89,7 +89,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
   const [error, setError] = useState<Error | null>(null)
   const [saving, setSaving] = useState(false)
   const [query, setQuery] = useState('')
-  const ref = useRef<HTMLFormElement | null>(null)
+  const ref = useRef<HTMLInputElement | null>(null)
   const filteredTags = allTags.filter((tag) => query && !product.tags.find(t => t.id === tag.id) && tag.tag.toLowerCase().startsWith(query.toLowerCase()))
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,7 +140,6 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
 
   return (
     <form
-      ref={ref}
       method="POST"
       action="/api/product"
       onSubmit={submitForm}
@@ -150,12 +149,13 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
 
       <div className={s.tagInput}>
         <input
+          ref={ref}
           type="text"
           name="tag"
           autoComplete="off"
           autoCapitalize="off"
           autoCorrect="off"
-          placeholder="Tags..."
+          placeholder="Add tag..."
           onChange={(e) => setQuery(e.target.value)} value={query}
         />
         {saving && <Loader className={s.loader} />}

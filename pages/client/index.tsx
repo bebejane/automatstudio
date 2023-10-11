@@ -23,7 +23,7 @@ type Batch = {
 
 
 export default function Client({ client, products }: Props) {
-
+  console.log(products)
   const batches = generateBatches(products)
 
   return (

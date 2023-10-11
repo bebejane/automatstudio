@@ -11,9 +11,6 @@ query Gallery {
 			... on TextBlockRecord {
 				...TextBlock
 			}
-			... on VideoBlockRecord {
-				...VideoBlock
-			}
 		}
 	}
 }
