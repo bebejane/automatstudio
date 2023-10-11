@@ -174,8 +174,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
       <div className={s.tags}>
         {product.tags.map((t, i) =>
           <span key={i} className={s.tag}>
-            {t.tag}
-            <span className={s.close} onClick={() => save(t, true)}>×</span>
+            {t.tag}<span className={s.close} onClick={() => save(t, true)}>×</span>
           </span>
         )}
       </div>

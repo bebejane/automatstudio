@@ -64,7 +64,7 @@
           border: 1px solid rgb(204, 204, 204);
           z-index: var(--z-tags-popup);
           max-height: 300px;
-          overflow-y: scroll;
+          //overflow-y: scroll;
 
           .tag {
             cursor: pointer;
@@ -97,7 +97,7 @@
           margin-bottom: 0.2em;
 
           .close {
-            margin-left: 0.5em;
+            margin-left: 0.2em;
             cursor: pointer;
 
             @include mq($from: desktop) {
@@ -106,7 +106,6 @@
               &:hover {
                 opacity: 1;
               }
-
             }
           }
         }
@@ -158,7 +157,8 @@
         //background: var(--gray);
       }
 
-      .image {}
+      .image {
+      }
 
       .picture {
         width: 100% !important;
