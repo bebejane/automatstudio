@@ -32,11 +32,6 @@ html {
 	box-sizing: border-box;
 }
 
-html,
-body {
-	//height: 100%;
-}
-
 ::-webkit-scrollbar {
 	-webkit-appearance: none;
 	background: var(--beige-light);
@@ -118,6 +113,7 @@ hr {}
 input,
 textarea,
 select {
+	font-size: 1rem;
 	background-color: var(--white) !important;
 	border: none !important;
 

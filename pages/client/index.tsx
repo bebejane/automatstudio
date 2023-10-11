@@ -2,7 +2,7 @@ import s from './index.module.scss';
 import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { ClientDocument, AllProductsByClientDocument } from "/graphql"
+import { ClientDocument, AllProductsByClientDocument, ProductDocument, AllProductsDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { formatDate } from '/lib/utils';
 import Link from 'next/link';
@@ -20,7 +20,6 @@ type Batch = {
   downloading: boolean
   error: Error | null
 }
-
 
 export default function Client({ client, products }: Props) {
 
