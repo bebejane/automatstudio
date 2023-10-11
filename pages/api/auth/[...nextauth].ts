@@ -1,12 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { NextAuthOptions, User } from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { buildClient } from '@datocms/cma-client-browser';
-
-const client = buildClient({ apiToken: process.env.GRAPHQL_API_TOKEN, environment: process.env.DATOCMS_ENVIRONMENT })
-
-//export const config = { runtime: 'experimental-edge' }
+import client from '/lib/client';
 
 export const authOptions: NextAuthOptions = {
   session: {

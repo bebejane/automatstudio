@@ -1,15 +1,10 @@
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { buildClient } from '@datocms/cma-client-node';
 import { Readable } from 'stream';
 import withAuthentication from '/lib/withAuthentication';
 import yazl from 'yazl'
 import { Session } from 'next-auth';
-
-const dato_client = buildClient({
-  apiToken: process.env.DATOCMS_CMA_API_TOKEN,
-  environment: process.env.DATOCMS_ENVIRONMENT
-});
+import client from '/lib/client';
 
 const temp_dir = `/tmp`
 
@@ -35,7 +30,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
     const uploads = []
 
-    for await (const record of dato_client.uploads.listPagedIterator({ filter: { ids: upload_ids.join(',') }, version: 'latest' }))
+    for await (const record of client.uploads.listPagedIterator({ filter: { ids: upload_ids.join(',') }, version: 'latest' }))
       uploads.push(record)
 
     console.log('got uploads from dato')

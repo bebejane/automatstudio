@@ -1,8 +1,17 @@
 import multer from 'multer';
 import fs from 'fs';
-import { buildClient } from '@datocms/cma-client-node';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withBasicAuth } from 'dato-nextjs-utils/hoc';
+import client from '/lib/client';
+
+const upload_destination = `/tmp`
+const upload = multer({ dest: upload_destination })
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 type NextApiRequestWithFile = NextApiRequest & { file: any }
 
@@ -13,20 +22,6 @@ type FileData = {
   file_path: string
   tags?: string[]
 }
-
-const dato_client = buildClient({
-  apiToken: process.env.DATOCMS_CMA_API_TOKEN,
-  environment: process.env.DATOCMS_ENVIRONMENT
-});
-
-const upload_destination = `/tmp`
-const upload = multer({ dest: upload_destination })
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiResponse) => {
   try {
@@ -74,13 +69,13 @@ const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 const upsertProduct = async (data: FileData) => {
 
   console.log('upserting product', data.product_id, data.file_name,)
-  const client = (await dato_client.items.list({ filter: { type: "client", fields: { client_id: { eq: data.client_id } } } }))[0]
+  const clientRecord = (await client.items.list({ filter: { type: "client", fields: { client_id: { eq: data.client_id } } } }))[0]
 
-  if (!client)
+  if (!clientRecord)
     throw new Error(`Client with id "${data.client_id}" not found`)
 
-  const itemTypes = await dato_client.itemTypes.list()
-  let product = (await dato_client.items.list({ filter: { type: "product", fields: { product_id: { eq: data.product_id } } } }))[0]
+  const itemTypes = await client.itemTypes.list()
+  let product = (await client.items.list({ filter: { type: "product", fields: { product_id: { eq: data.product_id } } } }))[0]
 
   const type = data.file_name.toLowerCase().includes('backside') ? 'back' : data.file_name.toLowerCase().endsWith('png') ? 'png' : data.file_name.toLowerCase().endsWith('tif') || data.file_name.toLowerCase().endsWith('tiff') ? 'tiff' : null
 
@@ -88,14 +83,14 @@ const upsertProduct = async (data: FileData) => {
     throw new Error(`File type not supported: ${data.file_name}`)
 
   console.log('uploading file', data.product_id, data.file_name)
-  const upload = await dato_client.uploads.createFromLocalFile({
+  const upload = await client.uploads.createFromLocalFile({
     localPath: data.file_path,
     filename: `${data.client_id}_${data.product_id}_${data.file_name}`,
     skipCreationIfAlreadyExists: true
   })
 
   const product_data = {
-    client: client.id,
+    client: clientRecord.id,
     product_id: data.product_id,
     png: type === 'png' ? { upload_id: upload.id } : undefined,
     tiff: type === 'tiff' ? { upload_id: upload.id } : undefined,
@@ -104,10 +99,10 @@ const upsertProduct = async (data: FileData) => {
 
   if (product) {
     console.log('updating product', data.product_id)
-    product = await dato_client.items.update(product.id, product_data)
+    product = await client.items.update(product.id, product_data)
   } else {
     console.log('creating product', data.product_id)
-    product = await dato_client.items.create({
+    product = await client.items.create({
       item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "product").id },
       ...product_data
     })
@@ -115,7 +110,6 @@ const upsertProduct = async (data: FileData) => {
 
   return product
 }
-
 
 function run_middleware(req: NextApiRequest, res: NextApiResponse, fn: (req: NextApiRequest, res: NextApiResponse, cb: (result: any) => any) => void): Promise<any> {
   return new Promise((resolve, reject) => {
