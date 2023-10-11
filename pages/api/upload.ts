@@ -10,7 +10,7 @@ const dato_client = buildClient({
   environment: process.env.NODE_ENV === 'development' ? 'dev' : 'main'
 });
 
-const upload_destination = `${__dirname}/tmp`
+const upload_destination = `/tmp`
 const upload = multer({ dest: upload_destination })
 
 type NextApiRequestWithFile = NextApiRequest & { file: any }

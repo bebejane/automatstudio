@@ -11,7 +11,7 @@ const dato_client = buildClient({
   environment: 'main'
 });
 
-const temp_dir = `${process.cwd()}/tmp`
+const temp_dir = `/tmp`
 
 export const config = {
   api: {
@@ -20,7 +20,7 @@ export const config = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log(temp_dir)
+
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) return res.status(401).json({ success: false, error: 'Unauthorized' })
