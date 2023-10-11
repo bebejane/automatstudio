@@ -5,6 +5,16 @@ import { buildClient } from '@datocms/cma-client-node';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withBasicAuth } from 'dato-nextjs-utils/hoc';
 
+type NextApiRequestWithFile = NextApiRequest & { file: any }
+
+type FileData = {
+  client_id: string
+  product_id: string
+  file_name: string
+  file_path: string
+  tags?: string[]
+}
+
 const dato_client = buildClient({
   apiToken: process.env.DATOCMS_CMA_API_TOKEN,
   environment: process.env.DATOCMS_ENVIRONMENT
@@ -13,7 +23,11 @@ const dato_client = buildClient({
 const upload_destination = `/tmp`
 const upload = multer({ dest: upload_destination })
 
-type NextApiRequestWithFile = NextApiRequest & { file: any }
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiResponse) => {
   try {
@@ -34,14 +48,6 @@ export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiRes
       fs.unlinkSync(`${upload_destination}/${req.file.filename}`)
   }
 })
-
-type FileData = {
-  client_id: string
-  product_id: string
-  file_name: string
-  file_path: string
-  tags?: string[]
-}
 
 const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
