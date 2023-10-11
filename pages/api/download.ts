@@ -6,7 +6,7 @@ import yazl from 'yazl'
 import { Session } from 'next-auth';
 import client from '/lib/client';
 
-const temp_dir = `${process.cwd()}/tmp`
+const temp_dir = `/tmp`
 
 export const config = {
   api: {

@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { withBasicAuth } from 'dato-nextjs-utils/hoc';
 import client from '/lib/client';
 
-const upload_destination = `${process.cwd()}/tmp`
+const upload_destination = `/tmp`
 const upload = multer({ dest: upload_destination })
 
 export const config = {
