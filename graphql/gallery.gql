@@ -2,11 +2,11 @@ query Gallery {
 	gallery {
 		id
 		content {
-			... on ImageBlockRecord {
-				...ImageBlock
+			... on MediaBlockRecord {
+				...MediaBlock
 			}
-			... on ImagesBlockRecord {
-				...ImagesBlock
+			... on MediasBlockRecord {
+				...MediasBlock
 			}
 			... on TextBlockRecord {
 				...TextBlock
@@ -25,19 +25,19 @@ fragment TextBlock on TextBlockRecord {
 	end
 }
 
-fragment ImageBlock on ImageBlockRecord {
+fragment MediaBlock on MediaBlockRecord {
 	id
-	image {
-		...ImageFragment
+	media {
+		...MediaFragment
 	}
 	margin
 	end
 }
 
-fragment ImagesBlock on ImagesBlockRecord {
+fragment MediasBlock on MediasBlockRecord {
 	id
-	images {
-		...ImageBlock
+	medias {
+		...MediaBlock
 	}
 }
 

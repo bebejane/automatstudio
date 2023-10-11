@@ -9,7 +9,16 @@ export type Props = {
 	gallery: GalleryRecord
 }
 
-type VideoBlockExtended = VideoBlockRecord & {
+type MediaBlock = {
+	media: {
+		video: {
+			mp4low: string
+			mp4med: string
+			mp4high: string
+		}
+	}
+}
+type VideoBlock = {
 	video: {
 		video: {
 			mp4low: string
@@ -19,36 +28,53 @@ type VideoBlockExtended = VideoBlockRecord & {
 	}
 }
 
+type VideoBlockExtended = VideoBlockRecord & VideoBlock
+type MediaBlockExtended = MediaBlockRecord & MediaBlock
+
 export default function Gallery({ gallery }: Props) {
 
 	return (
 		<div className={s.container}>
 			{gallery.content.map((item) => (
 				<div key={item.id} className="grid">
-					{item.__typename === 'ImageBlockRecord' ?
+					{item.__typename === 'MediaBlockRecord' &&
+						<MediaBlock data={item as MediaBlockExtended} />
+					}
+					{item.__typename === 'MediasBlockRecord' && item.medias.map((item, idx) =>
+						<MediaBlock key={idx} data={item as MediaBlockExtended} />
+					)}
+					{item.__typename === 'TextBlockRecord' &&
 						<div className={`m${item.margin} e${item.end}`}>
-							<Image data={item.image.responsiveImage} className={s.image} pictureClassName={s.picture} />
+							<Markdown className={s.text}>{item.text}</Markdown>
 						</div>
-						: item.__typename === 'ImagesBlockRecord' ?
-							item.images.map((item, idx) =>
-								<div key={idx} className={`m${item.margin} e${item.end}`}>
-									<Image data={item.image.responsiveImage} className={s.image} pictureClassName={s.picture} />
-								</div>
-							)
-							: item.__typename === 'TextBlockRecord' ?
-								<div className={`m${item.margin} e${item.end}`}>
-									<Markdown className={s.text}>{item.text}</Markdown>
-								</div>
-								: item.__typename === 'VideoBlockRecord' ?
-									<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
-										<source src={(item as VideoBlockExtended).video.video.mp4high} type="video/mp4" />
-									</video>
-									: null
+					}
+					{item.__typename === 'VideoBlockRecord' &&
+						<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
+							<source src={(item as VideoBlockExtended).video.video.mp4high} type="video/mp4" />
+						</video>
 					}
 				</div>
-			)
-			)}
-		</div >
+			))}
+		</div>
+	)
+}
+
+
+const MediaBlock = ({ data: { media, margin, end } }: { data: MediaBlockExtended }) => {
+
+	return (
+		<div className={`m${margin} e${end}`}>
+			{media.video !== null ?
+				<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
+					<source src={media.video.mp4high} type="video/mp4" />
+				</video>
+				:
+				<Image
+					data={media.responsiveImage}
+					className={s.image}
+					pictureClassName={s.picture}
+				/>}
+		</div>
 	)
 }
 

@@ -73,6 +73,15 @@ declare module '*/ImageTiffFragment.gql' {
 }
     
 
+declare module '*/MediaFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const MediaFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ProductFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -132,8 +141,8 @@ declare module '*/gallery.gql' {
   const defaultDocument: DocumentNode;
   export const Gallery: DocumentNode;
 export const TextBlock: DocumentNode;
-export const ImageBlock: DocumentNode;
-export const ImagesBlock: DocumentNode;
+export const MediaBlock: DocumentNode;
+export const MediasBlock: DocumentNode;
 export const VideoBlock: DocumentNode;
 
   export default defaultDocument;
