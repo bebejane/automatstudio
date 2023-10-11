@@ -8,6 +8,9 @@ fragment ProductFragment on ProductRecord {
 	tiff {
 		...ImageFragment
 	}
+	back {
+		...ImageFragment
+	}
 	isquareblack: png {
 		...ImageBaseFragment
 		responsiveImage(
