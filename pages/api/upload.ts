@@ -45,12 +45,9 @@ export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiRes
 
 const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
-  const file = req.file.originalname
   const { client_id, product_id, } = req.body
-  const file_name = req.file.filename
+  const file_name = req.file.originalname
   const file_path = `${upload_destination}/${file_name}`
-
-  if (!file) throw new Error("File name is empty")
 
   if (!client_id) throw new Error("Client id is empty")
   if (!product_id) throw new Error("Product id is empty")
