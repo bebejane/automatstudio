@@ -100,7 +100,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
   }
 
   const save = async (tag: TagRecord | string, remove = false) => {
-    console.log('save tags function')
+
     try {
 
       setQuery('')

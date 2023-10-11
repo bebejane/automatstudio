@@ -18,17 +18,7 @@ type MediaBlock = {
 		}
 	}
 }
-type VideoBlock = {
-	video: {
-		video: {
-			mp4low: string
-			mp4med: string
-			mp4high: string
-		}
-	}
-}
 
-type VideoBlockExtended = VideoBlockRecord & VideoBlock
 type MediaBlockExtended = MediaBlockRecord & MediaBlock
 
 export default function Gallery({ gallery }: Props) {
