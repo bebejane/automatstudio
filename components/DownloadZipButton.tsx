@@ -63,7 +63,7 @@ const generateDownload = async (
 
   const isSingle = !Array.isArray(products)
   const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
-  const upload_ids = isSingle ? [products.png.id, products.tiff.id, products.back.id] : products.map((product) => product.png.id)
+  const upload_ids = (isSingle ? [products.png.id, products.tiff.id, products.back.id] : products.map((product) => product.png.id)).filter((id) => id)
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
     method: 'POST',
