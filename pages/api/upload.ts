@@ -25,8 +25,10 @@ type FileData = {
 
 export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiResponse) => {
   try {
+    console.log('upload_destination', upload_destination)
     //@ts-ignore
     await run_middleware(req, res, upload.single("file"))
+    console.log(req.file)
     const data = parse_form_data(req)
 
     console.time(`done ${data.product_id}`)
@@ -45,12 +47,12 @@ export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiRes
 const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
   const { client_id, product_id, } = req.body
-  const file_name = req.file.originalname
-  const file_path = `${upload_destination}/${file_name}`
+  const { originalname: file_name, path: file_path } = req.file
 
   if (!client_id) throw new Error("Client id is empty")
   if (!product_id) throw new Error("Product id is empty")
   if (!file_name) throw new Error("Filename is is empty")
+  if (!file_path) throw new Error("Filepath is is empty")
 
   return {
     client_id,
