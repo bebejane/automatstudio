@@ -6,20 +6,12 @@ import { Layout } from '/components';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultDatoSEO } from 'dato-nextjs-utils/components';
 import { useEffect } from 'react';
-import { pingEndpoint } from '/lib/utils';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   const router = useRouter()
   const { asPath: pathname } = router
   const { site, seo, session } = pageProps as any;
-
-  useEffect(() => {
-    if (!session) {
-      pingEndpoint('/api/auth/session', 'GET')
-      pingEndpoint('/client', 'GET')
-    }
-  }, [session])
 
   return (
     <>

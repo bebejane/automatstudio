@@ -1,14 +1,14 @@
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { buildClient } from '@datocms/cma-client-node';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '/pages/api/auth/[...nextauth]';
 import { Readable } from 'stream';
+import withAuthentication from '/lib/withAuthentication';
 import yazl from 'yazl'
+import { Session } from 'next-auth';
 
 const dato_client = buildClient({
   apiToken: process.env.DATOCMS_CMA_API_TOKEN,
-  environment: 'main'
+  environment: process.env.DATOCMS_ENVIRONMENT
 });
 
 const temp_dir = `/tmp`
@@ -19,11 +19,7 @@ export const config = {
   },
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  const session = await getServerSession(req, res, authOptions);
-
-  if (!session) return res.status(401).json({ success: false, error: 'Unauthorized' })
+export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 
   const zip = new yazl.ZipFile()
   const zip_filepath = `${temp_dir}/products_${Date.now()}.zip`
@@ -70,12 +66,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           console.timeEnd(`done ${filename}`)
           fs.unlinkSync(zip_filepath)
         })
-        .on('error', () => {
-          console.timeEnd(`done ${filename}`)
-          fs.unlinkSync(zip_filepath)
-        })
-        .on('end', () => {
-          console.log('end')
+        .on('error', (e) => {
+          throw e
         })
     }).on('error', (e) => {
       try {
@@ -89,8 +81,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     zip.end();
 
   } catch (e) {
-    console.log(e)
+    console.error(e)
     res.status(400).send(e.message)
-    fs.unlinkSync(zip_filepath)
+    try {
+      fs.unlinkSync(zip_filepath)
+    } catch {
+      console.log(`error deleting ${zip_filepath}`)
+    }
   }
-}
+})

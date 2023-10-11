@@ -7,7 +7,7 @@ import { withBasicAuth } from 'dato-nextjs-utils/hoc';
 
 const dato_client = buildClient({
   apiToken: process.env.DATOCMS_CMA_API_TOKEN,
-  environment: process.env.NODE_ENV === 'development' ? 'dev' : 'main'
+  environment: process.env.DATOCMS_ENVIRONMENT
 });
 
 const upload_destination = `/tmp`
