@@ -14,22 +14,31 @@ export type Props = {
   className?: string
 }
 
+type DownloadStatus = {
+  progress: number | null
+  contentLength: number | null
+}
+
 export default function DownloadZipButton({ products, label, status, className }: Props) {
 
   const [downloading, setDownloading] = useState(false)
-  const [progress, setProgress] = useState<number | null>(null)
-  const [contentLength, setContentLength] = useState<number | null>(null)
+  const [dStatus, setDStatus] = useState<DownloadStatus>({
+    progress: null,
+    contentLength: null,
+  })
   const [error, setError] = useState(null)
 
   const download = async () => {
     if (downloading) return
     setDownloading(true)
     setError(null)
-    setProgress(null)
-    setContentLength(null)
+    setDStatus({
+      progress: null,
+      contentLength: null,
+    })
 
     try {
-      await generateDownload(products, setProgress, setContentLength)
+      await generateDownload(products, setDStatus)
     } catch (e) {
       setError(e)
     } finally {
@@ -37,15 +46,15 @@ export default function DownloadZipButton({ products, label, status, className }
     }
   }
 
-  const isGenerating = downloading && progress === null && contentLength === null
-  const isDownloading = downloading && progress !== null && contentLength !== null
+  const isGenerating = downloading && dStatus.progress === null && dStatus.contentLength === null
+  const isDownloading = downloading && dStatus.progress !== null && dStatus.contentLength !== null
 
   return (
     <>
       <button className={cn(className, downloading)} onClick={download}>
         {!isGenerating && !isDownloading && label}
         {isGenerating && <>{status.generating} <Loader /></>}
-        {isDownloading && `${status.downloading} ${progress !== null ? ` ${progress}` : '0'}%`}
+        {isDownloading && `${status.downloading} ${dStatus.progress !== null ? ` ${dStatus.progress}` : '0'}%`}
       </button>
       {error && <div className="error">{error?.message}</div>}
     </>
@@ -54,8 +63,7 @@ export default function DownloadZipButton({ products, label, status, className }
 
 const generateDownload = async (
   products: ProductRecord[] | ProductRecord,
-  setProgress: React.Dispatch<React.SetStateAction<number>>,
-  setContentLength?: React.Dispatch<React.SetStateAction<number>>
+  setDStatus: React.Dispatch<React.SetStateAction<DownloadStatus>>
 ) => {
 
   if (!products)
@@ -63,29 +71,18 @@ const generateDownload = async (
 
   const isSingle = !Array.isArray(products)
   const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
-  const upload_ids = isSingle ? [products.png.id, products.tiff.id] : products.map((product) => product.png.id)
+  const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ upload_ids, filename })
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/zip' },
+    body: JSON.stringify({ upload_ids: upload_ids, filename }),
   })
-
-  const { url, username, password, body } = await res.json()
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Basic ${btoa(`${username}:${password}`)}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  });
 
   const contentLength = parseInt(response.headers.get('content-length'), 10);
   let loaded = 0;
 
-  setContentLength(contentLength)
+  setDStatus({ progress: 0, contentLength })
 
   const dres = new Response(new ReadableStream({
     async start(controller) {
@@ -94,13 +91,13 @@ const generateDownload = async (
         const { done, value } = await reader.read();
         if (done) break;
         loaded += value.byteLength;
-        setProgress(Math.round(((loaded / contentLength) * 100)))
+        const progress = Math.round(((loaded / contentLength) * 100))
+        setDStatus({ progress, contentLength })
         controller.enqueue(value);
       }
       controller.close();
     },
   }));
-
 
   if (dres.status !== 200)
     throw new Error('Error generating archive')

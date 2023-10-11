@@ -1,37 +1,14 @@
 // next api route
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '/pages/api/auth/[...nextauth]';
-import { buildClient } from '@datocms/cma-client-browser';
 import { apiQuery } from 'dato-nextjs-utils/api';
 import { ProductDocument } from '/graphql';
+import withAuthentication from '/lib/withAuthentication';
+import { Session } from 'next-auth';
+import client from '/lib/client';
 
-const client = buildClient({
-  apiToken: process.env.DATOCMS_CMA_API_TOKEN,
-  environment: process.env.DATOCMS_ENVIRONMENT
-});
-
-const allClientTags = async (id: string): Promise<TagRecord[]> => {
-  const tags = [];
-  for await (const record of client.items.listPagedIterator({
-    filter: {
-      type: 'tag',
-      page: { limit: 30 },
-      fields: { client: { eq: id } },
-    },
-    order_by: '_createdAt_DESC'
-  })) {
-    tags.push(record);
-  }
-  return tags as TagRecord[];
-}
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 
   try {
-    const session = await getServerSession(req, res, authOptions);
-
-    if (!session) return res.status(401).json({ success: false, error: 'Unauthorized' })
 
     if (req.method !== 'POST') // Ping
       return res.status(200).json({ success: false })
@@ -80,4 +57,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.error(err)
     return res.status(500).json({ error: err.message || err })
   }
+})
+
+const allClientTags = async (id: string): Promise<TagRecord[]> => {
+  const tags = [];
+  for await (const record of client.items.listPagedIterator({
+    filter: {
+      type: 'tag',
+      page: { limit: 30 },
+      fields: { client: { eq: id } },
+    },
+    order_by: '_createdAt_DESC'
+  })) {
+    tags.push(record);
+  }
+  return tags as TagRecord[];
 }

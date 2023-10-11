@@ -5,9 +5,8 @@ import { apiQuery, apiQueryAll, } from "dato-nextjs-utils/api"
 import { AllClientTagsDocument, ProductDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { format } from 'date-fns'
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { DownloadZipButton, Loader } from '/components';
-import { pingEndpoint } from '/lib/utils';
 
 export type Props = {
   product: ProductRecord
@@ -25,10 +24,6 @@ export default function Product({ product: productFromProps, tags }: Props) {
 
   const [product, setProduct] = useState(productFromProps)
   const [allTags, setAllTags] = useState<TagRecord[]>(tags)
-
-  useEffect(() => {
-    pingEndpoint('/api/product', 'GET')
-  }, [])
 
   return (
     <div className={s.container}>
