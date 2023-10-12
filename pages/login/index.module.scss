@@ -11,6 +11,7 @@
 
   input {
     margin-left: var(--small-margin);
+
     @include mq($until: desktop) {
       width: 50vw;
     }

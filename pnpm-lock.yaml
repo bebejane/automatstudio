@@ -9481,7 +9481,7 @@ packages:
     resolution: {tarball: https://codeload.github.com/bebejane/dato-nextjs-utils/tar.gz/066d84be76495bef9b69d5bea0d2c892b0a4c5c1}
     id: github.com/bebejane/dato-nextjs-utils/066d84be76495bef9b69d5bea0d2c892b0a4c5c1
     name: dato-nextjs-utils
-    version: 1.0.337
+    version: 1.0.355
     engines: {node: '>=0.16'}
     peerDependencies:
       '@apollo/client': 3 - 4

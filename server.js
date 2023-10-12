@@ -2,10 +2,14 @@ const { createServer } = require("http");
 const { parse } = require("url");
 const next = require("next");
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
 const port = process.env.PORT || 3000;
+const hostname = "localhost";
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
+
+const public_url = process.env.RAILWAY_PUBLIC_DOMAIN
+	? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+	: `http://localhost:${port}`;
 
 app.prepare().then(() => {
 	createServer(async (req, res) => {
@@ -23,6 +27,6 @@ app.prepare().then(() => {
 			process.exit(1);
 		})
 		.listen(port, () => {
-			console.log(`Server running on http://${hostname}:${port}`);
+			console.log(`Server running on ${public_url}`);
 		});
 });
