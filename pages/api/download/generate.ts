@@ -7,6 +7,13 @@ import client from '/lib/client';
 import Downloader from 'nodejs-file-downloader'
 import asyncPromiseBatch from 'async-promise-batch';
 import { cleanup, temp_dir } from './';
+import { encrypt } from './';
+
+type FileDownload = {
+  file_path: string,
+  filename: string,
+  url: string
+}
 
 export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 
@@ -38,7 +45,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
       fs.mkdirSync(zip_temp_dir)
 
-      const files = uploads.map(({ url, filename }, i) => ({
+      const files: FileDownload[] = uploads.map(({ url, filename }, i) => ({
         file_path: `${zip_temp_dir}/${i + 1}_${filename}`,
         filename: `${i + 1}_${filename}`,
         url
@@ -51,9 +58,9 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       console.timeEnd(`downloading`)
 
       const file_path = await zip(files, `${zip_temp_dir}/products_${Date.now()}.zip`)
-      return res.status(200).json({
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/download?file_path=${file_path}`
-      })
+      const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/download?token=${encrypt(file_path)}`
+      res.status(200).json({ url })
+      resolve(file_path)
 
     } catch (e) {
       console.error(e)
@@ -64,7 +71,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
   })
 })
 
-const zip = async (files: { file_path: string, filename: string }[], zip_filepath: string) => {
+const zip = async (files: FileDownload[], zip_filepath: string): Promise<string> => {
 
   const archive = archiver('zip', {
     zlib: { level: 0 },
@@ -86,18 +93,16 @@ const zip = async (files: { file_path: string, filename: string }[], zip_filepat
     archive.pipe(fs.createWriteStream(zip_filepath))
       .on("finish", () => {
         console.timeEnd(`write zip`)
+        remove_files(files)
         resolve(zip_filepath)
       }).on('error', (e) => {
         reject(e)
       })
     archive.finalize();
-
   })
-
 }
 
 const download = async (url: string, directory: string, fileName: string) => {
-
 
   const downloader = new Downloader({
     url,
@@ -112,6 +117,12 @@ const download = async (url: string, directory: string, fileName: string) => {
   });
 
   return downloader.download()
+}
+
+const remove_files = (files: FileDownload[]) => {
+
+  for (let i = 0; i < files.length; i++)
+    fs.unlinkSync(files[i].file_path)
 }
 
 export const config = {

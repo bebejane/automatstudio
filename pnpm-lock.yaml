@@ -35,6 +35,9 @@ dependencies:
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  cryptr:
+    specifier: ^6.3.0
+    version: 6.3.0
   date-fns:
     specifier: 2.29.3
     version: 2.29.3
@@ -4642,6 +4645,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /cryptr@6.3.0:
+    resolution: {integrity: sha512-TA4byAuorT8qooU9H8YJhBwnqD151i1rcauHfJ3Divg6HmukHB2AYMp0hmjv2873J2alr4t15QqC7zAnWFrtfQ==}
+    dev: false
 
   /css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}

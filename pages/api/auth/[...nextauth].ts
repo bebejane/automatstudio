@@ -4,6 +4,14 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import client from '/lib/client';
 
+export type SessionExtended = {
+  id: string
+  clientId: string
+  email: string
+  name: string
+  image: string
+}
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
@@ -49,8 +57,6 @@ export const authOptions: NextAuthOptions = {
         try {
 
           const { username: email, password } = credentials
-          //const isDev = false; ////process.env.DATOCMS_ENVIRONMENT === 'dev'
-
           const user = (await client.items.list({
             filter: {
               type: 'client',
@@ -63,7 +69,7 @@ export const authOptions: NextAuthOptions = {
 
           if (!user) return null
 
-          const session = {
+          const session: SessionExtended = {
             id: user.id as string,
             clientId: user.client_id as string,
             email: user.email as string,

@@ -78,34 +78,7 @@ const generateDownload = async (
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ upload_ids: upload_ids, filename }),
   })
-  /*
-  const contentLength = parseInt(response.headers.get('content-length'), 10);
-  let loaded = 0;
 
-  setDStatus({ progress: 0, contentLength })
-
-  const dres = new Response(new ReadableStream({
-    async start(controller) {
-      const reader = response.body.getReader();
-      for (; ;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        loaded += value.byteLength;
-        const progress = Math.round(((loaded / contentLength) * 100))
-        setDStatus({ progress, contentLength })
-        controller.enqueue(value);
-      }
-      controller.close();
-    },
-  }));
-
-  if (dres.status !== 200)
-    throw new Error('Error generating archive')
-
-  const blob = await dres.blob()
-  const downloadUrl = window.URL.createObjectURL(blob)
-  
-  */
   const { url, filename: file } = await response.json()
   console.log(url, file)
   const a = document.createElement('a')
