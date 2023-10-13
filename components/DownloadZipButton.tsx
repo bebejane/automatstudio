@@ -73,12 +73,12 @@ const generateDownload = async (
   const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
   const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download/generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/zip' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ upload_ids: upload_ids, filename }),
   })
-
+  /*
   const contentLength = parseInt(response.headers.get('content-length'), 10);
   let loaded = 0;
 
@@ -104,9 +104,13 @@ const generateDownload = async (
 
   const blob = await dres.blob()
   const downloadUrl = window.URL.createObjectURL(blob)
+  
+  */
+  const { url, filename: file } = await response.json()
+  console.log(url, file)
   const a = document.createElement('a')
-  a.href = downloadUrl
-  a.download = filename
+  a.href = url
+  a.download = file
   document.body.appendChild(a)
   a.click()
   a.remove()
