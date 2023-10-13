@@ -8,16 +8,7 @@ import Downloader from 'nodejs-file-downloader'
 import asyncPromiseBatch from 'async-promise-batch';
 import { cleanup, temp_dir } from './';
 
-const download_concurrency = 5
-
-export const config = {
-  api: {
-    responseLimit: false,
-  },
-}
-
 export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
-
 
   const zip_temp_dir = `${temp_dir}/${Date.now()}`
 
@@ -55,7 +46,8 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
       console.log(`downloading ${uploads.length} images...`)
       console.time(`downloading`)
-      await asyncPromiseBatch(files.map(({ url, filename }, i) => () => download(url, zip_temp_dir, filename)), download_concurrency)
+      const concurrency = process.env.DOWNLOAD_CONCURRENCY ? parseInt(process.env.DOWNLOAD_CONCURRENCY) : 5
+      await asyncPromiseBatch(files.map(({ url, filename }, i) => () => download(url, zip_temp_dir, filename)), concurrency)
       console.timeEnd(`downloading`)
 
       const file_path = await zip(files, `${zip_temp_dir}/products_${Date.now()}.zip`)
@@ -106,6 +98,7 @@ const zip = async (files: { file_path: string, filename: string }[], zip_filepat
 
 const download = async (url: string, directory: string, fileName: string) => {
 
+
   const downloader = new Downloader({
     url,
     directory,
@@ -119,4 +112,10 @@ const download = async (url: string, directory: string, fileName: string) => {
   });
 
   return downloader.download()
+}
+
+export const config = {
+  api: {
+    responseLimit: false,
+  },
 }
