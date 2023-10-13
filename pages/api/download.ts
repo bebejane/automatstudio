@@ -30,9 +30,7 @@ const download = async (url: string, directory: string, fileName: string) => {
     }
   });
 
-  const d = await downloader.download()
-  console.log('download', fileName, '100%')
-  return d
+  return await downloader.download()
 }
 
 export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
@@ -80,9 +78,9 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       }))
 
       console.log(`downloading ${uploads.length} images...`)
-      console.time(`done`)
+      console.time(`downloading`)
       await asyncPromiseBatch(files.map(({ url, filename }, i) => () => download(url, zip_temp_dir, filename)), download_concurrency)
-      console.timeEnd(`done`)
+      console.timeEnd(`downloading`)
 
       for (let i = 0; i < files.length; i++)
         archive.append(fs.createReadStream(files[i].file_path), { name: files[i].filename })
@@ -106,9 +104,10 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
             'Content-Type': 'application/zip',
             'Content-Length': contentLength,
           })
-
+          console.time('streaming zip')
           fs.createReadStream(zip_filepath).pipe(res)
             .on('close', () => {
+              console.timeEnd('streaming zip')
               cleanup(zip_temp_dir)
               resolve(zip_filepath)
             })
