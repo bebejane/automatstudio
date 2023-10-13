@@ -34,7 +34,6 @@
 		"dato-nextjs-utils": "github:bebejane/dato-nextjs-utils",
 		"datocms-structured-text-utils": "^2.0.4",
 		"dotenv": "^16.3.1",
-		"download": "^8.0.0",
 		"graphql": "^16.6.0",
 		"graphql-tag": "^2.12.6",
 		"hamburger-react": "^2.5.0",
@@ -52,8 +51,7 @@
 		"remark-breaks": "^3.0.3",
 		"remark-gfm": "^3.0.1",
 		"rooks": "^7.14.1",
-		"sass": "^1.62.1",
-		"yazl": "^2.5.1"
+		"sass": "^1.62.1"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "^2.16.5",

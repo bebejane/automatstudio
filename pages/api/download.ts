@@ -1,8 +1,5 @@
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Readable } from 'stream';
-import { finished } from 'stream/promises';
-import { ReadableStream } from 'node:stream/web';
 import withAuthentication from '/lib/withAuthentication';
 import archiver from 'archiver';
 import { Session } from 'next-auth';
@@ -40,7 +37,7 @@ const download = async (url: string, directory: string, fileName: string) => {
 
 export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 
-  console.time('archive')
+  console.time('archive download')
 
   const archive = archiver('zip', {
     zlib: { level: 0 },
@@ -60,7 +57,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       if (!upload_ids)
         throw new Error("upload_ids is empty")
 
-      console.log(`rec dato uplodas: ${upload_ids.length}`)
+      console.log(`request dato uploads: ${upload_ids.length}`)
       console.time(`done`)
 
       const uploads = []
@@ -90,24 +87,19 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       for (let i = 0; i < files.length; i++)
         archive.append(fs.createReadStream(files[i].file_path), { name: files[i].filename })
 
-      console.log(`writing zip with ${uploads.length} files to ${zip_filepath}`)
-
-      let processed = 0
-
       archive.on('warning', (err) => {
-        console.log(err)
         throw err
       });
 
-      archive.on('entry', (entry) => {
-        console.log(`${++processed}/${upload_ids.length}`)
-      })
+      console.log(`write zip ${uploads.length} files: ${zip_filepath}`)
+      console.time(`write zip`)
 
       archive.pipe(fs.createWriteStream(zip_filepath))
         .on("finish", () => {
 
           const contentLength = archive.pointer()
           console.log(`done compressing ${filename} (${(contentLength / 1000000).toFixed(2)}mb)`)
+          console.timeEnd(`write zip`)
 
           res.writeHead(200, {
             'Content-Disposition': `attachment; filename="${filename}"`,
@@ -139,10 +131,13 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 })
 
 const cleanup = (dir: string) => {
+
+  console.timeEnd('archive download')
+
   try {
     console.log('rm', dir)
     fs.rmSync(dir, { recursive: true, force: true })
-    console.timeEnd('archive')
+
   } catch {
     console.log(`error deleting dir ${dir}`)
   }
