@@ -8,8 +8,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "npm run dev:watch",
+		"dev:watch": "pnpm i && node server.js & npm run barrel:watch & graphql-codegen --watch",
 		"dev:test": "DATOCMS_ENVIRONMENT=dev npm run dev:watch",
-		"dev:watch": "node server.js & npm run barrel:watch & graphql-codegen --watch",
 		"build": "next build",
 		"codegen": "graphql-codegen",
 		"start": "NODE_ENV=production node server.js",
