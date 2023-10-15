@@ -70,20 +70,20 @@ const generateDownload = async (
     throw new Error('No products to download')
 
   const isSingle = !Array.isArray(products)
-  const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
+  const name = isSingle ? `${products.productId}` : `${formatDate(products[0]._createdAt)}`
   const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ upload_ids: upload_ids, filename }),
+    body: JSON.stringify({ upload_ids: upload_ids, name }),
   })
 
-  const { url, filename: file } = await response.json()
-  console.log(url, file)
+  const { url, filename } = await response.json()
+  console.log(url, filename)
   const a = document.createElement('a')
   a.href = url
-  a.download = file
+  a.download = filename
   document.body.appendChild(a)
   a.click()
   a.remove()

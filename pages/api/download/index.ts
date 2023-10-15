@@ -27,7 +27,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
     const contentLength = fs.statSync(file_path).size
     const filename = file_path.split('/').pop()
-    console.log('filename', filename)
+
     res.writeHead(200, {
       'Content-Disposition': `attachment; filename="${filename}"`,
       'Content-Type': 'application/zip',
