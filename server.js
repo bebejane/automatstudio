@@ -30,7 +30,9 @@ app.prepare().then(() => {
 		})
 		.listen(port, () => {
 			console.log(`Server running on ${public_url}`);
-			cron.schedule("0 * * * *", clean_temp_dir, { runOnInit: true });
+
+			if (process.env.NODE_ENV === "production")
+				cron.schedule("0 * * * *", clean_temp_dir, { runOnInit: true });
 		});
 });
 
