@@ -4,7 +4,6 @@ import { GalleryDocument } from '/graphql';
 import withGlobalProps from '/lib/withGlobalProps';
 import type { GetStaticProps } from 'next'
 import { DatoMarkdown as Markdown } from 'dato-nextjs-utils/components';
-import { useLivePreview } from 'dato-nextjs-utils/hooks';
 
 export type Props = {
 	gallery: GalleryRecord
@@ -23,9 +22,7 @@ type MediaBlock = {
 
 type MediaBlockExtended = MediaBlockRecord & MediaBlock
 
-export default function Start(props: Props) {
-
-	const { data: { gallery }, error, status } = useLivePreview(GalleryDocument, props, { preview: props.preview })
+export default function Start({ gallery }: Props) {
 
 	return (
 		<div className={s.container}>
