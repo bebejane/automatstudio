@@ -17,6 +17,7 @@ app.prepare().then(() => {
 	createServer(async (req, res) => {
 		try {
 			const parsedUrl = parse(req.url, true);
+
 			await handle(req, res, parsedUrl);
 		} catch (err) {
 			console.error("Error occurred handling", req.url, err);

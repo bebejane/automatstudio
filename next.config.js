@@ -29,10 +29,25 @@ const nextOptions = {
 		config.resolve.fallback = { fs: false, dns: false, net: false };
 		return config;
 	},
+
+	async redirects() {
+		return [
+			{
+				source: "/:path*",
+				has: [
+					{
+						type: "host",
+						value: "automatstudio.com",
+					},
+				],
+				permanent: false,
+				destination: "/:path",
+			},
+		];
+	},
 	async headers() {
 		return [
 			{
-				// matching all API routes
 				source: "/api/:path*",
 				headers: [
 					{ key: "Access-Control-Allow-Credentials", value: "true" },

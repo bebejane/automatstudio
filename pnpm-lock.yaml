@@ -80,6 +80,9 @@ dependencies:
   next-sitemap:
     specifier: ^3.1.55
     version: 3.1.55(@next/env@13.5.4)(next@13.5.4)
+  nextjs-cors:
+    specifier: ^2.1.2
+    version: 2.1.2(next@13.5.4)
   node-cron:
     specifier: ^3.0.2
     version: 3.0.2
@@ -4664,6 +4667,14 @@ packages:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: false
 
+  /cors@2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
+    dev: false
+
   /cosmiconfig-typescript-loader@4.4.0(@types/node@18.18.3)(cosmiconfig@7.1.0)(ts-node@10.9.1)(typescript@4.9.5):
     resolution: {integrity: sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==}
     engines: {node: '>=v14.21.3'}
@@ -7600,6 +7611,15 @@ packages:
       - babel-plugin-macros
     dev: false
 
+  /nextjs-cors@2.1.2(next@13.5.4):
+    resolution: {integrity: sha512-2yOVivaaf2ILe4f/qY32hnj3oC77VCOsUQJQfhVMGsXE/YMEWUY2zy78sH9FKUCM7eG42/l3pDofIzMD781XGA==}
+    peerDependencies:
+      next: ^8.1.1-canary.54 || ^9.0.0 || ^10.0.0-0 || ^11.0.0 || ^12.0.0 || ^13.0.0
+    dependencies:
+      cors: 2.8.5
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+    dev: false
+
   /no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
     dependencies:
@@ -9457,6 +9477,11 @@ packages:
     resolution: {integrity: sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==}
     engines: {node: '>=12'}
     dev: true
+
+  /vary@1.1.2:
+    resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
+    engines: {node: '>= 0.8'}
+    dev: false
 
   /vfile-message@3.1.4:
     resolution: {integrity: sha512-fa0Z6P8HUrQN4BZaX05SIVXic+7kE3b05PWAtPuYP9QLHsLKYR7/AlLW3NtOrpXRLeawpDLMsVkmk5DG0NXgWw==}
