@@ -24,6 +24,9 @@ export default withBasicAuthEdge(withWebPreviewsEdge(async ({ item, itemType }) 
     case 'contact':
       path = await buildRoute('contact')
       break;
+    case 'setting':
+      path = '/'
+      break;
     default:
       break;
   }

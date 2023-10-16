@@ -2,4 +2,12 @@ query Global {
 	site: _site {
 		...SiteFragment
 	}
+	settings: setting {
+		background {
+			hex
+		}
+		grid {
+			hex
+		}
+	}
 }

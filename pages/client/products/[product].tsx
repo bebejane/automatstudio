@@ -184,7 +184,7 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
     return { redirect: { destination: '/login', permanent: false } }
 
   const productId = context.params.product
-  const { product } = await apiQuery(ProductDocument, { variables: { productId } })
+  const { product } = await apiQuery(ProductDocument, { variables: { productId, gray: props.settings.grid.hex } })
   const { tags } = await apiQueryAll(AllClientTagsDocument, { variables: { id: product.client.id } })
 
   return {

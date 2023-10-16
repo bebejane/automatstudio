@@ -11,7 +11,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const router = useRouter()
   const { asPath: pathname } = router
-  const { site, seo, session } = pageProps as any;
+  const { site, seo, session, settings } = pageProps as any;
+
+  useEffect(() => {
+
+    const r = document.querySelector<HTMLElement>(':root')
+    r.style.setProperty('--gray', settings?.grid?.hex);
+    r.style.setProperty('--background', settings?.background?.hex);
+
+  }, [settings])
+
 
   return (
     <>
