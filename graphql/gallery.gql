@@ -2,6 +2,7 @@ query Gallery {
 	gallery {
 		id
 		content {
+			__typename
 			... on MediaBlockRecord {
 				...MediaBlock
 			}

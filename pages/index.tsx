@@ -25,7 +25,7 @@ type MediaBlockExtended = MediaBlockRecord & MediaBlock
 
 export default function Start(props: Props) {
 
-	const { data: { gallery } } = useLivePreview(GalleryDocument, props, { preview: props.preview })
+	const { data: { gallery }, error, status } = useLivePreview(GalleryDocument, props, { preview: props.preview })
 
 	return (
 		<div className={s.container}>
