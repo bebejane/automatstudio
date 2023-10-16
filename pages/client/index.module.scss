@@ -43,9 +43,11 @@
       display: flex;
       align-items: flex-end;
 
-      &:hover {
-        background-color: var(--black);
-        cursor: pointer;
+      @include mq($from: desktop) {
+        &:hover {
+          background-color: var(--black);
+          cursor: pointer;
+        }
       }
     }
 
