@@ -23,7 +23,7 @@ export default function withGlobalProps(opt: any, callback?: Function): GetStati
     if (context.req)
       props.session = await getServerSession(context.req, context.res, authOptions)
 
-    props.preview = context.preview ?? false
+    props.preview = context.preview || false
 
     if (callback)
       return await callback({ context, props: { ...props }, revalidate });

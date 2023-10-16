@@ -11,7 +11,7 @@ export type Props = {
 }
 
 export default function Contact({ contact: _contact, preview }: Props) {
-
+	console.log('preview', preview)
 	const { data: { contact } } = useLivePreview(ContactDocument, { contact: _contact }, { preview })
 
 	return (
