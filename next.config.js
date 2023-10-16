@@ -37,7 +37,7 @@ const nextOptions = {
 				has: [
 					{
 						type: "host",
-						value: "automatstudio.com",
+						value: "automatstudio.se",
 					},
 				],
 				permanent: false,
