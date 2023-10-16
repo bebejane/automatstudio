@@ -14,12 +14,18 @@
 
     @include mq($until: desktop) {
       width: 50vw;
+      margin-left: 0;
+      margin-bottom: 1em;
     }
   }
 
   label {
     display: inline-block;
     margin-bottom: 0.2em;
+
+    @include mq($from: desktop) {
+      width: 10ch;
+    }
   }
 
   .loading {

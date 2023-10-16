@@ -43,13 +43,14 @@ export default function Clients({ clients }: Props) {
 
 	return (
 		<div className={s.container}>
-			{error && <div className="error">{error.message}</div>}
+
 			<form className={cn(s.login, loggingIn && s.loading)} method="POST" onSubmit={login}>
 				<label htmlFor="username">Username:</label>
 				<input type="text" name="username" /><br />
 				<label htmlFor="password">Password:</label>
 				<input type="password" name="password" /><br />
 				<button className={cn(loggingIn && 'pulse')} type="submit" >Log in</button>
+				{error && <div className="error">{error.message}</div>}
 			</form>
 		</div>
 	)
