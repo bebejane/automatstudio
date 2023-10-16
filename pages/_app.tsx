@@ -14,13 +14,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { site, seo, session, settings } = pageProps as any;
 
   useEffect(() => {
-
+    if (!settings) return
     const r = document.querySelector<HTMLElement>(':root')
     r.style.setProperty('--gray', settings?.grid?.hex);
-    r.style.setProperty('--background', settings?.background?.hex);
-
+    r.style.setProperty('--white', settings?.background?.hex)
   }, [settings])
-
 
   return (
     <>
