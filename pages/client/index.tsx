@@ -24,7 +24,7 @@ type Batch = {
 export default function Client({ client, products }: Props) {
 
   const batches = generateBatches(products)
-  console.log(products)
+
   return (
     <div className={s.container}>
       {batches.length > 0 ?
