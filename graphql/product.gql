@@ -1,6 +1,6 @@
 query AllProducts($first: IntType = 10, $skip: IntType = 0) {
 	products: allProducts(first: $first, skip: $skip) {
-		...ProductFragment
+		...ProductLightFragment
 	}
 	pagination: _allProductsMeta {
 		count
@@ -26,7 +26,12 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 	}
 }
 
-query Product($productId: String) {
+query Product(
+	$productId: String
+	$white: String = "#FFFFFF"
+	$black: String = "#000000"
+	$gray: String = "#BDBDBD"
+) {
 	product(
 		filter: {
 			AND: [
@@ -36,6 +41,75 @@ query Product($productId: String) {
 			]
 		}
 	) {
-		...ProductFragment
+		_createdAt
+		id
+		productId
+		png {
+			...ImageFragment
+		}
+		tiff {
+			...ImageFragment
+		}
+		back {
+			...ImageFragment
+		}
+		isquareblack: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: $black, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		isquarewhite: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: $white, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		isquaregray: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1080, fit: fill, fill: solid, fm: png32, bg: $gray, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		istoryblack: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $black, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		istorywhite: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $white, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		istorygray: png {
+			...ImageBaseFragment
+			responsiveImage(
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $gray, pad: 160 }
+			) {
+				...ResponsiveImageFragment
+			}
+		}
+		tags {
+			... on TagRecord {
+				_createdAt
+				id
+				tag
+			}
+		}
+		client {
+			...ClientLightFragment
+		}
 	}
 }

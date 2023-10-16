@@ -82,15 +82,6 @@ declare module '*/MediaFragment.gql' {
 }
     
 
-declare module '*/ProductFragment.gql' {
-  import { DocumentNode } from 'graphql';
-  const defaultDocument: DocumentNode;
-  export const ProductFragment: DocumentNode;
-
-  export default defaultDocument;
-}
-    
-
 declare module '*/ProductLightFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

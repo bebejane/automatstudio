@@ -2,12 +2,14 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import type { DocumentContext } from 'next/document'
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx : DocumentContext) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx)
     return { ...initialProps }
   }
 
   render() {
+    const { settings }: { settings: SettingRecord } = this.props?.__NEXT_DATA__?.props?.pageProps || {};
+
     return (
       <Html lang="en">
         <Head>
@@ -19,7 +21,7 @@ class MyDocument extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Head>
-        <body>
+        <body style={{ backgroundColor: settings?.background.hex }}>
           <Main />
           <NextScript />
         </body>

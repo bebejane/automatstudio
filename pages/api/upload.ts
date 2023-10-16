@@ -28,7 +28,7 @@ export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiRes
     console.log('upload_destination', upload_destination)
     //@ts-ignore
     await run_middleware(req, res, upload.single("file"))
-    console.log(req.file)
+
     const data = parse_form_data(req)
 
     console.time(`done ${data.product_id}`)
@@ -79,6 +79,7 @@ const upsertProduct = async (data: FileData) => {
     throw new Error(`File type not supported: ${data.file_name}`)
 
   console.log('uploading file', data.product_id, data.file_name)
+
   const upload = await client.uploads.createFromLocalFile({
     localPath: data.file_path,
     filename: `${data.client_id}_${data.product_id}_${data.file_name}`,

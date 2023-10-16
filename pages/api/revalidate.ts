@@ -7,6 +7,9 @@ export default withRevalidate(async (record, revalidate) => {
   const paths = []
 
   switch (apiKey) {
+    case 'setting':
+      paths.push.apply(paths, ['/', '/gallery', '/contact', '/login', '/logout'])
+      break;
     case 'start':
       paths.push(await buildRoute('start'))
       break;

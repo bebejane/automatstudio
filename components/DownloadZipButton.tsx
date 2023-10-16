@@ -70,42 +70,18 @@ const generateDownload = async (
     throw new Error('No products to download')
 
   const isSingle = !Array.isArray(products)
-  const filename = isSingle ? `automatstudio-${products.productId}.zip` : `automatstudio-${formatDate(products[0]._createdAt)}.zip`
+  const name = isSingle ? `${products.productId}` : `${formatDate(products[0]._createdAt)}`
   const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download/generate`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/zip' },
-    body: JSON.stringify({ upload_ids: upload_ids, filename }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ upload_ids: upload_ids, name }),
   })
 
-  const contentLength = parseInt(response.headers.get('content-length'), 10);
-  let loaded = 0;
-
-  setDStatus({ progress: 0, contentLength })
-
-  const dres = new Response(new ReadableStream({
-    async start(controller) {
-      const reader = response.body.getReader();
-      for (; ;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        loaded += value.byteLength;
-        const progress = Math.round(((loaded / contentLength) * 100))
-        setDStatus({ progress, contentLength })
-        controller.enqueue(value);
-      }
-      controller.close();
-    },
-  }));
-
-  if (dres.status !== 200)
-    throw new Error('Error generating archive')
-
-  const blob = await dres.blob()
-  const downloadUrl = window.URL.createObjectURL(blob)
+  const { url, filename } = await response.json()
   const a = document.createElement('a')
-  a.href = downloadUrl
+  a.href = url
   a.download = filename
   document.body.appendChild(a)
   a.click()
