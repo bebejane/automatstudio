@@ -29,14 +29,6 @@ const nextOptions = {
 		config.resolve.fallback = { fs: false, dns: false, net: false };
 		return config;
 	},
-	async rewrites() {
-		return [
-			{
-				source: "/api/:path*",
-				destination: `${process.env.NEXT_PUBLIC_SITE_URL}/:path*`,
-			},
-		];
-	},
 	async headers() {
 		return [
 			{
