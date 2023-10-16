@@ -43,7 +43,7 @@ dependencies:
     version: 2.29.3
   dato-nextjs-utils:
     specifier: github:bebejane/dato-nextjs-utils
-    version: github.com/bebejane/dato-nextjs-utils/8b59e1742fe14665afb63aa78d531f5a82e878b4(@apollo/client@3.8.4)(@datocms/cma-client@1.3.1)(@types/node@18.18.3)(@types/react-dom@18.2.13)(@types/react@18.2.24)(datocms-listen@0.1.15)(next-seo@5.15.0)(next@13.5.4)(react-datocms@4.1.3)(react-dom@18.2.0)(react@18.2.0)
+    version: github.com/bebejane/dato-nextjs-utils/d6352c90ca48d9488ffc650b88d4a42d255f244f(@apollo/client@3.8.4)(@datocms/cma-client@1.3.1)(@types/node@18.18.3)(@types/react-dom@18.2.13)(@types/react@18.2.24)(datocms-listen@0.1.15)(next-seo@5.15.0)(next@13.5.4)(react-datocms@4.1.3)(react-dom@18.2.0)(react@18.2.0)
   datocms-structured-text-utils:
     specifier: ^2.0.4
     version: 2.0.4
@@ -70,7 +70,7 @@ dependencies:
     version: 5.0.1
   next:
     specifier: ^13.5.3
-    version: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+    version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
   next-auth:
     specifier: ^4.23.2
     version: 4.23.2(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
@@ -114,7 +114,7 @@ dependencies:
 devDependencies:
   '@graphql-codegen/cli':
     specifier: ^2.16.5
-    version: 2.16.5(@babel/core@7.23.0)(@types/node@18.18.3)(graphql@16.8.1)(typescript@4.9.5)
+    version: 2.16.5(@babel/core@7.23.2)(@types/node@18.18.3)(graphql@16.8.1)(typescript@4.9.5)
   '@graphql-codegen/import-types-preset':
     specifier: ^2.2.6
     version: 2.2.6(graphql@16.8.1)
@@ -373,6 +373,28 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@babel/core@7.23.2:
+    resolution: {integrity: sha512-n7s51eWdaWZ3vGT2tD4T7J6eJs3QoBXydv7vkUM06Bf1cbVD2Kc2UrkzhiQwobfV7NwOnQXYL7UBJ5VPU+RGoQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@ampproject/remapping': 2.2.1
+      '@babel/code-frame': 7.22.13
+      '@babel/generator': 7.23.0
+      '@babel/helper-compilation-targets': 7.22.15
+      '@babel/helper-module-transforms': 7.23.0(@babel/core@7.23.2)
+      '@babel/helpers': 7.23.2
+      '@babel/parser': 7.23.0
+      '@babel/template': 7.22.15
+      '@babel/traverse': 7.23.2
+      '@babel/types': 7.23.0
+      convert-source-map: 2.0.0
+      debug: 4.3.4(supports-color@8.1.1)
+      gensync: 1.0.0-beta.2
+      json5: 2.2.3
+      semver: 6.3.1
+    transitivePeerDependencies:
+      - supports-color
+
   /@babel/generator@7.17.10:
     resolution: {integrity: sha512-46MJZZo9y3o4kmhBVc7zW7i8dtR1oIK/sdO5NcfcZRhTGYi+KKJRtHNgsU6c4VUcJmUNV/LQdebD/9Dlv4K+Tg==}
     engines: {node: '>=6.9.0'}
@@ -500,6 +522,19 @@ packages:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/helper-validator-identifier': 7.22.20
 
+  /@babel/helper-module-transforms@7.23.0(@babel/core@7.23.2):
+    resolution: {integrity: sha512-WhDWw1tdrlT0gMgUJSlX0IQvoO1eN279zrAUbVB+KpV2c3Tylz8+GnKOLllCS6Z/iZQEyVYxhZVUdPTqs2YYPw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+    dependencies:
+      '@babel/core': 7.23.2
+      '@babel/helper-environment-visitor': 7.22.20
+      '@babel/helper-module-imports': 7.22.15
+      '@babel/helper-simple-access': 7.22.5
+      '@babel/helper-split-export-declaration': 7.22.6
+      '@babel/helper-validator-identifier': 7.22.20
+
   /@babel/helper-optimise-call-expression@7.22.5:
     resolution: {integrity: sha512-HBwaojN0xFRx4yIvpwGqxiV2tUfl7401jlok564NgB9EHS1y6QT17FmKWm4ztqjeVdXLuC4fSvHc5ePpQjoTbw==}
     engines: {node: '>=6.9.0'}
@@ -578,6 +613,16 @@ packages:
     dependencies:
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.0
+      '@babel/types': 7.23.0
+    transitivePeerDependencies:
+      - supports-color
+
+  /@babel/helpers@7.23.2:
+    resolution: {integrity: sha512-lzchcp8SjTSVe/fPmLwtWVBFC7+Tbn8LGHDVfDp9JGxpAY5opSaEFgt8UQvrnECWOTdji2mOWMz1rOhkHscmGQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/template': 7.22.15
+      '@babel/traverse': 7.23.2
       '@babel/types': 7.23.0
     transitivePeerDependencies:
       - supports-color
@@ -715,6 +760,17 @@ packages:
     dependencies:
       '@babel/core': 7.23.0
       '@babel/helper-plugin-utils': 7.22.5
+    dev: false
+
+  /@babel/plugin-syntax-import-assertions@7.22.5(@babel/core@7.23.2):
+    resolution: {integrity: sha512-rdV97N7KqsRzeNGoWUOK6yUsWarLjE5Su/Snk9IYPU9CwkWHs4t+rTGOvffTR8XGkJMTAdLfO0xVnXm8wugIJg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.23.2
+      '@babel/helper-plugin-utils': 7.22.5
+    dev: true
 
   /@babel/plugin-syntax-import-attributes@7.22.5(@babel/core@7.23.0):
     resolution: {integrity: sha512-KwvoWDeNKPETmozyFE0P2rOLqh39EoQHNjqizrI5B8Vt0ZNS7M56s7dAiAqbYfiAYOuIzIh96z3iR2ktgu3tEg==}
@@ -1604,6 +1660,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@babel/traverse@7.23.2:
+    resolution: {integrity: sha512-azpe59SQ48qG6nu2CzcMLbxUudtN+dOM9kDbUqGq3HXUJRlo7i8fvPoxQUzYgLZ4cMVmuZgm8vvBpNeRhd6XSw==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/code-frame': 7.22.13
+      '@babel/generator': 7.23.0
+      '@babel/helper-environment-visitor': 7.22.20
+      '@babel/helper-function-name': 7.23.0
+      '@babel/helper-hoist-variables': 7.22.5
+      '@babel/helper-split-export-declaration': 7.22.6
+      '@babel/parser': 7.23.0
+      '@babel/types': 7.23.0
+      debug: 4.3.4(supports-color@8.1.1)
+      globals: 11.12.0
+    transitivePeerDependencies:
+      - supports-color
+
   /@babel/types@7.17.10:
     resolution: {integrity: sha512-9O26jG0mBYfGkUYCYZRnBwbVLd1UZOICEr2Em6InB6jVfsAv1GKgwXHmrSg+WFWDmeKTA6vyTZiN8tCSM5Oo3A==}
     engines: {node: '>=6.9.0'}
@@ -1743,7 +1816,7 @@ packages:
       tslib: 2.4.1
     dev: true
 
-  /@graphql-codegen/cli@2.16.5(@babel/core@7.23.0)(@types/node@18.18.3)(graphql@16.8.1)(typescript@4.9.5):
+  /@graphql-codegen/cli@2.16.5(@babel/core@7.23.2)(@types/node@18.18.3)(graphql@16.8.1)(typescript@4.9.5):
     resolution: {integrity: sha512-XYPIp+q7fB0xAGSAoRykiTe4oY80VU+z+dw5nuv4mLY0+pv7+pa2C6Nwhdw7a65lXOhFviBApWCCZeqd54SMnA==}
     hasBin: true
     peerDependencies:
@@ -1755,9 +1828,9 @@ packages:
       '@graphql-codegen/core': 2.6.8(graphql@16.8.1)
       '@graphql-codegen/plugin-helpers': 3.1.2(graphql@16.8.1)
       '@graphql-tools/apollo-engine-loader': 7.3.26(graphql@16.8.1)
-      '@graphql-tools/code-file-loader': 7.3.23(@babel/core@7.23.0)(graphql@16.8.1)
-      '@graphql-tools/git-loader': 7.3.0(@babel/core@7.23.0)(graphql@16.8.1)
-      '@graphql-tools/github-loader': 7.3.28(@babel/core@7.23.0)(@types/node@18.18.3)(graphql@16.8.1)
+      '@graphql-tools/code-file-loader': 7.3.23(@babel/core@7.23.2)(graphql@16.8.1)
+      '@graphql-tools/git-loader': 7.3.0(@babel/core@7.23.2)(graphql@16.8.1)
+      '@graphql-tools/github-loader': 7.3.28(@babel/core@7.23.2)(@types/node@18.18.3)(graphql@16.8.1)
       '@graphql-tools/graphql-file-loader': 7.5.17(graphql@16.8.1)
       '@graphql-tools/json-file-loader': 7.4.18(graphql@16.8.1)
       '@graphql-tools/load': 7.8.14(graphql@16.8.1)
@@ -2053,12 +2126,12 @@ packages:
       value-or-promise: 1.0.12
     dev: true
 
-  /@graphql-tools/code-file-loader@7.3.23(@babel/core@7.23.0)(graphql@16.8.1):
+  /@graphql-tools/code-file-loader@7.3.23(@babel/core@7.23.2)(graphql@16.8.1):
     resolution: {integrity: sha512-8Wt1rTtyTEs0p47uzsPJ1vAtfAx0jmxPifiNdmo9EOCuUPyQGEbMaik/YkqZ7QUFIEYEQu+Vgfo8tElwOPtx5Q==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.0)(graphql@16.8.1)
+      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.2)(graphql@16.8.1)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
       globby: 11.1.0
       graphql: 16.8.1
@@ -2149,12 +2222,12 @@ packages:
       value-or-promise: 1.0.12
     dev: true
 
-  /@graphql-tools/git-loader@7.3.0(@babel/core@7.23.0)(graphql@16.8.1):
+  /@graphql-tools/git-loader@7.3.0(@babel/core@7.23.2)(graphql@16.8.1):
     resolution: {integrity: sha512-gcGAK+u16eHkwsMYqqghZbmDquh8QaO24Scsxq+cVR+vx1ekRlsEiXvu+yXVDbZdcJ6PBIbeLcQbEu+xhDLmvQ==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.0)(graphql@16.8.1)
+      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.2)(graphql@16.8.1)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
       graphql: 16.8.1
       is-glob: 4.0.3
@@ -2166,14 +2239,14 @@ packages:
       - supports-color
     dev: true
 
-  /@graphql-tools/github-loader@7.3.28(@babel/core@7.23.0)(@types/node@18.18.3)(graphql@16.8.1):
+  /@graphql-tools/github-loader@7.3.28(@babel/core@7.23.2)(@types/node@18.18.3)(graphql@16.8.1):
     resolution: {integrity: sha512-OK92Lf9pmxPQvjUNv05b3tnVhw0JRfPqOf15jZjyQ8BfdEUrJoP32b4dRQQem/wyRL24KY4wOfArJNqzpsbwCA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@ardatan/sync-fetch': 0.0.1
       '@graphql-tools/executor-http': 0.1.10(@types/node@18.18.3)(graphql@16.8.1)
-      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.0)(graphql@16.8.1)
+      '@graphql-tools/graphql-tag-pluck': 7.5.2(@babel/core@7.23.2)(graphql@16.8.1)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
       '@whatwg-node/fetch': 0.8.8
       graphql: 16.8.1
@@ -2199,13 +2272,13 @@ packages:
       unixify: 1.0.0
     dev: true
 
-  /@graphql-tools/graphql-tag-pluck@7.5.2(@babel/core@7.23.0)(graphql@16.8.1):
+  /@graphql-tools/graphql-tag-pluck@7.5.2(@babel/core@7.23.2)(graphql@16.8.1):
     resolution: {integrity: sha512-RW+H8FqOOLQw0BPXaahYepVSRjuOHw+7IL8Opaa5G5uYGOBxoXR7DceyQ7BcpMgktAOOmpDNQ2WtcboChOJSRA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@babel/parser': 7.23.0
-      '@babel/plugin-syntax-import-assertions': 7.22.5(@babel/core@7.23.0)
+      '@babel/plugin-syntax-import-assertions': 7.22.5(@babel/core@7.23.2)
       '@babel/traverse': 7.23.0
       '@babel/types': 7.23.0
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
@@ -3170,7 +3243,7 @@ packages:
   /@types/react-dom@18.2.13:
     resolution: {integrity: sha512-eJIUv7rPP+EC45uNYp/ThhSpE16k22VJUknt5OLoH9tbXoi8bMhwLf5xRuWMywamNbWzhrSmU7IBJfPup1+3fw==}
     dependencies:
-      '@types/react': 18.2.24
+      '@types/react': 18.2.28
     dev: false
 
   /@types/react@18.2.24:
@@ -3179,6 +3252,14 @@ packages:
       '@types/prop-types': 15.7.8
       '@types/scheduler': 0.16.4
       csstype: 3.1.2
+
+  /@types/react@18.2.28:
+    resolution: {integrity: sha512-ad4aa/RaaJS3hyGz0BGegdnSRXQBkd1CCYDCdNjBPg90UUpLgo+WlJqb9fMYUxtehmzF3PJaTWqRZjko6BRzBg==}
+    dependencies:
+      '@types/prop-types': 15.7.8
+      '@types/scheduler': 0.16.4
+      csstype: 3.1.2
+    dev: false
 
   /@types/readdir-glob@1.1.2:
     resolution: {integrity: sha512-vwAYrNN/8yhp/FJRU6HUSD0yk6xfoOS8HrZa8ZL7j+X8hJpaC1hTcAiXX2IxaAkkvrz9mLyoEhYZTE3cEYvA9Q==}
@@ -7443,7 +7524,7 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.15.1
-      next: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
       oauth: 0.9.15
       openid-client: 5.6.0
       preact: 10.18.1
@@ -7460,7 +7541,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      next: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -7476,10 +7557,10 @@ packages:
       '@corex/deepmerge': 4.0.43
       '@next/env': 13.5.4
       minimist: 1.2.8
-      next: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
     dev: false
 
-  /next@13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0):
+  /next@13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0):
     resolution: {integrity: sha512-+93un5S779gho8y9ASQhb/bTkQF17FNQOtXLKAj3lsNgltEcF0C5PMLLncDmH+8X1EnJH1kbqAERa29nRXqhjA==}
     engines: {node: '>=16.14.0'}
     hasBin: true
@@ -7502,7 +7583,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       sass: 1.68.0
-      styled-jsx: 5.1.1(@babel/core@7.23.0)(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.23.2)(react@18.2.0)
       watchpack: 2.4.0
     optionalDependencies:
       '@next/swc-darwin-arm64': 13.5.4
@@ -8813,7 +8894,7 @@ packages:
       inline-style-parser: 0.1.1
     dev: false
 
-  /styled-jsx@5.1.1(@babel/core@7.23.0)(react@18.2.0):
+  /styled-jsx@5.1.1(@babel/core@7.23.2)(react@18.2.0):
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
@@ -8826,7 +8907,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.23.2
       client-only: 0.0.1
       react: 18.2.0
     dev: false
@@ -9708,11 +9789,11 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: false
 
-  github.com/bebejane/dato-nextjs-utils/8b59e1742fe14665afb63aa78d531f5a82e878b4(@apollo/client@3.8.4)(@datocms/cma-client@1.3.1)(@types/node@18.18.3)(@types/react-dom@18.2.13)(@types/react@18.2.24)(datocms-listen@0.1.15)(next-seo@5.15.0)(next@13.5.4)(react-datocms@4.1.3)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {tarball: https://codeload.github.com/bebejane/dato-nextjs-utils/tar.gz/8b59e1742fe14665afb63aa78d531f5a82e878b4}
-    id: github.com/bebejane/dato-nextjs-utils/8b59e1742fe14665afb63aa78d531f5a82e878b4
+  github.com/bebejane/dato-nextjs-utils/d6352c90ca48d9488ffc650b88d4a42d255f244f(@apollo/client@3.8.4)(@datocms/cma-client@1.3.1)(@types/node@18.18.3)(@types/react-dom@18.2.13)(@types/react@18.2.24)(datocms-listen@0.1.15)(next-seo@5.15.0)(next@13.5.4)(react-datocms@4.1.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {tarball: https://codeload.github.com/bebejane/dato-nextjs-utils/tar.gz/d6352c90ca48d9488ffc650b88d4a42d255f244f}
+    id: github.com/bebejane/dato-nextjs-utils/d6352c90ca48d9488ffc650b88d4a42d255f244f
     name: dato-nextjs-utils
-    version: 1.0.364
+    version: 1.0.367
     engines: {node: '>=0.16'}
     peerDependencies:
       '@apollo/client': 3 - 4
@@ -9735,7 +9816,7 @@ packages:
       '@types/react-dom': 18.2.13
       datocms-listen: 0.1.15(graphql@16.8.1)
       markdown-truncate: 1.1.0
-      next: 13.5.4(@babel/core@7.23.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
+      next: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.68.0)
       next-seo: 5.15.0(next@13.5.4)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-datocms: 4.1.3(graphql@16.8.1)(react@18.2.0)
