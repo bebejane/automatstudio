@@ -73,7 +73,7 @@ const generateDownload = async (
   const name = isSingle ? `${products.productId}` : `${formatDate(products[0]._createdAt)}`
   const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/download/generate`, {
+  const response = await fetch(`/api/download/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ upload_ids: upload_ids, name }),
