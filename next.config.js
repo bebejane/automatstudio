@@ -29,19 +29,11 @@ const nextOptions = {
 		config.resolve.fallback = { fs: false, dns: false, net: false };
 		return config;
 	},
-
-	async redirects() {
+	async rewrites() {
 		return [
 			{
-				source: "/:path*",
-				has: [
-					{
-						type: "host",
-						value: "automatstudio.se",
-					},
-				],
-				permanent: false,
-				destination: "/:path",
+				source: "/api/:path*",
+				destination: `${process.env.NEXT_PUBLIC_SITE_URL}/:path*`,
 			},
 		];
 	},
