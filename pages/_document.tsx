@@ -8,7 +8,7 @@ class MyDocument extends Document {
   }
 
   render() {
-    const { settings: { background, grid } }: { settings: SettingRecord } = this.props?.__NEXT_DATA__?.props?.pageProps || {};
+    const { settings }: { settings: SettingRecord } = this.props?.__NEXT_DATA__?.props?.pageProps || {};
 
     return (
       <Html lang="en">
@@ -21,7 +21,7 @@ class MyDocument extends Document {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
         </Head>
-        <body style={{ backgroundColor: background.hex }}>
+        <body style={{ backgroundColor: settings?.background.hex }}>
           <Main />
           <NextScript />
         </body>
