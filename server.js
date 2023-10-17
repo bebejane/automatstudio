@@ -38,7 +38,6 @@ app.prepare().then(() => {
 });
 
 const clean_temp_dir = async () => {
-	console.log("cron: clean_temp_dir");
 	fs.readdirSync("/tmp", { withFileTypes: true })
 		.filter(
 			(d) =>
