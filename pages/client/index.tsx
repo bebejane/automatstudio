@@ -58,7 +58,8 @@ export default function Client({ client, products }: Props) {
             </li>
           ))}
         </ul>
-        : <div>No products available...</div>
+        :
+        <div className={s.noproducts}>No products available...</div>
       }
     </div >
   )

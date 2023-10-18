@@ -62,7 +62,16 @@
       }
     }
   }
+
+  .noproducts {
+    grid-column-start: 1;
+    grid-column-end: 13;
+
+    min-width: 100%;
+  }
 }
+
+
 
 .loader {
   display: block;

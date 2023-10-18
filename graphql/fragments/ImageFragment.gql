@@ -1,9 +1,9 @@
 fragment ImageFragment on FileField {
+	id
 	alt
 	basename
 	format
 	height
-	id
 	mimeType
 	size
 	title
@@ -13,7 +13,6 @@ fragment ImageFragment on FileField {
 		alt
 		aspectRatio
 		base64
-		# bgColor
 		height
 		sizes
 		src

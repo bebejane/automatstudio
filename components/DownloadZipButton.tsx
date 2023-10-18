@@ -71,7 +71,7 @@ const generateDownload = async (
 
   const isSingle = !Array.isArray(products)
   const name = isSingle ? `${products.productId}` : `${formatDate(products[0]._createdAt)}`
-  const upload_ids = (isSingle ? [products.png?.id, products.tiff?.id, products.back?.id] : products.map((product) => product.png.id)).filter((id) => id)
+  const upload_ids = (isSingle ? [products] : products).map((product) => [product.png?.id, product.tiff?.id, product.back?.id]).flat().filter((id) => id)
 
   const response = await fetch(`/api/download/generate`, {
     method: 'POST',
