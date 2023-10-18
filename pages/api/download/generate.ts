@@ -75,6 +75,12 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
   })
 })
 
+const formatFilename = (filename: string) => {
+  return filename;
+  const parts = filename.split('_')
+  return parts.length < 2 ? filename : parts.slice(1).join('_')
+}
+
 const zip = async (files: FileDownload[], zip_filepath: string): Promise<string> => {
 
   const archive = archiver('zip', { zlib: { level: 0 }, statConcurrency: 32 });
@@ -82,7 +88,7 @@ const zip = async (files: FileDownload[], zip_filepath: string): Promise<string>
   return new Promise((resolve, reject) => {
 
     for (let i = 0; i < files.length; i++)
-      archive.append(fs.createReadStream(files[i].file_path), { name: files[i].filename })
+      archive.append(fs.createReadStream(files[i].file_path), { name: formatFilename(files[i].filename) })
 
     archive.on('warning', (err) => {
       throw err

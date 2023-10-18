@@ -64,7 +64,7 @@ const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
 const upsertProduct = async (data: FileData) => {
 
-  console.log('upserting product', data.product_id, data.file_name,)
+  console.log('upserting product', data.product_id, data.file_name)
   const clientRecord = (await client.items.list({ filter: { type: "client", fields: { client_id: { eq: data.client_id } } } }))[0]
 
   if (!clientRecord)
@@ -79,12 +79,15 @@ const upsertProduct = async (data: FileData) => {
     throw new Error(`File type not supported: ${data.file_name}`)
 
   console.log('uploading file', data.product_id, data.file_name)
+  console.time('uploading done')
 
   const upload = await client.uploads.createFromLocalFile({
     localPath: data.file_path,
-    filename: `${data.client_id}_${data.product_id}_${data.file_name}`,
+    filename: data.file_name,
     skipCreationIfAlreadyExists: true
   })
+
+  console.timeEnd('uploading done')
 
   const product_data = {
     client: clientRecord.id,
