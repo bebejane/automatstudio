@@ -49,8 +49,8 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       fs.mkdirSync(zip_temp_dir)
 
       const files: FileDownload[] = uploads.map(({ url, filename }, i) => ({
-        file_path: `${zip_temp_dir}/${i + 1}_${filename}`,
-        filename: `${i + 1}_${filename}`,
+        file_path: `${zip_temp_dir}/${filename}`,
+        filename,
         url
       }))
 

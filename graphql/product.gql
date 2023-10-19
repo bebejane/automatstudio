@@ -29,7 +29,8 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 
 query AllProductsByClientByDate(
 	$id: ItemId
-	$date: Date
+	$dateFrom: DateTime
+	$dateTo: DateTime
 	$first: IntType = 10
 	$skip: IntType = 0
 ) {
@@ -39,7 +40,8 @@ query AllProductsByClientByDate(
 		filter: {
 			AND: [
 				{ client: { eq: $id } }
-				{ date: { eq: $date } }
+				{ date: { gte: $dateFrom } }
+				{ date: { lte: $dateTo } }
 				{ png: { exists: true } }
 				{ tiff: { exists: true } }
 			]
@@ -51,7 +53,8 @@ query AllProductsByClientByDate(
 		filter: {
 			AND: [
 				{ client: { eq: $id } }
-				{ date: { eq: $date } }
+				{ date: { gte: $dateFrom } }
+				{ date: { lte: $dateTo } }
 				{ png: { exists: true } }
 				{ tiff: { exists: true } }
 			]

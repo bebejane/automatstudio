@@ -70,13 +70,13 @@ const generateDownload = async (
     throw new Error('No products to download')
 
   const isSingle = !Array.isArray(products)
-  const name = isSingle ? `${products.productId}` : `${formatDate(products[0]._createdAt)}`
+  const name = isSingle ? `${products.productId}` : `${formatDate(products[0].date)}`
   const upload_ids = (isSingle ? [products] : products).map((product) => [product.png?.id, product.tiff?.id, product.back?.id]).flat().filter((id) => id)
 
   const response = await fetch(`/api/download/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ upload_ids: upload_ids, name }),
+    body: JSON.stringify({ upload_ids, name }),
   })
 
   const { url, filename } = await response.json()

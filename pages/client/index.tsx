@@ -32,7 +32,7 @@ export default function Client({ products }: Props) {
             <li key={idx}>
               {batch.date}<br />
               <DownloadZipButton
-                products={products}
+                products={batch.products}
                 label="Download archive"
                 status={{
                   downloading: 'Download archive',

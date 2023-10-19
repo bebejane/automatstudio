@@ -2,7 +2,7 @@ import { buildClient } from "@datocms/cma-client-node"
 import * as dotenv from 'dotenv'; dotenv.config({ path: './.env' });
 import { parseFilenameData } from "../utils";
 
-const environment = 'main';
+const environment = 'dev';//'main';
 
 (async () => {
 
@@ -15,7 +15,7 @@ const environment = 'main';
   for await (const product of client.items.listPagedIterator({ filter: { type: 'product', version: 'latest' } })) {
     products.push(product)
   }
-  const products_to_update = products.filter(product => !product.date && product.png)
+  const products_to_update = products.filter(product => product.png)
   let invalid = 0;
 
   for (let i = 0; i < products_to_update.length; i++) {
@@ -24,8 +24,8 @@ const environment = 'main';
 
     try {
       const { date, filename } = parseFilenameData(upload.filename)
-      console.log(date, filename)
-      await client.items.update(product.id, { date })
+      console.log(`${i + 1}/${products_to_update.length}`, date, filename)
+      await client.items.update(product.id, { datetime: date })
     } catch (e) {
       invalid++
       console.log('no valid upload for', upload.filename)

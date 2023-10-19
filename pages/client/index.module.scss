@@ -14,7 +14,11 @@
     list-style: none;
 
     >li {
-      margin-bottom: calc(2 * var(--small-margin));
+      margin-bottom: 2em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 
