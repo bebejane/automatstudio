@@ -25,7 +25,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
     try {
 
-      const upload_ids = (req.body.upload_ids as string[])//?.slice(0, 1)
+      const upload_ids = (req.body.upload_ids as string[])
       const name = req.body.name as string || 'archive'
 
       if (!upload_ids)

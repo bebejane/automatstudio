@@ -21,50 +21,34 @@ type DownloadStatus = {
 
 export default function DownloadZipButton({ products, label, status, className }: Props) {
 
-  const [downloading, setDownloading] = useState(false)
-  const [dStatus, setDStatus] = useState<DownloadStatus>({
-    progress: null,
-    contentLength: null,
-  })
+  const [generating, setGenerating] = useState(false)
   const [error, setError] = useState(null)
 
   const download = async () => {
-    if (downloading) return
-    setDownloading(true)
+    if (generating) return
+    setGenerating(true)
     setError(null)
-    setDStatus({
-      progress: null,
-      contentLength: null,
-    })
 
     try {
-      await generateDownload(products, setDStatus)
+      await generateDownload(products)
     } catch (e) {
       setError(e)
     } finally {
-      setDownloading(false)
+      setGenerating(false)
     }
   }
 
-  const isGenerating = downloading && dStatus.progress === null && dStatus.contentLength === null
-  const isDownloading = downloading && dStatus.progress !== null && dStatus.contentLength !== null
-
   return (
     <>
-      <button className={cn(className, downloading)} onClick={download}>
-        {!isGenerating && !isDownloading && label}
-        {isGenerating && <>{status.generating} <Loader /></>}
-        {isDownloading && `${status.downloading} ${dStatus.progress !== null ? ` ${dStatus.progress}` : '0'}%`}
+      <button className={cn(className, generating)} onClick={download}>
+        {generating ? <>{status.generating} <Loader /></> : label}
       </button>
       {error && <div className="error">{error?.message}</div>}
     </>
   )
 }
 
-const generateDownload = async (
-  products: ProductRecord[] | ProductRecord,
-  setDStatus: React.Dispatch<React.SetStateAction<DownloadStatus>>
-) => {
+const generateDownload = async (products: ProductRecord[] | ProductRecord) => {
 
   if (!products)
     throw new Error('No products to download')
