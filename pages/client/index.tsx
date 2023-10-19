@@ -2,14 +2,13 @@ import s from './index.module.scss';
 import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { ClientDocument, AllProductsByClientDocument, AllProductsByClientByDateDocument } from "/graphql"
+import { ClientDocument, AllProductsByClientDocument } from "/graphql"
 import { Image } from 'react-datocms'
 import { formatDate, parseFilenameData } from '/lib/utils';
 import Link from 'next/link';
 import { DownloadZipButton } from '/components';
 
 export type Props = {
-  client: ClientRecord
   products: ProductRecord[]
 }
 
@@ -21,7 +20,7 @@ type Batch = {
   error: Error | null
 }
 
-export default function Client({ client, products }: Props) {
+export default function Client({ products }: Props) {
 
   const batches = generateBatches(products)
 

@@ -19,6 +19,7 @@ const nextOptions = {
 	},
 	experimental: {
 		scrollRestoration: true,
+		largePageDataBytes: 5000000,
 	},
 	webpack: (config, ctx) => {
 		config.module.rules.push({

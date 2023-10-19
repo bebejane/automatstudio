@@ -9,7 +9,7 @@ fragment ImageFragment on FileField {
 	title
 	url
 	width
-	responsiveImage {
+	responsiveImage(imgixParams: { h: 2000, maxH: 2000, fit: fill, q: 80, auto: format }) {
 		alt
 		aspectRatio
 		base64

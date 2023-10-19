@@ -25,12 +25,14 @@ export default function Product({ product: _product, tags }: Props) {
   const [product, setProduct] = useState(_product)
   const [allTags, setAllTags] = useState<TagRecord[]>(tags)
 
+
   return (
     <div className={s.container}>
       <div className={s.intro}>
         <Image
           data={product.png.responsiveImage}
           className={s.image}
+          sizes={`(min-width: 768px) 300px, 100vw`}
           placeholderClassName={s.picture}
           pictureClassName={s.picture}
         />
