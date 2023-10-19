@@ -7,10 +7,9 @@
 	},
 	"private": true,
 	"scripts": {
-		"dev": "npm run dev:watch",
-		"dev:watch": "pnpm i && node server.js & npm run barrel:watch & graphql-codegen --watch",
-		"dev:test": "DATOCMS_ENVIRONMENT=dev npm run dev:watch",
-		"build": "next build",
+		"dev": "pnpm i && node server.js & npm run barrel:watch & graphql-codegen --watch",
+		"dev:test": "DATOCMS_ENVIRONMENT=dev npm run dev",
+		"build": "next build && npm run postbuild",
 		"codegen": "graphql-codegen",
 		"start": "NODE_ENV=production node server.js",
 		"lint": "next lint",
@@ -37,7 +36,6 @@
 		"dotenv": "^16.3.1",
 		"graphql": "^16.6.0",
 		"graphql-tag": "^2.12.6",
-		"hamburger-react": "^2.5.0",
 		"markdown-truncate": "^1.1.0",
 		"multer": "1.4.5-lts.1",
 		"nanoid": "^5.0.1",
@@ -72,10 +70,10 @@
 		"@types/multer": "^1.4.8",
 		"@types/node": "^18.16.16",
 		"@types/react": "^18.2.8",
-		"@types/yazl": "^2.4.3",
 		"apollo": "^2.34.0",
 		"eslint": "^8.42.0",
 		"eslint-config-next": "^12.3.4",
+		"eslint-plugin-jsx-a11y": "^6.7.1",
 		"typescript": "^4.9.5",
 		"watch": "^1.0.2"
 	}

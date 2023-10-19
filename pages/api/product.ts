@@ -46,12 +46,13 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
     ));
 
     const allTags = await allClientTags(id);
-    const productTags = allTags.filter((t) => product.tags.find(({ tag }) => tag.toLowerCase() === t.tag.toLowerCase()))
+    const productTags = allTags
+      .filter((t) => product.tags.find(({ tag }) => tag.toLowerCase() === t.tag.toLowerCase()))
+      .sort((a, b) => product.tags.findIndex(({ tag }) => tag.toLowerCase() === a.tag.toLowerCase()) - product.tags.findIndex(({ tag }) => tag.toLowerCase() === b.tag.toLowerCase()))
 
     await client.items.update(product.id, {
-      tags: productTags.map(({ id }) => id).filter((id) => !tagsToRemove.find((t) => t.id === id)),
+      tags: productTags.map(({ id }) => id).filter((id) => !tagsToRemove.find(t => t.id === id)),
     })
-
     return res.status(200).json({ product: { ...product, tags: productTags }, allTags })
   } catch (err) {
     console.error(err)

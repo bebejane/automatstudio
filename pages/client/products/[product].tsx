@@ -133,7 +133,8 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
       setAllTags(data.allTags)
 
     } catch (e) {
-      setError(e)
+      setError(new Error('Something went wrong'))
+      console.error(e)
     } finally {
       setQuery('')
       setSaving(false)
@@ -160,7 +161,7 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
           placeholder="Add tag..."
           onChange={(e) => setQuery(e.target.value)} value={query}
         />
-        {saving && <Loader className={s.loader} />}
+
         <div className={cn(s.alltags, filteredTags.length > 0 && s.show)}>
           {filteredTags.map((t, i) =>
             <div
@@ -179,6 +180,11 @@ const TagForm = ({ product, setProduct, allTags, setAllTags }: { product: Produc
             {t.tag}<span className={s.close} onClick={() => save(t, true)}>×</span>
           </span>
         )}
+        {saving &&
+          <span className={s.loaderWrap}>
+            <Loader className={s.loader} />
+          </span>
+        }
       </div>
       {error && <div className="error">{error.message}</div>}
     </form>

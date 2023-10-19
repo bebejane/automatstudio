@@ -1,5 +1,4 @@
 import s from './index.module.scss';
-import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientDocument } from "/graphql"
