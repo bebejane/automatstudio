@@ -3,4 +3,7 @@ fragment ClientLightFragment on ClientRecord {
 	clientId
 	name
 	email
+	_allReferencingProductsMeta {
+		count
+	}
 }

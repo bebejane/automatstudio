@@ -1,5 +1,5 @@
 query AllClients($first: IntType = 10, $skip: IntType = 0) {
-	clients: allClients(first: $first, skip: $skip) {
+	clients: allClients(first: $first, skip: $skip, orderBy: name_ASC) {
 		...ClientLightFragment
 	}
 	pagination: _allClientsMeta {

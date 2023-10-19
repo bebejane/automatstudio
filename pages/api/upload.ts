@@ -2,6 +2,7 @@ import multer from 'multer';
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withBasicAuth } from 'dato-nextjs-utils/hoc';
+import { parseDatoCMSApiError } from 'dato-nextjs-utils/utils'
 import { parseFilenameData } from '/lib/utils';
 import client from '/lib/client';
 
@@ -66,52 +67,58 @@ const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
 const upsertProduct = async (data: FileData) => {
 
-  console.log('upserting product', data.product_id, data.file_name)
-  const clientRecord = (await client.items.list({ filter: { type: "client", fields: { client_id: { eq: data.client_id } } } }))[0]
+  try {
 
-  if (!clientRecord)
-    throw new Error(`Client with id "${data.client_id}" not found`)
+    console.log('upserting product', data.product_id, data.file_name)
+    const clientRecord = (await client.items.list({ filter: { type: "client", fields: { client_id: { eq: data.client_id } } } }))[0]
 
-  const itemTypes = await client.itemTypes.list()
-  let product = (await client.items.list({ filter: { type: "product", fields: { product_id: { eq: data.product_id } } } }))[0]
+    if (!clientRecord)
+      throw new Error(`Client with id "${data.client_id}" not found`)
 
-  const type = data.file_name.toLowerCase().includes('backside') ? 'back' : data.file_name.toLowerCase().endsWith('png') ? 'png' : data.file_name.toLowerCase().endsWith('tif') || data.file_name.toLowerCase().endsWith('tiff') ? 'tiff' : null
+    const itemTypes = await client.itemTypes.list()
+    let product = (await client.items.list({ filter: { type: "product", fields: { product_id: { eq: data.product_id } } } }))[0]
 
-  if (!type)
-    throw new Error(`File type not supported: ${data.file_name}`)
+    const type = data.file_name.toLowerCase().includes('backside') ? 'back' : data.file_name.toLowerCase().endsWith('png') ? 'png' : data.file_name.toLowerCase().endsWith('tif') || data.file_name.toLowerCase().endsWith('tiff') ? 'tiff' : null
 
-  console.log('uploading file', data.product_id, data.file_name)
-  console.time(`uploading done ${data.file_name}`)
+    if (!type)
+      throw new Error(`File type not supported: ${data.file_name}`)
 
-  const upload = await client.uploads.createFromLocalFile({
-    localPath: data.file_path,
-    filename: data.file_name,
-    skipCreationIfAlreadyExists: true
-  })
+    console.log('uploading file', data.product_id, data.file_name)
+    console.time(`uploading done ${data.file_name}`)
 
-  console.timeEnd(`uploading done ${data.file_name}`)
-
-  const product_data = {
-    client: clientRecord.id,
-    product_id: data.product_id,
-    date: data.date,
-    png: type === 'png' ? { upload_id: upload.id } : undefined,
-    tiff: type === 'tiff' ? { upload_id: upload.id } : undefined,
-    back: type === 'back' ? { upload_id: upload.id } : undefined,
-  }
-
-  if (product) {
-    console.log('updating product', data.product_id)
-    product = await client.items.update(product.id, product_data)
-  } else {
-    console.log('creating product', data.product_id)
-    product = await client.items.create({
-      item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "product").id },
-      ...product_data
+    const upload = await client.uploads.createFromLocalFile({
+      localPath: data.file_path,
+      filename: data.file_name,
+      skipCreationIfAlreadyExists: true
     })
-  }
 
-  return product
+    console.timeEnd(`uploading done ${data.file_name}`)
+
+    const product_data = {
+      client: clientRecord.id,
+      product_id: data.product_id,
+      date: data.date,
+      png: type === 'png' ? { upload_id: upload.id } : undefined,
+      tiff: type === 'tiff' ? { upload_id: upload.id } : undefined,
+      back: type === 'back' ? { upload_id: upload.id } : undefined,
+    }
+
+    if (product) {
+      console.log('updating product', data.product_id)
+      product = await client.items.update(product.id, product_data)
+    } else {
+      console.log('creating product', data.product_id)
+      product = await client.items.create({
+        item_type: { type: 'item_type', id: itemTypes.find(i => i.api_key === "product").id },
+        ...product_data
+      })
+    }
+
+    return product
+
+  } catch (e) {
+    throw new Error(parseDatoCMSApiError(e))
+  }
 }
 
 function run_middleware(req: NextApiRequest, res: NextApiResponse, fn: (req: NextApiRequest, res: NextApiResponse, cb: (result: any) => any) => void): Promise<any> {
