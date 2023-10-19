@@ -11,7 +11,10 @@ const environment = 'main';
     uploads.push(upload)
   }
   const total_bytes = uploads.reduce((acc, upload) => acc + upload.size, 0)
-  const uploads_to_update = uploads.filter(upload => upload.filename.split('_').length > 4 && upload.filename.split('_').slice(0, 1).join('_') === upload.filename.split('_').slice(2, 3).join('_'))
+  const uploads_to_update = uploads.filter(upload =>
+    upload.filename.split('_').length > 4 &&
+    upload.filename.split('_').slice(0, 1).join('_') === upload.filename.split('_').slice(2, 3).join('_')
+  )
 
   for (let i = 0; i < uploads_to_update.length; i++) {
     const upload = uploads_to_update[i];

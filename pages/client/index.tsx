@@ -2,9 +2,9 @@ import s from './index.module.scss';
 import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { ClientDocument, AllProductsByClientDocument, ProductDocument, AllProductsDocument } from "/graphql"
+import { ClientDocument, AllProductsByClientDocument, AllProductsByClientByDateDocument } from "/graphql"
 import { Image } from 'react-datocms'
-import { formatDate } from '/lib/utils';
+import { formatDate, parseFilenameData } from '/lib/utils';
 import Link from 'next/link';
 import { DownloadZipButton } from '/components';
 
@@ -23,7 +23,7 @@ type Batch = {
 
 export default function Client({ client, products }: Props) {
 
-  const batches = generateBatches(products)
+  const batches = generateBatchesByFilename(products)
 
   return (
     <div className={s.container}>
@@ -49,6 +49,7 @@ export default function Client({ client, products }: Props) {
                         data={product.png.responsiveImage}
                         className={s.image}
                         pictureClassName={s.picture}
+                        sizes={`(max-width: 768px) 300px, (min-width: 768px) 200px, 100vw`}
                         intersectionMargin="0px 0px 200% 0px"
                       />
                     </li>
@@ -87,6 +88,31 @@ const generateBatches = (products: ProductRecord[]): Batch[] => {
     }
   })
   return batches
+}
+
+const generateBatchesByFilename = (products: ProductRecord[]): Batch[] => {
+
+  if (!products) return []
+
+  const batches: Batch[] = []
+
+  products.forEach((product) => {
+    const { date } = parseFilenameData(product.png.basename);
+
+    const batch = batches.find((batch) => formatDate(batch.date) === formatDate(date))
+    if (batch) {
+      batch.products.push(product)
+    } else {
+      batches.push({
+        date: formatDate(date),
+        createdAt: product._createdAt,
+        products: [product],
+        downloading: false,
+        error: null
+      })
+    }
+  })
+  return batches.sort((a, b) => new Date(b.date).getTime() > new Date(a.date).getTime() ? 1 : -1)
 }
 
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {

@@ -154,6 +154,7 @@ declare module '*/product.gql' {
   const defaultDocument: DocumentNode;
   export const AllProducts: DocumentNode;
 export const AllProductsByClient: DocumentNode;
+export const AllProductsByClientByDate: DocumentNode;
 export const Product: DocumentNode;
 
   export default defaultDocument;

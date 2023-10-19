@@ -2,6 +2,7 @@ import multer from 'multer';
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withBasicAuth } from 'dato-nextjs-utils/hoc';
+import { parseFilenameData } from '/lib/utils';
 import client from '/lib/client';
 
 const upload_destination = `/tmp`
@@ -20,20 +21,18 @@ type FileData = {
   product_id: string
   file_name: string
   file_path: string
+  date: Date
   tags?: string[]
 }
 
 export default withBasicAuth(async (req: NextApiRequestWithFile, res: NextApiResponse) => {
   try {
-    console.log('upload_destination', upload_destination)
     //@ts-ignore
     await run_middleware(req, res, upload.single("file"))
-
     const data = parse_form_data(req)
-
-    console.time(`done ${data.product_id}`)
+    console.time(`done ${data.file_name}`)
     await upsertProduct(data)
-    console.timeEnd(`done ${data.product_id}`)
+    console.timeEnd(`done ${data.file_name}`)
     return res.send("ok")
   } catch (e) {
     console.log(e)
@@ -54,11 +53,14 @@ const parse_form_data = (req: NextApiRequestWithFile): FileData => {
   if (!file_name) throw new Error("Filename is is empty")
   if (!file_path) throw new Error("Filepath is is empty")
 
+  const { date } = parseFilenameData(file_name)
+
   return {
     client_id,
     product_id,
     file_name,
-    file_path
+    file_path,
+    date
   }
 }
 
@@ -79,7 +81,7 @@ const upsertProduct = async (data: FileData) => {
     throw new Error(`File type not supported: ${data.file_name}`)
 
   console.log('uploading file', data.product_id, data.file_name)
-  console.time('uploading done')
+  console.time(`uploading done ${data.file_name}`)
 
   const upload = await client.uploads.createFromLocalFile({
     localPath: data.file_path,
@@ -87,11 +89,12 @@ const upsertProduct = async (data: FileData) => {
     skipCreationIfAlreadyExists: true
   })
 
-  console.timeEnd('uploading done')
+  console.timeEnd(`uploading done ${data.file_name}`)
 
   const product_data = {
     client: clientRecord.id,
     product_id: data.product_id,
+    date: data.date,
     png: type === 'png' ? { upload_id: upload.id } : undefined,
     tiff: type === 'tiff' ? { upload_id: upload.id } : undefined,
     back: type === 'back' ? { upload_id: upload.id } : undefined,

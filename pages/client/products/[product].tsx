@@ -20,15 +20,20 @@ const sizes = [
 
 const colors = ['black', 'white', 'gray']
 
-export default function Product({ product: productFromProps, tags }: Props) {
+export default function Product({ product: _product, tags }: Props) {
 
-  const [product, setProduct] = useState(productFromProps)
+  const [product, setProduct] = useState(_product)
   const [allTags, setAllTags] = useState<TagRecord[]>(tags)
 
   return (
     <div className={s.container}>
       <div className={s.intro}>
-        <Image data={product.png.responsiveImage} className={s.image} pictureClassName={s.picture} />
+        <Image
+          data={product.png.responsiveImage}
+          className={s.image}
+          placeholderClassName={s.picture}
+          pictureClassName={s.picture}
+        />
         <div className={s.details}>
           {format(new Date(product._createdAt), 'yyyy MM dd')}<br />
           <p>
@@ -185,6 +190,10 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
 
   const productId = context.params.product
   const { product } = await apiQuery(ProductDocument, { variables: { productId, gray: props.settings.grid.hex } })
+
+  if (!product)
+    return { notFound: true }
+
   const { tags } = await apiQueryAll(AllClientTagsDocument, { variables: { id: product.client.id } })
 
   return {

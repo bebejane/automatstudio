@@ -26,6 +26,25 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 	}
 }
 
+query AllProductsByClientByDate($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
+	products: allProducts(
+		first: $first
+		skip: $skip
+		filter: {
+			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+		}
+	) {
+		...ProductLightFragment
+	}
+	pagination: _allProductsMeta(
+		filter: {
+			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+		}
+	) {
+		count
+	}
+}
+
 query Product(
 	$productId: String
 	$white: String = "#FFFFFF"

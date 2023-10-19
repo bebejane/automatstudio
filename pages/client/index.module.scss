@@ -12,6 +12,10 @@
     }
 
     list-style: none;
+
+    >li {
+      margin-bottom: calc(2 * var(--small-margin));
+    }
   }
 
   button {
