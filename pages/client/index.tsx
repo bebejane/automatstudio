@@ -23,7 +23,7 @@ type Batch = {
 
 export default function Client({ client, products }: Props) {
 
-  const batches = generateBatchesByFilename(products)
+  const batches = generateBatches(products)
 
   return (
     <div className={s.container}>
@@ -74,12 +74,12 @@ const generateBatches = (products: ProductRecord[]): Batch[] => {
   const batches: Batch[] = []
 
   products.forEach((product) => {
-    const batch = batches.find((batch) => formatDate(batch.createdAt) === formatDate(product._createdAt))
+    const batch = batches.find((batch) => formatDate(batch.date) === formatDate(product.date))
     if (batch) {
       batch.products.push(product)
     } else {
       batches.push({
-        date: formatDate(product._createdAt),
+        date: formatDate(product.date),
         createdAt: product._createdAt,
         products: [product],
         downloading: false,

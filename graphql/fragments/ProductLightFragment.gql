@@ -2,6 +2,7 @@ fragment ProductLightFragment on ProductRecord {
 	_createdAt
 	id
 	productId
+	date
 	png {
 		...ImageThumbnailFragment
 	}

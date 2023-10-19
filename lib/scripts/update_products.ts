@@ -2,7 +2,7 @@ import { buildClient } from "@datocms/cma-client-node"
 import * as dotenv from 'dotenv'; dotenv.config({ path: './.env' });
 import { parseFilenameData } from "../utils";
 
-const environment = 'dev';//'main';
+const environment = 'main';
 
 (async () => {
 

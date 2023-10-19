@@ -11,6 +11,7 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 	products: allProducts(
 		first: $first
 		skip: $skip
+		orderBy: date_DESC
 		filter: {
 			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
 		}
@@ -26,19 +27,34 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 	}
 }
 
-query AllProductsByClientByDate($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
+query AllProductsByClientByDate(
+	$id: ItemId
+	$date: Date
+	$first: IntType = 10
+	$skip: IntType = 0
+) {
 	products: allProducts(
 		first: $first
 		skip: $skip
 		filter: {
-			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+			AND: [
+				{ client: { eq: $id } }
+				{ date: { eq: $date } }
+				{ png: { exists: true } }
+				{ tiff: { exists: true } }
+			]
 		}
 	) {
 		...ProductLightFragment
 	}
 	pagination: _allProductsMeta(
 		filter: {
-			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
+			AND: [
+				{ client: { eq: $id } }
+				{ date: { eq: $date } }
+				{ png: { exists: true } }
+				{ tiff: { exists: true } }
+			]
 		}
 	) {
 		count
