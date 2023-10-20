@@ -4,6 +4,8 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import client from '/lib/client';
 
+const useSecureCookies = !!process.env.RAILWAY_PUBLIC_DOMAIN
+
 export type SessionExtended = {
   id: string
   clientId: string
@@ -45,6 +47,18 @@ export const authOptions: NextAuthOptions = {
       session.user.clientId = token?.clientId;
       return session;
     }
+  },
+  cookies: {
+    sessionToken: {
+      name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        domain: process.env.NODE_ENV === 'production' ? '.automatstudio.se' : 'localhost',
+        secure: useSecureCookies,
+      },
+    },
   },
   providers: [
     CredentialsProvider({
