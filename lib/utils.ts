@@ -3,10 +3,17 @@ export const isServer = typeof window === 'undefined';
 export const formatDate = (date: string | Date) => format(new Date(date), 'yyyy-MM-dd')
 
 export const parseFilenameData = (filename: string) => {
+
+  if (!filename)
+    throw new Error('Filename is empty')
+
+  if (typeof filename !== 'string')
+    throw new Error('Filename is not a string')
+
   const parts = filename.split('_')
 
   if (!parts || parts.length < 8)
-    throw new Error('Invalid filename. Expected format: clientid_productid_YYYY_MM_DD_HH_mm_ss.ext')
+    throw new Error(`Invalid filename: "${filename}". Expected format: clientid_productid_YYYY_MM_DD_HH_MM_SS.ext`)
 
   const clientId = parts[0]
   const productId = parts[1]
