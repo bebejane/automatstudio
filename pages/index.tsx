@@ -51,7 +51,7 @@ const MediaBlock = ({ data: { media, margin, end } }: { data: MediaBlockExtended
 	return (
 		<div className={`m${margin} e${end}`}>
 			{media.video !== null ?
-				<video className={s.video} muted={true} autoPlay={true} playsInline={true}>
+				<video className={s.video} muted={true} autoPlay={true} playsInline={true} poster={media.video.thumbnailUrl}>
 					<source src={media.video.mp4high} type="video/mp4" />
 				</video>
 				:
