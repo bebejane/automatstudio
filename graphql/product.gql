@@ -118,7 +118,7 @@ query Product(
 		istoryblack: png {
 			...ImageBaseFragment
 			responsiveImage(
-				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $black, pad: 80 }
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $black, pad: 160 }
 			) {
 				...ResponsiveImageFragment
 			}
@@ -126,7 +126,7 @@ query Product(
 		istorywhite: png {
 			...ImageBaseFragment
 			responsiveImage(
-				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $white, pad: 80 }
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $white, pad: 160 }
 			) {
 				...ResponsiveImageFragment
 			}
@@ -134,7 +134,7 @@ query Product(
 		istorygray: png {
 			...ImageBaseFragment
 			responsiveImage(
-				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $gray, pad: 80 }
+				imgixParams: { w: 1080, h: 1920, fit: fill, fill: solid, fm: png32, bg: $gray, pad: 160 }
 			) {
 				...ResponsiveImageFragment
 			}
