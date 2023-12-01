@@ -88,31 +88,6 @@ const generateBatches = (products: ProductRecord[]): Batch[] => {
   return batches
 }
 
-const generateBatchesByFilename = (products: ProductRecord[]): Batch[] => {
-
-  if (!products) return []
-
-  const batches: Batch[] = []
-
-  products.forEach((product) => {
-    const { date } = parseFilenameData(product.png.basename);
-
-    const batch = batches.find((batch) => formatDate(batch.date) === formatDate(date))
-    if (batch) {
-      batch.products.push(product)
-    } else {
-      batches.push({
-        date: formatDate(date),
-        createdAt: product._createdAt,
-        products: [product],
-        downloading: false,
-        error: null
-      })
-    }
-  })
-  return batches.sort((a, b) => new Date(b.date).getTime() > new Date(a.date).getTime() ? 1 : -1)
-}
-
 export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ props, context }: any) => {
 
   const clientId = props.session?.user.clientId ?? (context.query.secret === process.env.DATOCMS_PREVIEW_SECRET ? context.query.client_id : null)
