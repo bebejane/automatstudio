@@ -6,5 +6,11 @@
     th {
       text-align: left;
     }
+
+    tr {
+      &.country {
+        background-color: var(--gray);
+      }
+    }
   }
 }

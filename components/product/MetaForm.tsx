@@ -90,6 +90,7 @@ export default function MetaForm({ product, setProduct }: Props) {
               placeholder={`${field.label}`}
               defaultValue={product[field.id]}
               onChange={handleChange}
+              autoComplete="off"
             />
             :
             <>
@@ -99,6 +100,7 @@ export default function MetaForm({ product, setProduct }: Props) {
                 name={field.id}
                 defaultValue={product[field.id] ? '1' : '0'}
                 onChange={handleChange}
+                autoComplete="off"
               >
                 <option value="0">No</option>
                 <option value="1">Yes</option>

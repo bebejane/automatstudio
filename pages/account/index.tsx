@@ -25,6 +25,7 @@ export default function Client({ products }: Props) {
 
   return (
     <div className={s.container}>
+      <Link href="/account/pricelist">Pricelist</Link>
       {batches.length > 0 ?
         <ul>
           {batches?.map((batch, idx) => (

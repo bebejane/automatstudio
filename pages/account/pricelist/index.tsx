@@ -19,8 +19,10 @@ export type Pricelist = {
 }[]
 
 export default function Pricelist({ products }: Props) {
+
   const pricelist = generatePriceList(products)
   const maxColumns = 10
+
   return (
     <div className={s.container}>
       <table>
@@ -41,7 +43,7 @@ export default function Pricelist({ products }: Props) {
                       <tr key={id}>
                         <td>{year}</td>
                         <td>{name}</td>
-                        <td>{eco}</td>
+                        <td>{eco ? 'ECO' : ''}</td>
                         <td>{category}</td>
                         <td>{grape}</td>
                         <td>{price}kr</td>
@@ -61,12 +63,30 @@ export default function Pricelist({ products }: Props) {
 
 
 const generatePriceList = (products: ProductRecord[]): Pricelist => {
-  const list = []
+
+  const list: Pricelist = []
+
   products.forEach(product => {
     const { country, region } = product
+
     if (country && region) {
       const countryIndex = list.findIndex(item => item.country === country)
-      list[countryIndex === -1 ? 0 : countryIndex] = ({ country, region: [{ id: region, name: region, products: products.filter(item => item.region === region && item.country === country) }] })
+      if (countryIndex < 0)
+        list.push({ country, region: [{ id: region, name: region, products: products.filter(item => item.region === region && item.country === country) }] })
+      else {
+        const regionIndex = list[countryIndex].region.findIndex(item => item.id === region)
+        const regions = list[countryIndex].region
+        if (regionIndex < 0)
+          regions.push({ id: region, name: region, products: products.filter(item => item.region === region && item.country === country) })
+        else
+          regions[regionIndex] = { id: region, name: region, products: products.filter(item => item.region === region && item.country === country) }
+
+        list[countryIndex] = {
+          ...list[countryIndex],
+          region: regions
+        }
+      }
+
     }
   })
 
