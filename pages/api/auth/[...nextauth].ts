@@ -48,6 +48,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     }
   },
+  /*
   cookies: {
     sessionToken: {
       name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
@@ -60,6 +61,7 @@ export const authOptions: NextAuthOptions = {
       },
     },
   },
+  */
   providers: [
     CredentialsProvider({
       name: 'Credentials',
