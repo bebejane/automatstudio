@@ -1,0 +1,37 @@
+.metaForm {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .field {
+    flex: 0 0 50%;
+    padding-right: var(--small-margin);
+
+    input {
+      width: 100%;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+    }
+  }
+
+  &.saving {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  button {
+    &[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .loader {
+      margin-left: var(--small-margin);
+    }
+  }
+
+}

@@ -31,7 +31,7 @@ const routes: Routes = {
   },
   "client": {
     typeName: "ClientRecord",
-    basePath: "/client"
+    basePath: "/account"
   },
   "gallery": {
     typeName: "GalleryRecord",

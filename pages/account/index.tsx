@@ -41,7 +41,7 @@ export default function Client({ products }: Props) {
               <br />
               <ul className={s.images}>
                 {batch.products?.map((product) => (
-                  <Link href={`/client/products/${product.productId}`} key={product.id}>
+                  <Link href={`/account/products/${product.productId}`} key={product.id}>
                     <li>
                       <Image
                         data={product.png.responsiveImage}

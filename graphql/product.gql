@@ -139,6 +139,9 @@ query Product(
 				...ResponsiveImageFragment
 			}
 		}
+		client {
+			...ClientLightFragment
+		}
 		tags {
 			... on TagRecord {
 				_createdAt
@@ -146,8 +149,15 @@ query Product(
 				tag
 			}
 		}
-		client {
-			...ClientLightFragment
-		}
+		name
+		year
+		country
+		region
+		producer
+		city
+		category
+		grape
+		eco
+		price
 	}
 }

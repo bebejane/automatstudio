@@ -12,4 +12,14 @@ fragment ProductLightFragment on ProductRecord {
 	back {
 		id
 	}
+	name
+	year
+	country
+	region
+	producer
+	city
+	category
+	grape
+	eco
+	price
 }

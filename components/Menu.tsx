@@ -22,7 +22,7 @@ export default function Menu({ }: MenuProps) {
       <Link href="/contact">
         Contact
       </Link>
-      <Link href={status === 'authenticated' ? '/client' : '/login'}>
+      <Link href={status === 'authenticated' ? '/account' : '/login'}>
         {status === 'authenticated' ? 'Account' : 'Login'}
       </Link>
     </nav>

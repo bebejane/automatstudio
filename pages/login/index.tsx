@@ -26,7 +26,7 @@ export default function Clients({ clients }: Props) {
 		try {
 			setError(null)
 			setLoggingIn(true)
-			await signIn('credentials', { username, password, callbackUrl: '/client' })
+			await signIn('credentials', { username, password, callbackUrl: '/account' })
 		} catch (err) {
 			console.error(err)
 			setError(err)
