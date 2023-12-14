@@ -61,7 +61,7 @@ export default function MetaForm({ product, setProduct }: Props) {
     const changed = inputs.some(input => {
       if (!input.value && typeof product[input.id] === 'undefined') return false
       const field = metaFields.find(field => field.id === input.id)
-      if (field.type === 'boolean')
+      if (field?.type === 'boolean')
         return (parseInt(input.value) === 1) !== product[input.id]
 
       return input.value !== product[input.id]
@@ -79,7 +79,8 @@ export default function MetaForm({ product, setProduct }: Props) {
       ref={ref}
       className={cn(s.metaForm, saving && s.saving)}
     >
-      <input type="hidden" id="product_id" name="product_id" value={product.id} />
+      <input type="hidden" id="id" name="id" value={product.id} />
+      <input type="hidden" id="product_id" name="product_id" value={product.productId} />
       {metaFields.map(field => (
         <div key={field.id} className={s.field}>
           {field.type !== 'boolean' ?
@@ -109,13 +110,15 @@ export default function MetaForm({ product, setProduct }: Props) {
           }
         </div>
       ))}
-
-      <button type="submit" className={s.save} disabled={!hasChanged}>
-        Save
-        {saving &&
-          <Loader className={s.loader} />
-        }
-      </button>
+      <br />
+      <div className={s.submit}>
+        <button type="submit" className={s.save} disabled={!hasChanged}>
+          Save
+          {saving &&
+            <Loader className={s.loader} />
+          }
+        </button>
+      </div>
       {error && <div className="error">{error.message}</div>}
     </form>
   )

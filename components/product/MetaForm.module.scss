@@ -30,15 +30,20 @@
     pointer-events: none;
   }
 
-  button {
-    &[disabled] {
-      opacity: 0.5;
-      pointer-events: none;
-    }
+  .submit {
 
-    .loader {
-      margin-left: var(--small-margin);
+    width: 100%;
+
+    button {
+
+      &[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .loader {
+        margin-left: var(--small-margin);
+      }
     }
   }
-
 }

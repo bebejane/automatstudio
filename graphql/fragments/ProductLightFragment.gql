@@ -21,5 +21,6 @@ fragment ProductLightFragment on ProductRecord {
 	category
 	grape
 	eco
+	pricelist
 	price
 }

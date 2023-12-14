@@ -41,6 +41,10 @@ const metaFields: MetaField[] = [{
   label: 'Eco',
   type: 'boolean',
 }, {
+  id: 'pricelist',
+  label: 'Pricelist',
+  type: 'boolean',
+}, {
   id: 'price',
   label: 'Price',
   type: 'number',

@@ -158,6 +158,7 @@ query Product(
 		category
 		grape
 		eco
+		pricelist
 		price
 	}
 }
