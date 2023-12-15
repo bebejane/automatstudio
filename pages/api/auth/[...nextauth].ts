@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { NextAuthOptions } from 'next-auth';
+import { parseDatoCMSApiError } from 'dato-nextjs-utils/utils';
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import client from '/lib/client';
@@ -73,7 +74,6 @@ export const authOptions: NextAuthOptions = {
         try {
 
           const { username: email, password } = credentials
-          console.log({ email, password })
           const user = (await client.items.list({
             filter: {
               type: 'client',
@@ -96,7 +96,7 @@ export const authOptions: NextAuthOptions = {
 
           return session
         } catch (err) {
-          console.error(err)
+          console.log(parseDatoCMSApiError(err))
           return null
         }
       }
