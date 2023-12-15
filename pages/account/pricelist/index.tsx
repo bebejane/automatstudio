@@ -49,7 +49,9 @@ export default function Pricelist({ products }: Props) {
                         <td>{category}</td>
                         <td>{grape}</td>
                         <td>{price}kr</td>
-                        <td classNam={s.edit}><Link href={`/account/products/${productId}`}>Edit</Link></td>
+                        <td className={s.edit}>
+                          <Link href={`/account/products/${productId}`}>Edit</Link>
+                        </td>
                       </tr>
                     )}
                   </>

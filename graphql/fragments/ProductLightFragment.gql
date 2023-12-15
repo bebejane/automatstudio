@@ -6,6 +6,9 @@ fragment ProductLightFragment on ProductRecord {
 	png {
 		...ImageThumbnailFragment
 	}
+	back {
+		...ImageThumbnailFragment
+	}
 	tiff {
 		id
 	}

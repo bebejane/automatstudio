@@ -1,10 +1,11 @@
 import s from "./index.module.scss";
+import cn from "classnames";
 import { AllClientsDocument, AllProductsByClientDocument, ClientBySlugDocument } from "/graphql";
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api";
 import withGlobalProps from "/lib/withGlobalProps";
 import { DefaultDatoSEO } from "dato-nextjs-utils/components";
 import { Image } from "react-datocms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import metaFields from "/lib/meta-fields";
 import React from "react";
 
@@ -21,7 +22,7 @@ export default function Client({ client, products }: Props) {
     <>
       <DefaultDatoSEO siteTitle={`Automatstudio - ${client.name}`} />
       <main className={s.container}>
-        {client.name}
+        <h1>{client.name}</h1>
         <ul className={s.products}>
           {products.map((product) =>
             <li key={product.id} onClick={() => setProduct(product)}>
@@ -34,37 +35,60 @@ export default function Client({ client, products }: Props) {
             </li>
           )}
         </ul>
+        <ProductDetails product={product} onClose={() => setProduct(null)} />
       </main>
-      {product &&
-        <ProductPopup product={product} onClose={() => setProduct(null)} />
-      }
+
     </>
   )
 }
 
 
-const ProductPopup = ({ product, onClose }: { product: ProductRecord, onClose: () => void }) => {
+const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose: () => void }) => {
+
+
+  const [showDetails, setShowDetails] = useState(false)
+
+  const handleClose = () => {
+    setShowDetails(false)
+    setTimeout(() => onClose(), 300)
+
+  }
+  useEffect(() => {
+    setShowDetails(product !== null)
+  }, [product])
 
   return (
-    <div className={s.productPopup}>
-      <figure>
-        <Image
-          data={product.png.responsiveImage}
-          className={s.image}
-          pictureClassName={s.picture}
-          intersectionMargin="0px 0px 200% 0px"
-        />
-      </figure>
-      <p className={s.info}>
-        {metaFields.map((field, idx) =>
-          <React.Fragment key={idx}>
-            {field.label}: {product[field.id]}
-            <br />
-          </React.Fragment>
-        )}
+    <div className={cn(s.productDetails, showDetails && s.show)}>
+      {product &&
 
-      </p>
-      <button className={s.close} onClick={onClose}>Close</button>
+        <div className={s.wrap}>
+          <figure>
+            <Image
+              data={product.png.responsiveImage}
+              className={s.image}
+              pictureClassName={s.picture}
+              intersectionMargin="0px 0px 200% 0px"
+            />
+            {product.back &&
+              <Image
+                data={product.back.responsiveImage}
+                className={s.image}
+                pictureClassName={s.picture}
+                intersectionMargin="0px 0px 200% 0px"
+              />
+            }
+          </figure>
+          <p className={s.info}>
+            {metaFields.map((field, idx) =>
+              <React.Fragment key={idx}>
+                {field.label}: {product[field.id]}
+                <br />
+              </React.Fragment>
+            )}
+          </p>
+          <button className={s.close} onClick={handleClose}>Close</button>
+        </div>
+      }
     </div>
   )
 }
