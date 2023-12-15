@@ -28,7 +28,7 @@ export default function Menu({ }: MenuProps) {
         <Link href={status === 'authenticated' ? '/account' : '/login'}>
           {status === 'authenticated' ? 'Account' : 'Login'}
         </Link>
-        {status === 'authenticated' &&
+        {status === 'authenticated' && user &&
           <nav className={s.sub}>
             <Link href="/account/pricelist">
               Pricelist
@@ -39,7 +39,6 @@ export default function Menu({ }: MenuProps) {
           </nav>
         }
       </nav>
-
     </>
   )
 }
