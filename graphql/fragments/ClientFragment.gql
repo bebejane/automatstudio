@@ -3,4 +3,5 @@ fragment ClientFragment on ClientRecord {
 	clientId
 	name
 	email
+	slug
 }

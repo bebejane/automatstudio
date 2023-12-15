@@ -12,6 +12,7 @@ export type SessionExtended = {
   clientId: string
   email: string
   name: string
+  slug: string
   image: string
 }
 
@@ -37,6 +38,8 @@ export const authOptions: NextAuthOptions = {
         token.id = user?.id
         //@ts-ignore
         token.clientId = user?.clientId
+        //@ts-ignore
+        token.slug = user?.slug
       }
 
       return token
@@ -46,6 +49,8 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token?.id;
       //@ts-ignore
       session.user.clientId = token?.clientId;
+      //@ts-ignore
+      session.user.slug = token?.slug
       return session;
     }
   },
@@ -91,6 +96,7 @@ export const authOptions: NextAuthOptions = {
             clientId: user.client_id as string,
             email: user.email as string,
             name: user.name as string,
+            slug: user.slug as string,
             image: null
           }
 

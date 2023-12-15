@@ -1,0 +1,23 @@
+.container {
+  margin: var(--outer-margin);
+
+  .products {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    li {
+      width: 10%;
+      padding: 1rem;
+
+      .image {
+        height: 200px;
+
+        .picture {
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
