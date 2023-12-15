@@ -73,6 +73,7 @@ export const authOptions: NextAuthOptions = {
         try {
 
           const { username: email, password } = credentials
+          console.log({ email, password })
           const user = (await client.items.list({
             filter: {
               type: 'client',
