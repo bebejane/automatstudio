@@ -21,7 +21,8 @@
       width: 10vw;
       padding: 1rem;
 
-      &:hover {
+      &:hover,
+      &.selected {
         cursor: pointer;
 
         .image {
@@ -41,11 +42,12 @@
 }
 
 .productDetails {
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
   background-color: var(--black);
   color: var(--white);
-  margin: calc(-1 * var(--outer-margin));
-  flex: 0 0 0%;
+  width: 50vw;
   height: 100vh;
   transform: translateX(100%);
   transition: transform 0.2s ease-in-out, flex 0.2s ease-in-out;
@@ -90,9 +92,23 @@
       position: absolute;
       top: 0;
       right: 0;
-      padding: 1rem;
+      margin: calc(var(--outer-margin) /2);
       cursor: pointer;
       color: white;
     }
+  }
+}
+
+.productDetailsBlock {
+  position: relative;
+  margin: calc(-1 * var(--outer-margin));
+  flex: 0 0 0%;
+  height: 100vh;
+  transform: translateX(100%);
+  transition: transform 0.2s ease-in-out, flex 0.2s ease-in-out;
+
+  &.show {
+    transform: translateX(0%);
+    flex: 0 0 50%;
   }
 }

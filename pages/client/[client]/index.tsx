@@ -24,10 +24,14 @@ export default function Client({ client, products }: Props) {
       <main className={s.container}>
         <h1>{client.name}</h1>
         <ul className={s.products}>
-          {products.map((product) =>
-            <li key={product.id} onClick={() => setProduct(product)}>
+          {products.map((p) =>
+            <li
+              key={p.id}
+              className={cn(product?.id === p.id && s.selected)}
+              onClick={() => setProduct(p)}
+            >
               <Image
-                data={product.png.responsiveImage}
+                data={p.png.responsiveImage}
                 className={s.image}
                 pictureClassName={s.picture}
                 intersectionMargin="0px 0px 200% 0px"
@@ -50,7 +54,7 @@ const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose
 
   const handleClose = () => {
     setShowDetails(false)
-    setTimeout(() => onClose(), 2000)
+    setTimeout(() => onClose(), 200)
 
   }
   useEffect(() => {
@@ -58,38 +62,41 @@ const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose
   }, [product])
 
   return (
-    <div className={cn(s.productDetails, showDetails && s.show)}>
-      {product &&
+    <>
+      <div className={cn(s.productDetailsBlock, showDetails && s.show)} />
+      <div className={cn(s.productDetails, showDetails && s.show)}>
+        {product &&
 
-        <div className={s.wrap}>
-          <figure>
-            <Image
-              data={product.png.responsiveImage}
-              className={s.image}
-              pictureClassName={s.picture}
-              intersectionMargin="0px 0px 200% 0px"
-            />
-            {product.back &&
+          <div className={s.wrap}>
+            <figure>
               <Image
-                data={product.back.responsiveImage}
+                data={product.png.responsiveImage}
                 className={s.image}
                 pictureClassName={s.picture}
                 intersectionMargin="0px 0px 200% 0px"
               />
-            }
-          </figure>
-          <p className={s.info}>
-            {metaFields.map((field, idx) =>
-              <React.Fragment key={idx}>
-                {field.label}: {product[field.id]}
-                <br />
-              </React.Fragment>
-            )}
-          </p>
-          <button className={s.close} onClick={handleClose}>Close</button>
-        </div>
-      }
-    </div>
+              {product.back &&
+                <Image
+                  data={product.back.responsiveImage}
+                  className={s.image}
+                  pictureClassName={s.picture}
+                  intersectionMargin="0px 0px 200% 0px"
+                />
+              }
+            </figure>
+            <p className={s.info}>
+              {metaFields.map((field, idx) =>
+                <React.Fragment key={idx}>
+                  {field.label}: {product[field.id]}
+                  <br />
+                </React.Fragment>
+              )}
+            </p>
+            <button className={s.close} onClick={handleClose}>Close</button>
+          </div>
+        }
+      </div>
+    </>
   )
 }
 
