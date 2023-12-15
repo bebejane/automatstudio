@@ -4,4 +4,9 @@ fragment ClientFragment on ClientRecord {
 	name
 	email
 	slug
+	contactEmail
+	phone
+	instagram
+	facebook
+	text(markdown: false)
 }
