@@ -3,7 +3,7 @@ import cn from "classnames";
 import { AllClientsDocument, AllProductsByClientDocument, ClientBySlugDocument } from "/graphql";
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api";
 import withGlobalProps from "/lib/withGlobalProps";
-import { DefaultDatoSEO } from "dato-nextjs-utils/components";
+import { DatoMarkdown, DefaultDatoSEO } from "dato-nextjs-utils/components";
 import { Image } from "react-datocms";
 import { useEffect, useState } from "react";
 import metaFields from "/lib/meta-fields";
@@ -40,7 +40,16 @@ export default function Client({ client, products }: Props) {
           )}
         </ul>
         <ProductDetails product={product} onClose={() => setProduct(null)} />
+
       </main>
+      <div className={s.info}>
+        <p>
+          E-mail: {client.contactEmail}<br />
+          Phone: {client.phone}
+        </p>
+        <DatoMarkdown>{client.address}</DatoMarkdown>
+        <DatoMarkdown>{client.text}</DatoMarkdown>
+      </div>
 
     </>
   )
