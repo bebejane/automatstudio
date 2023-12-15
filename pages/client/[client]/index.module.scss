@@ -67,9 +67,14 @@
       flex-direction: row;
       justify-content: center;
 
-      img {
-        object-fit: contain;
+      .image {
+        flex: 0 0 50%;
+
+        img {
+          object-fit: contain;
+        }
       }
+
     }
 
     .info {
@@ -90,6 +95,4 @@
       color: white;
     }
   }
-
-
 }

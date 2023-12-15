@@ -50,7 +50,7 @@ const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose
 
   const handleClose = () => {
     setShowDetails(false)
-    setTimeout(() => onClose(), 300)
+    setTimeout(() => onClose(), 2000)
 
   }
   useEffect(() => {
