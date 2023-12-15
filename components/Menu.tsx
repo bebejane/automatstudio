@@ -11,7 +11,7 @@ export type MenuProps = {
 export default function Menu({ }: MenuProps) {
 
   const { data, status } = useSession()
-  const user = data.user as SessionExtended
+  const user = data?.user as SessionExtended
 
   return (
     <>
