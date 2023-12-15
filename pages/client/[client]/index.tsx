@@ -75,14 +75,6 @@ const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose
                 pictureClassName={s.picture}
                 intersectionMargin="0px 0px 200% 0px"
               />
-              {product.back &&
-                <Image
-                  data={product.back.responsiveImage}
-                  className={s.image}
-                  pictureClassName={s.picture}
-                  intersectionMargin="0px 0px 200% 0px"
-                />
-              }
             </figure>
             <p className={s.info}>
               {metaFields.map((field, idx) =>
@@ -92,7 +84,7 @@ const ProductDetails = ({ product, onClose, }: { product: ProductRecord, onClose
                 </React.Fragment>
               )}
             </p>
-            <button className={s.close} onClick={handleClose}>Close</button>
+            <button className={s.close} onClick={handleClose}>Stäng</button>
           </div>
         }
       </div>

@@ -6,19 +6,23 @@
 
   h1 {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: var(--outer-margin);
+    left: var(--outer-margin);
   }
 
   .products {
+    margin-top: calc(1.4 * var(--outer-margin));
+    margin-bottom: var(--outer-margin);
     list-style: none;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-self: flex-start;
+    width: 100%;
 
     li {
       //min-width: 10vw;
-      width: 10vw;
+      width: calc((100vw - (2 * var(--outer-margin))) / 10);
       padding: 1rem;
 
       &:hover,
@@ -26,7 +30,7 @@
         cursor: pointer;
 
         .image {
-          transform: scale(110%);
+          transform: scale(120%);
         }
       }
 
@@ -47,10 +51,12 @@
   right: 0;
   background-color: var(--black);
   color: var(--white);
-  width: 50vw;
+  width: 45vw;
   height: 100vh;
   transform: translateX(100%);
-  transition: transform 0.2s ease-in-out, flex 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    flex 0.2s ease-in-out;
 
   &.show {
     transform: translateX(0%);
@@ -60,11 +66,11 @@
   .wrap {
     display: flex;
     flex-direction: column;
-    padding: var(--big-margin);
+    padding: calc(3 * var(--outer-margin));
 
     figure {
       margin-bottom: 2rem;
-      height: 50vh;
+      height: calc(100vh - 14rem);
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -76,15 +82,16 @@
           object-fit: contain;
         }
       }
-
     }
 
     .info {
-      font-size: 0.8em;
+      font-size: 0.7em;
+      line-height: 1.5;
       columns: 2;
 
       ul {
-        li {}
+        li {
+        }
       }
     }
 
@@ -92,7 +99,7 @@
       position: absolute;
       top: 0;
       right: 0;
-      margin: calc(var(--outer-margin) /2);
+      margin: var(--outer-margin);
       cursor: pointer;
       color: white;
     }
@@ -105,7 +112,9 @@
   flex: 0 0 0%;
   height: 100vh;
   transform: translateX(100%);
-  transition: transform 0.2s ease-in-out, flex 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    flex 0.2s ease-in-out;
 
   &.show {
     transform: translateX(0%);
