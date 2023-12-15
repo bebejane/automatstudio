@@ -1,7 +1,7 @@
 import s from './index.module.scss';
 import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
-import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
+import { apiQueryAll } from "dato-nextjs-utils/api"
 import { AllClientsDocument } from "/graphql"
 
 export type Props = {
@@ -15,23 +15,21 @@ export default function Admin({ clients }: Props) {
 
   return (
     <div className={s.container}>
-      <p>
-        Total products: {totalProducts}
-      </p>
       <ul>
         {clients.map((client) =>
           <li key={client.id}>
             <h3>{client.name}</h3>
-
             <p>
               {client.email}<br />
               Products: {client._allReferencingProductsMeta.count}
             </p>
-
           </li>
         )}
       </ul>
-    </div >
+      <p>
+        Total products: {totalProducts}
+      </p>
+    </div>
   )
 }
 

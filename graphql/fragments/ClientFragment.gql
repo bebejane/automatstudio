@@ -6,6 +6,7 @@ fragment ClientFragment on ClientRecord {
 	slug
 	contactEmail
 	phone
+	address
 	instagram
 	facebook
 	text(markdown: false)
