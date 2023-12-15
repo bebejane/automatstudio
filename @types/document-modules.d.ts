@@ -91,6 +91,15 @@ declare module '*/ProductLightFragment.gql' {
 }
     
 
+declare module '*/ProductPricelistFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const ProductPricelistFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ResponsiveImageFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
@@ -154,6 +163,7 @@ declare module '*/product.gql' {
   const defaultDocument: DocumentNode;
   export const AllProducts: DocumentNode;
 export const AllProductsByClient: DocumentNode;
+export const AllProductsByClientForPricelist: DocumentNode;
 export const AllProductsByClientByDate: DocumentNode;
 export const Product: DocumentNode;
 
