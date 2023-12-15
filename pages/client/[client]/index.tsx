@@ -4,6 +4,9 @@ import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api";
 import withGlobalProps from "/lib/withGlobalProps";
 import { DefaultDatoSEO } from "dato-nextjs-utils/components";
 import { Image } from "react-datocms";
+import { useState } from "react";
+import metaFields from "/lib/meta-fields";
+import React from "react";
 
 export type Props = {
   client: ClientRecord
@@ -11,6 +14,9 @@ export type Props = {
 }
 
 export default function Client({ client, products }: Props) {
+
+  const [product, setProduct] = useState<ProductRecord | null>(null)
+
   return (
     <>
       <DefaultDatoSEO siteTitle={`Automatstudio - ${client.name}`} />
@@ -18,7 +24,7 @@ export default function Client({ client, products }: Props) {
         {client.name}
         <ul className={s.products}>
           {products.map((product) =>
-            <li key={product.id}>
+            <li key={product.id} onClick={() => setProduct(product)}>
               <Image
                 data={product.png.responsiveImage}
                 className={s.image}
@@ -29,7 +35,38 @@ export default function Client({ client, products }: Props) {
           )}
         </ul>
       </main>
+      {product &&
+        <ProductPopup product={product} onClose={() => setProduct(null)} />
+      }
     </>
+  )
+}
+
+
+const ProductPopup = ({ product, onClose }: { product: ProductRecord, onClose: () => void }) => {
+
+  return (
+    <div className={s.productPopup}>
+      <figure>
+        <Image
+          data={product.png.responsiveImage}
+          className={s.image}
+          pictureClassName={s.picture}
+          intersectionMargin="0px 0px 200% 0px"
+        />
+      </figure>
+      <h3>{product.name}</h3>
+      <p className={s.info}>
+        {metaFields.map((field, idx) =>
+          <React.Fragment key={idx}>
+            {field.label}: {product[field.id]}
+            <br />
+          </React.Fragment>
+        )}
+
+      </p>
+      <button className={s.close} onClick={onClose}>Close</button>
+    </div>
   )
 }
 

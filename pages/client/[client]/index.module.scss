@@ -21,3 +21,35 @@
     }
   }
 }
+
+.productPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  max-width: 100vh;
+
+
+  .image {
+    flex: 0 0 50%
+  }
+
+  .info {
+    flex: 0 0 50%;
+
+    ul {
+      li {}
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    cursor: pointer;
+  }
+
+}
