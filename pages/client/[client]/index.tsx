@@ -1,6 +1,9 @@
+import s from "./index.module.scss";
 import { AllClientsDocument, AllProductsByClientDocument, ClientBySlugDocument } from "/graphql";
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api";
 import withGlobalProps from "/lib/withGlobalProps";
+import { DefaultDatoSEO } from "dato-nextjs-utils/components";
+import { Image } from "react-datocms";
 
 export type Props = {
   client: ClientRecord
@@ -9,7 +12,24 @@ export type Props = {
 
 export default function Client({ client, products }: Props) {
   return (
-    <>{client.name}</>
+    <>
+      <DefaultDatoSEO siteTitle={`Automatstudio - ${client.name}`} />
+      <main className={s.container}>
+        {client.name}
+        <ul className={s.products}>
+          {products.map((product) =>
+            <li key={product.id}>
+              <Image
+                data={product.png.responsiveImage}
+                className={s.image}
+                pictureClassName={s.picture}
+                intersectionMargin="0px 0px 200% 0px"
+              />
+            </li>
+          )}
+        </ul>
+      </main>
+    </>
   )
 }
 
