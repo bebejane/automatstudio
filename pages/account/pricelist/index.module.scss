@@ -7,6 +7,14 @@
       text-align: left;
     }
 
+    td {
+      vertical-align: middle;
+
+      &.image {
+        padding-right: 1em;
+      }
+    }
+
     tr {
       &.country {
         background-color: var(--gray);
@@ -15,6 +23,8 @@
 
     .image {
       .picture {
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
         width: 50px;
         height: 50px;
         object-fit: contain;

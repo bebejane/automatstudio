@@ -42,7 +42,7 @@ export default function Pricelist({ products }: Props) {
                     </tr>
                     {products.map(({ id, productId, year, name, eco, category, grape, price, png }) =>
                       <tr key={id}>
-                        <td><Image data={png.responsiveImage} className={s.image} pictureClassName={s.picture} /></td>
+                        <td className={s.image}><Image data={png.responsiveImage} className={s.image} pictureClassName={s.picture} /></td>
                         <td>{year}</td>
                         <td>{name}</td>
                         <td>{eco ? 'ECO' : ''}</td>
