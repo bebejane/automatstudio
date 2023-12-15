@@ -23,33 +23,37 @@ export default function Client({ client, products }: Props) {
       <DefaultDatoSEO siteTitle={`Automatstudio - ${client.name}`} />
       <main className={s.container}>
         <h1>{client.name}</h1>
-        <ul className={s.products}>
-          {products.map((p) =>
-            <li
-              key={p.id}
-              className={cn(product?.id === p.id && s.selected)}
-              onClick={() => setProduct(p)}
-            >
-              <Image
-                data={p.png.responsiveImage}
-                className={s.image}
-                pictureClassName={s.picture}
-                intersectionMargin="0px 0px 200% 0px"
-              />
-            </li>
-          )}
-        </ul>
+        <div>
+          <ul className={s.products}>
+            {products.map((p) =>
+              <li
+                key={p.id}
+                className={cn(product?.id === p.id && s.selected)}
+                onClick={() => setProduct(p)}
+              >
+                <Image
+                  data={p.png.responsiveImage}
+                  className={s.image}
+                  pictureClassName={s.picture}
+                  intersectionMargin="0px 0px 200% 0px"
+                />
+              </li>
+            )}
+          </ul>
+          <div className={s.info}>
+
+            <DatoMarkdown>{client.address}</DatoMarkdown>
+            <DatoMarkdown>{client.text}</DatoMarkdown>
+            <p>
+              {client.contactEmail} · Phone: {client.phone}
+            </p>
+          </div>
+        </div>
         <ProductDetails product={product} onClose={() => setProduct(null)} />
 
+
       </main>
-      <div className={s.info}>
-        <p>
-          E-mail: {client.contactEmail}<br />
-          Phone: {client.phone}
-        </p>
-        <DatoMarkdown>{client.address}</DatoMarkdown>
-        <DatoMarkdown>{client.text}</DatoMarkdown>
-      </div>
+
 
     </>
   )
