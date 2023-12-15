@@ -1,5 +1,4 @@
 .container {
-
   .intro {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -28,7 +27,6 @@
       object-fit: contain;
     }
 
-
     .details {
       grid-column: span 12 / span 12;
 
@@ -37,7 +35,7 @@
       }
 
       @include mq($from: desktop) {
-        grid-column: span 6 / span 6;
+        grid-column: span 8;
       }
     }
   }
@@ -69,7 +67,8 @@
         //background: var(--gray);
       }
 
-      .image {}
+      .image {
+      }
 
       .picture {
         width: 100% !important;

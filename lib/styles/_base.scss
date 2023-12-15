@@ -13,9 +13,11 @@
 
 	--z-tags-popup: 10000;
 
-	@include mq($from: tablet) {}
+	@include mq($from: tablet) {
+	}
 
-	@include mq($until: tablet) {}
+	@include mq($until: tablet) {
+	}
 }
 
 body {
@@ -59,9 +61,11 @@ a {
 	text-decoration: none;
 	color: var(--foreground);
 
-	&:hover {}
+	&:hover {
+	}
 
-	&:visited {}
+	&:visited {
+	}
 }
 
 article p a {
@@ -105,10 +109,12 @@ button {
 }
 
 figcaption {
-	@include mq($until: tablet) {}
+	@include mq($until: tablet) {
+	}
 }
 
-hr {}
+hr {
+}
 
 input,
 textarea,
@@ -117,7 +123,8 @@ select {
 	background-color: var(--white) !important;
 	border: none !important;
 
-	&:focus {}
+	&:focus {
+	}
 }
 
 select {
@@ -125,8 +132,9 @@ select {
 	-moz-appearance: none;
 	background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
 	background-repeat: no-repeat;
-	background-position-x: calc(100% - 1em);
+	background-position-x: right;
 	background-position-y: center;
+	min-width: 4ch;
 	color: var(--black);
 }
 
