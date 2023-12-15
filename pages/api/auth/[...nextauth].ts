@@ -96,7 +96,7 @@ export const authOptions: NextAuthOptions = {
 
           return session
         } catch (err) {
-          console.log(parseDatoCMSApiError(err))
+          console.log(JSON.stringify(err, null, 2))
           return null
         }
       }
