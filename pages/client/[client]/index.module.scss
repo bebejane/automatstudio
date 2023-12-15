@@ -22,7 +22,7 @@
 
     li {
       //min-width: 10vw;
-      width: calc((100vw - (2 * var(--outer-margin))) / 10);
+      width: calc((99vw - (2 * var(--outer-margin))) / 10);
       padding: 1rem;
 
       &:hover,
@@ -51,7 +51,7 @@
   right: 0;
   background-color: var(--black);
   color: var(--white);
-  width: 45vw;
+  width: 46vw;
   height: 100vh;
   transform: translateX(100%);
   transition:
