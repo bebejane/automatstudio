@@ -55,7 +55,6 @@ const ProductPopup = ({ product, onClose }: { product: ProductRecord, onClose: (
           intersectionMargin="0px 0px 200% 0px"
         />
       </figure>
-      <h3>{product.name}</h3>
       <p className={s.info}>
         {metaFields.map((field, idx) =>
           <React.Fragment key={idx}>

@@ -11,6 +11,13 @@
       width: 10%;
       padding: 1rem;
 
+      &:hover {
+        cursor: pointer;
+        .image {
+          transform: scale(110%);
+        }
+      }
+
       .image {
         height: 200px;
 
@@ -25,22 +32,31 @@
 .productPopup {
   position: fixed;
   top: 0;
-  left: 0;
-  background-color: var(--white);
+  left: 50%;
+  background-color: var(--black);
+  color: var(--white);
   display: flex;
-  flex-direction: row;
-  max-width: 100vh;
-
-
-  .image {
-    flex: 0 0 50%
+  flex-direction: column;
+  width: 50vw;
+  height: 100vh;
+  padding: var(--big-margin);
+  figure {
+    margin-bottom: 2rem;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    img {
+      object-fit: contain;
+    }
   }
 
   .info {
-    flex: 0 0 50%;
+    font-size: 0.8em;
+    columns: 2;
 
     ul {
-      li {}
+      li {
+      }
     }
   }
 
@@ -50,6 +66,6 @@
     right: 0;
     padding: 1rem;
     cursor: pointer;
+    color: white;
   }
-
 }
