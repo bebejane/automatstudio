@@ -27,6 +27,22 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 	}
 }
 
+query AllProductsByClientForPricelist($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
+	products: allProducts(
+		first: $first
+		skip: $skip
+		orderBy: date_DESC
+		filter: { AND: [{ client: { eq: $id } }, { png: { exists: true }, pricelist: { eq: true } }] }
+	) {
+		...ProductPricelistFragment
+	}
+	pagination: _allProductsMeta(
+		filter: { AND: [{ client: { eq: $id } }, { png: { exists: true }, pricelist: { eq: true } }] }
+	) {
+		count
+	}
+}
+
 query AllProductsByClientByDate(
 	$id: ItemId
 	$dateFrom: DateTime

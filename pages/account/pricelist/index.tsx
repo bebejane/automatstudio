@@ -1,7 +1,8 @@
 import s from './index.module.scss';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
-import { ClientDocument, AllProductsByClientDocument } from "/graphql"
+import { ClientDocument, AllProductsByClientForPricelistDocument } from "/graphql"
+import { Image } from 'react-datocms';
 import React from 'react';
 import Link from 'next/link';
 
@@ -39,8 +40,9 @@ export default function Pricelist({ products }: Props) {
                     <tr className={s.region}>
                       <td colSpan={maxColumns}>{name}</td>
                     </tr>
-                    {products.map(({ id, productId, year, name, eco, category, grape, price }) =>
+                    {products.map(({ id, productId, year, name, eco, category, grape, price, png }) =>
                       <tr key={id}>
+                        <td><Image data={png.responsiveImage} className={s.image} pictureClassName={s.picture} /></td>
                         <td>{year}</td>
                         <td>{name}</td>
                         <td>{eco ? 'ECO' : ''}</td>
@@ -102,7 +104,7 @@ export const getServerSideProps = withGlobalProps({ queries: [] }, async ({ prop
     return { redirect: { destination: '/login', permanent: false } }
 
   const { client } = await apiQuery(ClientDocument, { variables: { clientId } })
-  const { products } = await apiQueryAll(AllProductsByClientDocument, { variables: { id: client.id } })
+  const { products } = await apiQueryAll(AllProductsByClientForPricelistDocument, { variables: { id: client.id } })
 
   return {
     props: {

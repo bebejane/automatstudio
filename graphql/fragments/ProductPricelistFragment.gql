@@ -1,0 +1,18 @@
+fragment ProductPricelistFragment on ProductRecord {
+	id
+	productId
+	png {
+		...ImageThumbnailFragment
+	}
+	name
+	year
+	country
+	region
+	producer
+	city
+	category
+	grape
+	eco
+	pricelist
+	price
+}
