@@ -1,6 +1,7 @@
 import puppeteer, { Browser } from 'puppeteer'
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuthentication from '/lib/withAuthentication';
+import { format } from 'date-fns';
 
 export default withAuthentication(async (req: NextApiRequest, res: NextApiResponse, session) => {
 
@@ -9,6 +10,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
   try {
 
     const url = `${process.env.NEXT_PUBLIC_SITE_URL}/account/pricelist/pdf`
+    const filename = `Pricelist - ${session.user.name} - ${format(new Date(), 'yyyy-mm-dd')}.pdf`
 
     browser = await puppeteer.launch({
       headless: "new",
@@ -56,7 +58,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Length", buffer.length);
-    res.setHeader("Content-Disposition", "inline; filename=pricelist.pdf");
+    res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
     res.status(200).send(buffer);
     res.end()
 

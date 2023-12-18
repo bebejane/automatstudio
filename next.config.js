@@ -30,6 +30,14 @@ const nextOptions = {
 		config.resolve.fallback = { fs: false, dns: false, net: false };
 		return config;
 	},
+	async rewrites() {
+		return [
+			{
+				source: "/account/pricelist/download",
+				destination: "/api/pricelist",
+			},
+		];
+	},
 };
 
 module.exports = { sassOptions, ...nextOptions };

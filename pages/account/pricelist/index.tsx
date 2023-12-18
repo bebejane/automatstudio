@@ -22,10 +22,9 @@ export type Pricelist = {
 
 export default function Pricelist({ products }: Props) {
 
-
   return (
     <div className={s.container}>
-      <a className={cn(s.pdfButton, s.noprint)} href={`/api/pricelist`}>
+      <a className={cn(s.pdfButton, s.noprint)} href={`/account/pricelist/download`} download>
         Download PDF
       </a>
       <PriceList products={products} />
