@@ -29,7 +29,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       value: req.cookies[name],
       domain: req.headers.host,
     }))
-
+    console.log(cookies)
     await page.setCookie(...cookies);
 
     const response = await page.goto(url, {
