@@ -25,7 +25,7 @@ export default function Pricelist({ products }: Props) {
 
   return (
     <div className={s.container}>
-      <a className={cn(s.pdfButton, s.noprint)} href={`/api/pricelist`} download>
+      <a className={cn(s.pdfButton, s.noprint)} href={`/api/pricelist`}>
         Download PDF
       </a>
       <PriceList products={products} />
