@@ -27,7 +27,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
     Object.keys(req.cookies).forEach((name) => cookies.push({
       name,
       value: req.cookies[name],
-      domain: 'localhost',
+      domain: req.headers.host,
     }))
 
     await page.setCookie(...cookies);
