@@ -2,7 +2,7 @@ import '/lib/styles/index.scss'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router';
 import { PageProvider } from '/lib/context/page';
-import { Layout, ClientLayout } from '/components';
+import { Layout, BlankLayout } from '/components';
 import { SessionProvider } from 'next-auth/react';
 import { DefaultDatoSEO } from 'dato-nextjs-utils/components';
 import { useEffect } from 'react';
@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { asPath: pathname } = router
   const { site, seo, session, settings, params } = pageProps as any;
-  const isClientLayout = pathname.toLowerCase().startsWith('/client')
+  const isBlankLayout = pathname.toLowerCase().startsWith('/client') || pathname.toLowerCase().startsWith('/account/pricelist/pdf')
 
   useEffect(() => {
     if (!settings) return
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [settings])
 
   return (
-    !isClientLayout ?
+    !isBlankLayout ?
       <>
         <DefaultDatoSEO siteTitle="Automatstudio" site={site} path={pathname} />
         <SessionProvider session={session}>
@@ -34,9 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         </SessionProvider>
       </>
       :
-      <ClientLayout>
+      <BlankLayout>
         <Component {...pageProps} />
-      </ClientLayout>
+      </BlankLayout>
   )
 }
 

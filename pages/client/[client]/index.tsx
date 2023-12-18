@@ -41,7 +41,6 @@ export default function Client({ client, products }: Props) {
             )}
           </ul>
           <div className={s.info}>
-
             <DatoMarkdown>{client.address}</DatoMarkdown>
             <DatoMarkdown>{client.text}</DatoMarkdown>
             <p>

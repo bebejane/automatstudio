@@ -1,4 +1,9 @@
 .container {
+
+  .pdfButton {
+    @media print {}
+  }
+
   table {
     width: 100%;
     font-size: 1rem;
@@ -17,6 +22,17 @@
       &.edit {
         text-align: right;
       }
+
+      .image {
+        .picture {
+          padding-top: 0.2em;
+          padding-bottom: 0.2em;
+          width: 50px;
+          height: 50px;
+          max-height: 50px;
+          object-fit: contain;
+        }
+      }
     }
 
     tr {
@@ -25,14 +41,12 @@
       }
     }
 
-    .image {
-      .picture {
-        padding-top: 0.2em;
-        padding-bottom: 0.2em;
-        width: 50px;
-        height: 50px;
-        object-fit: contain;
-      }
-    }
+
+  }
+}
+
+.noprint {
+  @media print {
+    display: none !important;
   }
 }

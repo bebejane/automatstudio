@@ -1,4 +1,5 @@
 import s from './index.module.scss';
+import cn from 'classnames';
 import withGlobalProps from '/lib/withGlobalProps';
 import { apiQuery, apiQueryAll } from "dato-nextjs-utils/api"
 import { ClientDocument, AllProductsByClientForPricelistDocument } from "/graphql"
@@ -21,50 +22,60 @@ export type Pricelist = {
 
 export default function Pricelist({ products }: Props) {
 
-  const pricelist = generatePriceList(products)
-  const maxColumns = 10
 
   return (
     <div className={s.container}>
-      <table>
-        <tbody>
-          {pricelist.map(({ country, region }, idx) =>
-            <React.Fragment key={idx}>
-              <tr key={country} className={s.country}>
-                <td colSpan={maxColumns}>{country}</td>
-              </tr>
-
-              {region.map(({ id, name, products }) => {
-                return (
-                  <>
-                    <tr className={s.region}>
-                      <td colSpan={maxColumns}>{name}</td>
-                    </tr>
-                    {products.map(({ id, productId, year, name, eco, category, grape, price, png }) =>
-                      <tr key={id}>
-                        <td className={s.image}><Image data={png.responsiveImage} className={s.image} pictureClassName={s.picture} /></td>
-                        <td>{year}</td>
-                        <td>{name}</td>
-                        <td>{eco ? 'ECO' : ''}</td>
-                        <td>{category}</td>
-                        <td>{grape}</td>
-                        <td>{price}kr</td>
-                        <td className={s.edit}>
-                          <Link href={`/account/products/${productId}`}>Edit</Link>
-                        </td>
-                      </tr>
-                    )}
-                  </>
-                )
-              })}
-            </React.Fragment>
-          )}
-        </tbody>
-      </table>
+      <a className={cn(s.pdfButton, s.noprint)} href={`/api/pricelist`} download>
+        Download PDF
+      </a>
+      <PriceList products={products} />
     </div >
   )
 }
 
+export const PriceList = ({ products }: Props) => {
+
+  const pricelist = generatePriceList(products)
+  const maxColumns = 10
+
+  return (
+    <table>
+      <tbody>
+        {pricelist.map(({ country, region }, idx) =>
+          <React.Fragment key={idx}>
+            <tr key={country} className={s.country}>
+              <td colSpan={maxColumns}>{country}</td>
+            </tr>
+
+            {region.map(({ id, name, products }) => {
+              return (
+                <React.Fragment key={id}>
+                  <tr className={s.region}>
+                    <td colSpan={maxColumns}>{name}</td>
+                  </tr>
+                  {products.map(({ id, productId, year, name, eco, category, grape, price, png }) =>
+                    <tr key={id}>
+                      <td className={s.image}><Image data={png.responsiveImage} className={s.image} pictureClassName={s.picture} /></td>
+                      <td>{year}</td>
+                      <td>{name}</td>
+                      <td>{eco ? 'ECO' : ''}</td>
+                      <td>{category}</td>
+                      <td>{grape}</td>
+                      <td>{price}kr</td>
+                      <td className={cn(s.edit, s.noprint)}>
+                        <Link href={`/account/products/${productId}`}>Edit</Link>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              )
+            })}
+          </React.Fragment>
+        )}
+      </tbody>
+    </table>
+  )
+}
 
 const generatePriceList = (products: ProductRecord[]): Pricelist => {
 
