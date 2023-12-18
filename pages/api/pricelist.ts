@@ -25,12 +25,12 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
     const page = await browser.newPage();
     const cookies = []
     Object.keys(req.cookies).forEach((name) => cookies.push({
-      name: name.split('-').slice(1).join('-'),
+      name,
       value: req.cookies[name],
       domain: req.headers.host,
       secure: true,
     }))
-    console.log(cookies)
+
     await page.setCookie(...cookies);
 
     const response = await page.goto(url, {
