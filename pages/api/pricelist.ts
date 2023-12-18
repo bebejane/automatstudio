@@ -31,7 +31,6 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       domain: req.headers.host,
       secure: true,
     }))
-    console.log(cookies)
 
     await page.setCookie(...cookies);
 
