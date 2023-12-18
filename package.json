@@ -9,13 +9,14 @@
 	"scripts": {
 		"dev": "pnpm i && DATOCMS_ENVIRONMENT=dev node server.js & npm run barrel:watch & DATOCMS_ENVIRONMENT=dev graphql-codegen --watch",
 		"dev:test": "DATOCMS_ENVIRONMENT=dev npm run dev",
-		"build": "next build && npm run postbuild",
+		"build": "npm run prebuild && next build && npm run postbuild",
 		"codegen": "graphql-codegen",
 		"start": "NODE_ENV=production node server.js",
 		"lint": "next lint",
 		"preview": "npm run build && npm run start",
 		"barrel": "node ./lib/scripts/barrel",
 		"barrel:watch": "watch 'node ./lib/scripts/barrel' ./components",
+		"prebuild": "npx puppeteer browsers install chrome",
 		"postbuild": "next-sitemap",
 		"logs": "tsx ./lib/scripts/railway_logs.ts"
 	},
