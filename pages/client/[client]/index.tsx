@@ -6,6 +6,7 @@ import withGlobalProps from "/lib/withGlobalProps";
 import { DatoMarkdown, DefaultDatoSEO } from "dato-nextjs-utils/components";
 import { Image } from "react-datocms";
 import { useEffect, useState } from "react";
+import { useKey } from "rooks";
 import metaFields from "/lib/meta-fields";
 import React from "react";
 
@@ -17,6 +18,16 @@ export type Props = {
 export default function Client({ client, products }: Props) {
 
   const [product, setProduct] = useState<ProductRecord | null>(null)
+
+  useKey("ArrowRight", () => {
+    const idx = products.findIndex(p => p.id === product?.id) || 0
+    setProduct(products[idx + 1] || products[0])
+  })
+  useKey("ArrowLeft", () => {
+    const idx = products.findIndex(p => p.id === product?.id) || products.length
+    setProduct(products[idx - 1] || products[0])
+  })
+  useKey("Escape", () => setProduct(null))
 
   return (
     <>
@@ -49,11 +60,7 @@ export default function Client({ client, products }: Props) {
           </div>
         </div>
         <ProductDetails product={product} onClose={() => setProduct(null)} />
-
-
       </main>
-
-
     </>
   )
 }
