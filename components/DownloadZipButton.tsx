@@ -1,4 +1,3 @@
-import s from './DownloadZipButton.module.scss'
 import cn from 'classnames'
 import React, { useState } from 'react'
 import { formatDate } from '/lib/utils'
@@ -12,11 +11,6 @@ export type Props = {
     downloading: string
   }
   className?: string
-}
-
-type DownloadStatus = {
-  progress: number | null
-  contentLength: number | null
 }
 
 export default function DownloadZipButton({ products, label, status, className }: Props) {
@@ -53,22 +47,29 @@ const generateDownload = async (products: ProductRecord[] | ProductRecord) => {
   if (!products)
     throw new Error('No products to download')
 
-  const isSingle = !Array.isArray(products)
-  const name = isSingle ? `${products.productId}` : `${formatDate(products[0].date)}`
-  const upload_ids = (isSingle ? [products] : products).map((product) => [product.png?.id, product.tiff?.id, product.back?.id]).flat().filter((id) => id)
+  try {
+    const isSingle = !Array.isArray(products)
+    const name = isSingle ? `${products.productId}` : `${formatDate(products[0].date)}`
+    const upload_ids = (isSingle ? [products] : products).map((product) => [product.png?.id, product.tiff?.id, product.back?.id]).flat().filter((id) => id)
 
-  const response = await fetch(`/api/download/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ upload_ids, name }),
-  })
+    const response = await fetch(`/api/download/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ upload_ids, name }),
+    })
 
-  const { url, filename } = await response.json()
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
+    if (response.status !== 200)
+      throw new Error(await response.text())
+
+    const { url, filename } = await response.json()
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+  } catch (e) {
+    throw new Error('Failed to generate download. ' + e?.message)
+  }
 
 }
