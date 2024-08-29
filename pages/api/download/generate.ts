@@ -111,7 +111,7 @@ const zip = async (files: FileDownload[], zip_filepath: string): Promise<string>
 }
 
 const download = async (url: string, directory: string, fileName: string) => {
-
+  console.log('download file', url, directory, fileName)
   const downloader = new Downloader({
     url,
     directory,
