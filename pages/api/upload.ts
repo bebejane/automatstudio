@@ -51,8 +51,8 @@ const parse_form_data = (req: NextApiRequestWithFile): FileData => {
 
   if (!client_id) throw new Error("Client id is empty")
   if (!product_id) throw new Error("Product id is empty")
-  if (!file_name) throw new Error("Filename is is empty")
-  if (!file_path) throw new Error("Filepath is is empty")
+  if (!file_name) throw new Error("Filename is empty")
+  if (!file_path) throw new Error("Filepath is empty")
 
   const { date } = parseFilenameData(file_name)
 

@@ -58,7 +58,7 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       console.time(`downloading`)
 
       const concurrency = process.env.DOWNLOAD_CONCURRENCY ? parseInt(process.env.DOWNLOAD_CONCURRENCY) : 5
-      await asyncPromiseBatch(files.map(({ url, filename }, i) => () => download(url, zip_temp_dir, filename)), concurrency)
+      await asyncPromiseBatch(files.map(({ url, filename }, i) => () => download(url, zip_temp_dir, `${i + 1}-${filename}`)), concurrency)
       console.timeEnd(`downloading`)
 
       const file_path = await zip(files, `${zip_temp_dir}/automatstudio-${name}.zip`)
