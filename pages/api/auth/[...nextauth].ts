@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
               }
             }
           }))[0]
-
+          console.log(user)
           if (!user) return null
 
           const session: SessionExtended = {

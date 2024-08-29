@@ -118,11 +118,11 @@ const download = async (url: string, directory: string, fileName: string) => {
     fileName,
     cloneFiles: false,
     timeout: 20000,
-    maxAttempts: 3,
+    maxAttempts: 1,
     onBeforeSave: (deducedName) => fileName,
     onError: (error) => {
-      console.log('download error')
-      throw error
+      console.log('download error', error)
+      //throw error
     }
   });
 
