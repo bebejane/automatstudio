@@ -49,11 +49,12 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       fs.mkdirSync(zip_temp_dir)
 
       const files: FileDownload[] = uploads.map(({ url, filename }, i) => ({
-        file_path: `${zip_temp_dir}/${filename}`,
-        filename,
+        file_path: `${zip_temp_dir}/${filename.split('.').slice(0, -1).join('.')}_${i + 1}.${filename.split('.').pop()}`,
+        filename: `${filename.split('.').slice(0, -1).join('.')}_${i + 1}.${filename.split('.').pop()}`,
         url
       }))
 
+      console.log(files[0])
       console.log(`downloading ${uploads.length} images...`)
       console.time(`downloading`)
 
