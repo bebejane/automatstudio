@@ -37,14 +37,17 @@ export default withAuthentication(async (req: NextApiRequest, res: NextApiRespon
       const uploads = []
 
       try {
-        for await (const record of client.uploads.listPagedIterator({ filter: { ids: upload_ids.join(',') }, version: 'latest' }))
-          uploads.push(record)
+        for (let i = 0; i < upload_ids.length; i += 100) {
+          const ids = upload_ids.slice(i, (i + 100))
+          for await (const record of client.uploads.listPagedIterator({ filter: { ids: ids.join(',') }, version: 'latest' }))
+            uploads.push(record)
+        }
       } catch (e) {
         console.error(e)
-        console.timeEnd(`done`)
         throw new Error("error fetching uploads")
+      } finally {
+        console.timeEnd(`done`)
       }
-      console.timeEnd(`done`)
 
       if (!uploads.length)
         throw new Error("no uploads found")
