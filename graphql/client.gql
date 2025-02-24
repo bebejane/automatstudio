@@ -7,7 +7,7 @@ query AllClients($first: IntType = 10, $skip: IntType = 0) {
 	}
 }
 
-query Client($clientId: String) {
+query Client($clientId: String!) {
 	client(filter: { clientId: { eq: $clientId } }) {
 		...ClientFragment
 	}

@@ -8,8 +8,10 @@ fragment ProductLightFragment on ProductRecord {
 	}
 	tiff {
 		id
+		url
 	}
 	back {
 		id
+		url
 	}
 }

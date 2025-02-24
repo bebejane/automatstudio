@@ -7,7 +7,7 @@ query AllProducts($first: IntType = 10, $skip: IntType = 0) {
 	}
 }
 
-query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
+query AllValidProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0) {
 	products: allProducts(
 		first: $first
 		skip: $skip
@@ -23,6 +23,20 @@ query AllProductsByClient($id: ItemId, $first: IntType = 10, $skip: IntType = 0)
 			AND: [{ client: { eq: $id } }, { png: { exists: true } }, { tiff: { exists: true } }]
 		}
 	) {
+		count
+	}
+}
+
+query AllProductsByClient($id: ItemId!, $first: IntType = 500, $skip: IntType = 0) {
+	products: allProducts(
+		first: $first
+		skip: $skip
+		orderBy: date_DESC
+		filter: { client: { eq: $id } }
+	) {
+		...ProductLightFragment
+	}
+	pagination: _allProductsMeta(filter: { client: { eq: $id } }) {
 		count
 	}
 }
