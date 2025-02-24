@@ -7,7 +7,7 @@ import { NextApiResponse, NextApiRequest } from 'next'
 export default function withAuthentication(callback: authenticationHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getServerSession(req, res, authOptions)
-    //if (!session?.user) return res.status(401).send('Unauthorized')
+    if (!session?.user) return res.status(401).send('Unauthorized')
 
     return callback(req, res, session);
   };
